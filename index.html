@@ -2334,7 +2334,7 @@ button, select, input { font: inherit; }
               <div style="background:rgba(255,255,255,0.02);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center;">
                   <b style="color:#ffffff;font-size:12px;">Eleição 2026 (Flávio x Lula)</b>
-                  <span style="font-size:10px;color:var(--green)">Flávio 47,03% x Lula 45,16%</span>
+                  <span style="font-size:9.5px;color:var(--green)">Flávio x Lula · NE 26 &amp; NE 22</span>
                 </div>
                 <svg id="evolutionSideSvg2026" viewBox="0 0 340 135" style="width:100%;height:125px;"></svg>
               </div>
@@ -2342,7 +2342,7 @@ button, select, input { font: inherit; }
               <div style="background:rgba(255,255,255,0.02);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center;">
                   <b style="color:#ffffff;font-size:12px;">2º Turno 2022 (Lula x Bolsonaro)</b>
-                  <span style="font-size:10px;color:#f87171">Lula 50,90% x Bolsonaro 49,10%</span>
+                  <span style="font-size:9.5px;color:#f87171">Bolso x Lula · NE 26 &amp; NE 22</span>
                 </div>
                 <svg id="evolutionSideSvg2022" viewBox="0 0 340 135" style="width:100%;height:125px;"></svg>
               </div>
@@ -3000,7 +3000,7 @@ button, select, input { font: inherit; }
         <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;align-items:center;">
             <b style="color:#ffffff;font-size:13.5px;">Eleições 2026 (Flávio x Lula)</b>
-            <span style="font-size:11px;color:var(--green)">Flávio 47,03% x Lula 45,16%</span>
+            <span style="font-size:10.5px;color:var(--green)">Flávio x Lula · NE 26 (Amarelo) &amp; NE 22 (Laranja)</span>
           </div>
           <svg id="modalSideSvg2026" viewBox="0 0 440 210" style="width:100%;height:210px;display:block;"></svg>
         </div>
@@ -3008,7 +3008,7 @@ button, select, input { font: inherit; }
         <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;align-items:center;">
             <b style="color:#ffffff;font-size:13.5px;">2º Turno 2022 (Lula x Bolsonaro)</b>
-            <span style="font-size:11px;color:#f87171">Lula 50,90% x Bolsonaro 49,10%</span>
+            <span style="font-size:10.5px;color:#f87171">Bolso x Lula · NE 26 (Amarelo) &amp; NE 22 (Laranja)</span>
           </div>
           <svg id="modalSideSvg2022" viewBox="0 0 440 210" style="width:100%;height:210px;display:block;"></svg>
         </div>
@@ -3874,23 +3874,25 @@ function renderEvolutionSideBySide() {
     return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="3 2"' : ''} stroke-linecap="round"/>`;
   };
 
-  // 1. 2026 mini (Flávio x Lula + Curva NE 2026)
+  // 1. 2026 mini (Flávio x Lula + AS 2 CURVAS DO NORDESTE: 2026 e 2022)
   const f26 = [0.0, 49.35, 48.12, 47.45, 47.15, 47.05, 47.03];
   const l26 = [0.0, 42.85, 44.15, 44.82, 45.08, 45.14, 45.16];
   const ne26_7 = [0.0, 12.8, 71.4, 91.8, 97.5, 99.4, 100.0];
+  const ne22_7 = [0.0, 10.4, 74.5, 93.4, 98.2, 99.7, 100.0];
   svg26.innerHTML = drawMiniGrid(0, 100, 25) +
-    drawCurve(ne26_7, '#facc15', 0, 100, 1.8, true) +
-    drawCurve(l26, '#dc2626', 0, 100, 2.4, false) +
-    drawCurve(f26, '#1cd678', 0, 100, 2.6, false);
+    drawCurve(ne22_7, '#f97316', 0, 100, 1.6, true) +  // NE 2022 (Laranja tracejado)
+    drawCurve(ne26_7, '#facc15', 0, 100, 2.0, false) + // NE 2026 (Amarelo contínuo)
+    drawCurve(l26, '#dc2626', 0, 100, 2.4, false) +    // Lula (Vermelho)
+    drawCurve(f26, '#1cd678', 0, 100, 2.6, false);     // Flávio (Verde)
 
-  // 2. 2022 mini (Bolsonaro x Lula + Curva NE 2022)
+  // 2. 2022 mini (Bolsonaro x Lula + AS 2 CURVAS DO NORDESTE: 2022 e 2026)
   const b22 = [0.0, 52.40, 49.68, 49.30, 49.15, 49.11, 49.10];
   const l22 = [0.0, 47.60, 50.32, 50.70, 50.85, 50.89, 50.90];
-  const ne22_7 = [0.0, 10.4, 74.5, 93.4, 98.2, 99.7, 100.0];
   svg22.innerHTML = drawMiniGrid(0, 100, 25) +
-    drawCurve(ne22_7, '#facc15', 0, 100, 1.8, true) +
-    drawCurve(b22, '#22c55e', 0, 100, 2.4, false) +
-    drawCurve(l22, '#dc2626', 0, 100, 2.6, false);
+    drawCurve(ne26_7, '#facc15', 0, 100, 1.6, false) + // NE 2026 (Amarelo contínuo)
+    drawCurve(ne22_7, '#f97316', 0, 100, 2.0, true) +  // NE 2022 (Laranja tracejado)
+    drawCurve(b22, '#22c55e', 0, 100, 2.4, false) +    // Bolsonaro (Verde)
+    drawCurve(l22, '#dc2626', 0, 100, 2.6, false);     // Lula (Vermelho)
 
   // 3. NOVO: 3º GRÁFICO (RITMO DE APURAÇÃO DO NORDESTE: 2026 x 2022 SOBREPOSTOS)
   if (svgNE) {
@@ -5534,17 +5536,23 @@ function renderModalSideBySide() {
 
   const allPts = MODAL_TIMES.map((_, i) => getModalPointData(i));
 
-  // 1. 2026 mini
+  // 1. 2026 mini (Flávio x Lula + AS 2 CURVAS DO NORDESTE: 2026 e 2022)
   s26.innerHTML = drawBase('2026', '2026') +
-    drawC(allPts.map(p => p.neSec26), '#facc15', 2.0, true) +
-    drawC(allPts.map(p => p.l26), '#dc2626', 2.6, false) +
-    drawC(allPts.map(p => p.f26), '#1cd678', 2.8, false);
+    drawC(allPts.map(p => p.neSec22), '#f97316', 1.8, true) +  // NE 2022 (Laranja tracejado)
+    drawC(allPts.map(p => p.neSec26), '#facc15', 2.2, false) + // NE 2026 (Amarelo contínuo)
+    drawC(allPts.map(p => p.l26), '#dc2626', 2.6, false) +     // Lula (Vermelho)
+    drawC(allPts.map(p => p.f26), '#1cd678', 2.8, false) +     // Flávio (Verde)
+    `<text x="${pL + 4}" y="${pT + 8}" fill="#facc15" font-size="7.5" font-weight="700">― NE 26</text>` +
+    `<text x="${pL + 48}" y="${pT + 8}" fill="#f97316" font-size="7.5" font-weight="700">- - NE 22</text>`;
 
-  // 2. 2022 mini
+  // 2. 2022 mini (Bolsonaro x Lula + AS 2 CURVAS DO NORDESTE: 2022 e 2026)
   s22.innerHTML = drawBase('2022', '2022') +
-    drawC(allPts.map(p => p.neSec22), '#facc15', 2.0, true) +
-    drawC(allPts.map(p => p.b22), '#22c55e', 2.6, false) +
-    drawC(allPts.map(p => p.l22), '#dc2626', 2.8, false);
+    drawC(allPts.map(p => p.neSec26), '#facc15', 1.8, false) + // NE 2026 (Amarelo contínuo)
+    drawC(allPts.map(p => p.neSec22), '#f97316', 2.2, true) +  // NE 2022 (Laranja tracejado)
+    drawC(allPts.map(p => p.b22), '#22c55e', 2.6, false) +     // Bolsonaro (Verde)
+    drawC(allPts.map(p => p.l22), '#dc2626', 2.8, false) +     // Lula (Vermelho)
+    `<text x="${pL + 4}" y="${pT + 8}" fill="#f97316" font-size="7.5" font-weight="700">- - NE 22</text>` +
+    `<text x="${pL + 48}" y="${pT + 8}" fill="#facc15" font-size="7.5" font-weight="700">― NE 26</text>`;
 
   // 3. NOVO: 3º GRÁFICO NO MODAL (SOBREPOSIÇÃO DO RITMO DAS URNAS DO NORDESTE)
   if (sNE) {
