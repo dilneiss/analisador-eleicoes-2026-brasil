@@ -1714,6 +1714,24 @@ button, select, input { font: inherit; }
   display: flex;
 }
 
+
+.modal-window-fullscreen {
+  width: 98vw !important;
+  max-width: 98vw !important;
+  height: 96vh !important;
+  max-height: 96vh !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  border-radius: 14px !important;
+}
+
+.modal-window-fullscreen .modal-head {
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
 .modal-window {
   background: #0c1828;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -2746,8 +2764,8 @@ button, select, input { font: inherit; }
 </div>
 
 <!-- EVOLUTION HIGH-RESOLUTION EXPANDED MODAL -->
-<div class="modal-overlay" id="evolutionModal" onclick="closeEvolutionModal(event)">
-  <div class="modal-window" onclick="event.stopPropagation()" style="max-width:1160px;width:95vw;padding:22px 26px;">
+<div class="modal-overlay" id="evolutionModal" onclick="closeEvolutionModal(event)" style="padding:8px;">
+  <div class="modal-window modal-window-fullscreen" onclick="event.stopPropagation()">
     <div class="modal-head" style="flex-wrap:wrap;gap:10px;">
       <div>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -2770,11 +2788,11 @@ button, select, input { font: inherit; }
       </div>
     </div>
 
-    <!-- MAIN LARGE SVG CANVAS -->
-    <div id="modalEvolCanvasWrap" style="background:radial-gradient(circle at 50% 50%, #0d1e34 0%, #081322 80%);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px 14px 10px;position:relative;">
-      <svg id="modalEvolSvg" viewBox="0 0 940 360" style="width:100%;height:360px;display:block;" onmousemove="handleModalChartHover(event)" onmouseleave="handleModalChartLeave()"></svg>
-      <div id="modalEvolCrosshair" style="display:none;position:absolute;top:16px;bottom:34px;width:1px;background:#38bdf8;pointer-events:none;border-right:1px dashed #38bdf8;"></div>
-      <div id="modalEvolTooltip" style="display:none;position:absolute;background:rgba(12,24,40,0.96);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 12px;color:#fff;font-size:11px;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,0.7);z-index:30;min-width:180px;"></div>
+    <!-- MAIN LARGE SVG CANVAS (FULLSCREEN HIGH-RES) -->
+    <div id="modalEvolCanvasWrap" style="background:radial-gradient(circle at 50% 50%, #0d1e34 0%, #081322 80%);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px 10px;position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:380px;">
+      <svg id="modalEvolSvg" viewBox="0 0 1180 400" style="width:100%;height:100%;min-height:380px;max-height:480px;display:block;" onmousemove="handleModalChartHover(event)" onmouseleave="handleModalChartLeave()"></svg>
+      <div id="modalEvolCrosshair" style="display:none;position:absolute;top:16px;bottom:36px;width:1px;background:#38bdf8;pointer-events:none;border-right:1px dashed #38bdf8;"></div>
+      <div id="modalEvolTooltip" style="display:none;position:absolute;background:rgba(12,24,40,0.96);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 12px;color:#fff;font-size:11px;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,0.7);z-index:30;min-width:210px;"></div>
     </div>
 
         <!-- COMPARATIVO 1ºT x 2ºT (2026 vs 2022) VIEW IN MODAL -->
@@ -5225,7 +5243,7 @@ function renderModalMainSvg() {
   const svg = document.getElementById('modalEvolSvg');
   if (!svg) return;
 
-  const w = 940, h = 360, pL = 52, pR = 24, pT = 20, pB = 38;
+  const w = 1180, h = 400, pL = 58, pR = 28, pT = 24, pB = 42;
   const plotW = w - pL - pR, plotH = h - pT - pB;
 
   let content = '';
@@ -5381,14 +5399,14 @@ function handleModalChartHover(e) {
   const mouseX = e.clientX - rect.left;
   const ratio = mouseX / rect.width;
 
-  const pL = 52, pR = 24;
-  const plotW = 940 - pL - pR;
-  const virtualX = (ratio * 940) - pL;
+  const pL = 58, pR = 28;
+  const plotW = 1180 - pL - pR;
+  const virtualX = (ratio * 1180) - pL;
   const clampedX = Math.max(0, Math.min(plotW, virtualX));
 
   const totalSteps = MODAL_TIMES.length - 1;
   const stepIdx = Math.max(1, Math.min(totalSteps, Math.round((clampedX / plotW) * totalSteps)));
-  const snapX = ((pL + (stepIdx / totalSteps) * plotW) / 940) * rect.width;
+  const snapX = ((pL + (stepIdx / totalSteps) * plotW) / 1180) * rect.width;
 
   crosshair.style.display = 'block';
   crosshair.style.left = snapX + 'px';
