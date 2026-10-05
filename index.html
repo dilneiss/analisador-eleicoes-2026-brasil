@@ -1,0 +1,5022 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eleições 2026 — Acompanhe os resultados em tempo real</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #070e17;
+  --card-bg: #0c1626;
+  --card-bg-subtle: #0f1d33;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-border-light: rgba(255, 255, 255, 0.12);
+  --line: rgba(255, 255, 255, 0.07);
+  --text-main: #f1f5f9;
+  --text-muted: #8295a9;
+  --text-dim: #546b82;
+  --primary: #1d72fe;
+  --primary-glow: rgba(29, 114, 254, 0.35);
+  --green: #1cd678;
+  --green-glow: rgba(28, 214, 120, 0.25);
+  --blue: #3188ff;
+  --yellow: #ffd13b;
+  --red: #ff5268;
+  --orange: #ff8b35;
+  --purple: #a86cff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 15% 0%, #0d2238 0%, #070e17 45%, #050a12 100%);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, select, input { font: inherit; }
+
+/* TOP HEADER */
+.top-header {
+  height: 74px;
+  background: rgba(9, 18, 31, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 280px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.flag-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0d7943, #085e33);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 14px rgba(13, 121, 67, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.brand-text h1 {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.brand-text h1 span {
+  color: #38bdf8;
+  font-weight: 800;
+}
+
+.brand-text small {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* HEADER TABS */
+.header-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+  flex: 1;
+}
+
+.tab-btn {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid transparent;
+  padding: 8px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 16px var(--primary-glow);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* HEADER METRICS RIGHT */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-left: auto;
+}
+
+.live-badge-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  background: #ef4444;
+  border-radius: 50%;
+  margin-right: 6px;
+  box-shadow: 0 0 10px #ef4444;
+  animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.live-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.refresh-icon {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 4px;
+  transition: transform 0.3s ease, color 0.2s;
+}
+
+.refresh-icon:hover { color: #f8fafc; }
+.refresh-icon.spinning { transform: rotate(360deg); }
+
+.stat-item {
+  padding-left: 20px;
+  border-left: 1px solid var(--line);
+  min-width: 155px;
+}
+
+.stat-item small {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.stat-item strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.stat-item .sub-desc {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 1px;
+  display: block;
+}
+
+.stat-progress-line {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.stat-progress-line-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.8s ease;
+  box-shadow: 0 0 8px var(--green-glow);
+}
+
+/* APP LAYOUT */
+.app-layout {
+  display: flex;
+  min-height: calc(100vh - 74px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 190px;
+  flex-shrink: 0;
+  padding: 20px 14px 24px;
+  border-right: 1px solid var(--card-border);
+  background: rgba(8, 16, 27, 0.6);
+}
+
+.side-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #5d7793;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 0 10px;
+  margin-bottom: 12px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 3px;
+  transition: all 0.16s ease;
+  user-select: none;
+}
+
+.nav-link svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+  opacity: 0.8;
+  transition: opacity 0.16s;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f1f5f9;
+}
+
+.nav-link:hover svg { opacity: 1; }
+
+.nav-link.active {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 16px var(--primary-glow);
+}
+
+.nav-link.active svg { opacity: 1; stroke: #ffffff; }
+
+/* MAIN CONTENT */
+.content-area {
+  flex: 1;
+  padding: 18px 22px 40px;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* PAGES VISIBILITY */
+.page-view {
+  display: none;
+}
+
+.page-view.active {
+  display: block;
+}
+
+/* CARDS COMMON */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  position: relative;
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--card-border-light);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  gap: 10px;
+}
+
+.card-title-wrap h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: -0.2px;
+}
+
+.card-title-wrap h2 .chevron {
+  color: var(--text-dim);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.card-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.filter-select {
+  background: #0f1d31;
+  color: #dbe4ee;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.18s;
+}
+
+.filter-select:hover {
+  background: #132742;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* BADGES */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-elected {
+  background: rgba(28, 214, 120, 0.18);
+  border: 1px solid rgba(28, 214, 120, 0.4);
+  color: #22c55e;
+}
+
+.badge-elected-qp {
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+}
+
+.badge-elected-media {
+  background: rgba(5, 150, 105, 0.18);
+  border: 1px solid rgba(5, 150, 105, 0.35);
+  color: #6ee7b7;
+}
+
+.badge-runoff {
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+.badge-substitute {
+  background: rgba(100, 116, 139, 0.15);
+  border: 1px solid rgba(100, 116, 139, 0.28);
+  color: #94a3b8;
+}
+
+/* MAIN DASHBOARD (VISÃO GERAL / PRESIDENTE) GRID */
+.dash-top-grid {
+  display: grid;
+  grid-template-columns: 370px 1.25fr 1.05fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.dash-bottom-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr 1.05fr;
+  gap: 14px;
+}
+
+/* CARD 1: PRESIDENTE DA REPÚBLICA */
+.card-pres-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.pres-lead-card {
+  background: rgba(15, 27, 46, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 11px;
+  padding: 13px 14px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.pres-lead-card:hover {
+  background: rgba(18, 33, 56, 0.75);
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+.pres-lead-card.lead-1st {
+  border-left: 3px solid var(--green);
+}
+
+.pres-lead-card.lead-2nd {
+  border-left: 3px solid var(--blue);
+}
+
+.pres-lead-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.pres-lead-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rank-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.rank-badge.gold {
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  color: #1a1300;
+  box-shadow: 0 2px 8px rgba(234, 179, 8, 0.35);
+}
+
+.rank-badge.silver {
+  background: linear-gradient(135deg, #94a3b8, #64748b);
+  color: #0f172a;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a5f, #0d1e34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: #e2e8f0;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pres-info-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.pres-info-party {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pres-numbers {
+  text-align: right;
+}
+
+.pres-pct {
+  font-size: 21px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.pres-votes {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.lead-bar {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 7px;
+}
+
+.lead-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.7s ease;
+}
+
+.lead-bar-fill.green { background: var(--green); box-shadow: 0 0 8px var(--green-glow); }
+.lead-bar-fill.blue { background: var(--blue); box-shadow: 0 0 8px rgba(49, 136, 255, 0.4); }
+
+/* COMPACT CANDIDATE ROWS (3º AO 6º) */
+.pres-compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 6px 0 12px;
+}
+
+.pres-compact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 12px;
+  transition: background 0.15s;
+}
+
+.pres-compact-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.compact-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.compact-indicator {
+  width: 4px;
+  height: 18px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.compact-rank {
+  font-weight: 800;
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.compact-name {
+  font-weight: 600;
+  color: #e2e8f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.compact-right {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.compact-pct {
+  font-weight: 800;
+  color: #ffffff;
+  font-size: 12px;
+  min-width: 44px;
+  text-align: right;
+}
+
+.compact-votes {
+  font-size: 10px;
+  color: var(--text-dim);
+  min-width: 65px;
+  text-align: right;
+}
+
+/* TOTALS FOOTER */
+.pres-totals {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.totals-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-muted);
+}
+
+.totals-row.valid {
+  color: #ffffff;
+  font-weight: 700;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.totals-row .val-wrap {
+  display: flex;
+  gap: 12px;
+}
+
+.totals-row .val-wrap b {
+  color: #ffffff;
+}
+
+/* CARD 2: MAPA DO BRASIL */
+.card-map {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-container {
+  height: 340px;
+  position: relative;
+  border-radius: 10px;
+  background: radial-gradient(circle at 50% 50%, #0d1e34 0%, #081322 75%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.map-zoom-controls {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 10;
+}
+
+.zoom-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(15, 27, 46, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.zoom-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.brazil-svg-root {
+  width: 100%;
+  height: 100%;
+  max-height: 330px;
+  transition: transform 0.25s ease;
+}
+
+.state-path {
+  cursor: pointer;
+  stroke: #07101b;
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+  transition: fill 0.3s ease, stroke 0.18s ease, filter 0.18s ease;
+}
+
+.state-path:hover {
+  stroke: #ffffff;
+  stroke-width: 1.5;
+  filter: brightness(1.22);
+}
+
+.state-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  fill: #ffffff;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  letter-spacing: -0.2px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.85);
+}
+
+/* MAP LEGEND */
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 14px;
+  margin-top: 12px;
+  padding-top: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* MAP TOOLTIP */
+.map-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(12, 23, 38, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #ffffff;
+  font-size: 11px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: none;
+  min-width: 160px;
+}
+
+/* CARD 3: TABELAS GOVERNADORES / SENADORES / DEPUTADOS */
+.right-tables-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.right-tables-col .card {
+  padding: 14px 16px;
+}
+
+.table-scroller {
+  max-height: 105px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.table-scroller::-webkit-scrollbar { width: 4px; }
+.table-scroller::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+
+/* MINI TABLES */
+.gov-thead, .gov-row {
+  display: grid;
+  grid-template-columns: 34px 1fr 54px 74px 16px;
+  align-items: center;
+  gap: 8px;
+}
+
+.sen-thead, .sen-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 46px 60px 1fr 46px 60px 14px;
+  align-items: center;
+  gap: 5px;
+}
+
+.dep-thead, .dep-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 42px 52px 1fr 42px 52px 1fr 42px 52px;
+  align-items: center;
+  gap: 4px;
+}
+
+.pres-lead-card {
+  background: rgba(15, 27, 46, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 11px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.pres-lead-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.pres-lead-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pres-info-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pres-info-party {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pres-numbers {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.pres-pct {
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.pres-votes {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.gov-thead, .sen-thead, .dep-thead {
+  font-size: 10px;
+  font-weight: 700;
+  color: #647d96;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+
+.gov-row, .sen-row, .dep-row {
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+  font-size: 11px;
+  transition: background 0.12s;
+  cursor: pointer;
+}
+
+.gov-row:hover, .sen-row:hover, .dep-row:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.uf-tag {
+  font-weight: 800;
+  color: #cbd5e1;
+  font-size: 11px;
+}
+
+.cand-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cand-pip {
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.cand-name-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.cand-party-sub {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  margin-left: 3px;
+}
+
+.num-cell {
+  text-align: right;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.num-cell.pct {
+  font-weight: 700;
+}
+
+.num-cell.dim {
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+.chevron-cell {
+  color: var(--text-dim);
+  font-size: 14px;
+  text-align: right;
+}
+
+
+/* DASHBOARD MID GRID: ESPECTRO E ALINHAMENTO */
+.dash-mid-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.spectrum-bar-wrap {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 99px;
+  display: flex;
+  overflow: hidden;
+  margin: 12px 0 14px;
+  gap: 2px;
+}
+
+.spectrum-bar-seg {
+  height: 100%;
+  transition: width 0.6s ease;
+  border-radius: 2px;
+}
+
+
+/* SPECTRUM PIE / DONUT LAYOUT */
+.spectrum-body-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 10px 0 12px;
+}
+
+.spectrum-pie-wrap {
+  width: 155px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.spectrum-pie-wrap svg {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+.donut-slice {
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  transform-origin: 90px 90px;
+}
+
+.donut-slice:hover {
+  filter: brightness(1.22);
+  transform: scale(1.03);
+}
+
+.spectrum-pills-col {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.spectrum-pills-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.spectrum-pill {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.spectrum-pill-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spectrum-pill-val {
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.spectrum-pill-sub {
+  font-size: 9.5px;
+  color: var(--text-muted);
+}
+
+.alignment-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 9px;
+}
+
+.alignment-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 11px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.alignment-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.alignment-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2.5px 7px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.alignment-total {
+  font-size: 21px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+}
+
+.alignment-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 10.5px;
+  color: #cbd5e1;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 6px;
+}
+
+.alignment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alignment-row span {
+  color: var(--text-muted);
+}
+
+.alignment-row b {
+  color: #ffffff;
+}
+
+.scope-pills {
+  display: flex;
+  gap: 4px;
+}
+
+.scope-pill-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.scope-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.scope-pill-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px var(--primary-glow);
+}
+
+
+/* QA & ELECTORAL SCENARIOS */
+.qa-scenarios-card {
+  margin-bottom: 14px;
+}
+
+.qa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.qa-item {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.qa-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
+}
+
+.qa-item-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.qa-question {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.35;
+}
+
+.qa-answer {
+  font-size: 11.5px;
+  color: #94a3b8;
+  line-height: 1.55;
+}
+
+.qa-answer b {
+  color: #f1f5f9;
+}
+
+.qa-metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: auto;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.qa-metric-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.qa-metric-val {
+  font-size: 15px;
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+/* SIMULATOR BOX */
+.simulator-box {
+  background: linear-gradient(135deg, rgba(29, 114, 254, 0.08), rgba(16, 185, 129, 0.05));
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.simulator-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.simulator-head h4 {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sim-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.sim-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+.sim-outcome-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.sim-outcome-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* BOTTOM ROW CARDS */
+/* EVOLUÇÃO CHART */
+.chart-container {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 14px;
+}
+
+.line-chart-svg {
+  flex: 1;
+  height: 100%;
+}
+
+.chart-legend-side {
+  width: 140px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.chart-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.chart-legend-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #cbd5e1;
+}
+
+/* SEÇÕES APURADAS POR ESTADO */
+.state-progress-scroller {
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.state-progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.state-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.state-progress-info span { font-weight: 600; }
+.state-progress-info b { color: #ffffff; }
+
+.state-progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.state-progress-bar i {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  border-radius: 99px;
+  box-shadow: 0 0 6px var(--green-glow);
+  transition: width 0.7s;
+}
+
+/* COMPARATIVO EM TODO O BRASIL VERTICAL BARS */
+.vertical-bars-container {
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 10px 6px 4px;
+}
+
+.vbar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.vbar-pct {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.vbar-track {
+  width: 100%;
+  max-width: 38px;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px 6px 0 0;
+}
+
+.vbar-fill {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  min-height: 4px;
+  transition: height 0.8s ease;
+}
+
+.vbar-votes {
+  font-size: 9.5px;
+  color: var(--text-dim);
+  margin-top: 5px;
+  white-space: nowrap;
+}
+
+.vbar-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60px;
+  text-align: center;
+}
+
+/* ========================================================
+   FULL PAGES (GOVERNADORES, SENADORES, DEPUTADOS, MAPA ETC)
+   ======================================================== */
+.page-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.page-header-title h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: #ffffff;
+}
+
+.page-header-title p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* KPI CARDS */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.kpi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.kpi-card small {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kpi-card strong {
+  display: block;
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-top: 4px;
+  letter-spacing: -0.5px;
+}
+
+.kpi-card .kpi-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* PARTY BENCH (BANCADA POR SIGLA) */
+.party-bench-card {
+  margin-bottom: 20px;
+}
+
+.party-bench-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.party-bench-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 9px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.party-bench-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.party-tag {
+  font-weight: 800;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.party-seats {
+  font-size: 18px;
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+.party-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.party-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--primary);
+}
+
+/* FILTER TOOLBAR */
+.filter-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  background: #0d1a2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: #ffffff;
+  font-size: 12px;
+  min-width: 220px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+}
+
+/* STATE CARDS GRID */
+.states-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 14px;
+}
+
+.state-gov-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.state-gov-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.state-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.state-card-uf {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.cand-match-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cand-match-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-window {
+  background: #0c1828;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+
+.modal-head h3 {
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal-close-btn:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* EXPORT BUTTONS */
+.export-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.export-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-export {
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.18s;
+}
+
+.btn-export:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1280px) {
+  .dash-top-grid { grid-template-columns: 1fr 1fr; }
+  .dash-top-grid .right-tables-col { grid-column: 1 / -1; }
+  .dash-bottom-grid { grid-template-columns: 1fr 1fr; }
+  .dash-bottom-grid > :nth-child(3) { grid-column: 1 / -1; }
+}
+
+@media (max-width: 900px) {
+  .app-layout { flex-direction: column; }
+  .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--card-border); padding: 10px 14px; overflow-x: auto; display: flex; gap: 8px; }
+  .side-title { display: none; }
+  .nav-link { margin-bottom: 0; white-space: nowrap; }
+  .top-header { height: auto; min-height: 74px; flex-wrap: wrap; padding: 12px 16px; }
+  .header-tabs { order: 3; width: 100%; overflow-x: auto; padding-bottom: 4px; margin-left: 0; }
+  .dash-top-grid { grid-template-columns: 1fr; }
+  .dash-bottom-grid { grid-template-columns: 1fr; }
+  .header-right { gap: 12px; }
+  .stat-item { min-width: auto; padding-left: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<header class="top-header">
+  <div class="brand" onclick="switchPage('presidente')">
+    <div class="flag-box" style="padding:0;overflow:hidden;background:#0d7943;border:1px solid rgba(255,255,255,0.15);width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
+      <svg width="40" height="28" viewBox="0 0 720 504" style="border-radius:4px;display:block;">
+        <rect width="720" height="504" fill="#009c3b"/>
+        <polygon points="360,40 680,252 360,464 40,252" fill="#ffdf00"/>
+        <circle cx="360" cy="252" r="126" fill="#002776"/>
+        <path d="M 234 252 A 126 126 0 0 1 486 252" stroke="#ffffff" stroke-width="12" fill="none"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <h1>ELEIÇÕES <span>2026</span></h1>
+      <small>Acompanhe os resultados em tempo real</small>
+    </div>
+  </div>
+
+  <div class="header-tabs">
+    <button class="tab-btn active" data-tab="presidente" onclick="switchPage('presidente')">Presidente</button>
+    <button class="tab-btn" data-tab="governadores" onclick="switchPage('governadores')">Governadores</button>
+    <button class="tab-btn" data-tab="senadores" onclick="switchPage('senadores')">Senadores</button>
+    <button class="tab-btn" data-tab="deputados" onclick="switchPage('deputados')">Deputados Federais</button>
+  </div>
+
+  <div class="header-right">
+    <div class="live-badge-wrap">
+      <div class="live-pill">
+        <span class="live-dot"></span>AO VIVO
+      </div>
+      <div class="live-time">
+        <span id="headerClock">Atualizado às 17:24:18</span>
+        <button class="refresh-icon" id="btnRefresh" title="Atualizar agora" onclick="refreshNow()">↻</button>
+      </div>
+    </div>
+
+    <div class="stat-item">
+      <small>Seções apuradas</small>
+      <strong id="headerSectionsPct">--,--%</strong>
+      <div class="stat-progress-line">
+        <div class="stat-progress-line-fill" id="headerSectionsBar"></div>
+      </div>
+    </div>
+
+    <div class="stat-item">
+      <small>Votos válidos</small>
+      <strong id="headerValidVotes">--</strong>
+      <span class="sub-desc" id="headerTotalElectorate">de 134.892.717</span>
+    </div>
+  </div>
+</header>
+
+<!-- APP LAYOUT -->
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="side-title">Visão Geral</div>
+    <a class="nav-link" data-nav="mapa" onclick="switchPage('mapa')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20M2 12h20"/></svg>
+      <span>Mapa do Brasil</span>
+    </a>
+    <a class="nav-link active" data-nav="presidente" onclick="switchPage('presidente')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Presidente</span>
+    </a>
+    <a class="nav-link" data-nav="governadores" onclick="switchPage('governadores')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Governadores</span>
+    </a>
+    <a class="nav-link" data-nav="senadores" onclick="switchPage('senadores')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10M2 10h20M12 3l10 7H2z"/></svg>
+      <span>Senadores</span>
+    </a>
+    <a class="nav-link" data-nav="deputados" onclick="switchPage('deputados')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Deputados Federais</span>
+    </a>
+    <a class="nav-link" data-nav="comparativo" onclick="switchPage('comparativo')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>Comparativo</span>
+    </a>
+    <a class="nav-link" data-nav="historico" onclick="switchPage('historico')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span>Histórico</span>
+    </a>
+    <a class="nav-link" data-nav="download" onclick="switchPage('download')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>Baixar dados</span>
+    </a>
+  </aside>
+
+  <!-- CONTENT AREA -->
+  <main class="content-area">
+
+    <!-- ==============================================
+         1. VIEW: VISÃO GERAL / PRESIDENTE (IMAGE #1 MATCH)
+         ============================================== -->
+    <div class="page-view active" id="view-presidente">
+      <!-- TOP ROW: 3 CARDS -->
+      <div class="dash-top-grid">
+        <!-- CARD 1: PRESIDENTE DA REPÚBLICA -->
+        <section class="card card-pres-top">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Presidente da República <span class="chevron">›</span></h2>
+              <div class="card-sub" id="presSubline">Votos válidos • --,--% das seções apuradas</div>
+            </div>
+          </div>
+
+          <div id="presLeadArea">
+            <!-- 1º e 2º colocados renderizados aqui -->
+          </div>
+
+          <div class="pres-compact-list" id="presCompactList">
+            <!-- 3º ao 6º colocados renderizados aqui -->
+          </div>
+
+          <div class="pres-totals">
+            <div class="totals-row">
+              <span>Brancos</span>
+              <div class="val-wrap"><span id="presBlankPct">0,00%</span><b id="presBlankVotes">0</b></div>
+            </div>
+            <div class="totals-row">
+              <span>Nulos</span>
+              <div class="val-wrap"><span id="presNullPct">0,00%</span><b id="presNullVotes">0</b></div>
+            </div>
+            <div class="totals-row valid">
+              <span>Votos válidos</span>
+              <b id="presValidTotal">0</b>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 2: MAPA DO BRASIL - PRESIDENTE -->
+        <section class="card card-map">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Mapa do Brasil — Presidente</h2>
+              <div class="card-sub" id="mapSubline">Candidato mais votado por estado • --,--% apurados</div>
+            </div>
+          </div>
+
+          <div class="map-container">
+            <div class="map-zoom-controls">
+              <button class="zoom-btn" onclick="zoomMap(1.2)" title="Aproximar">+</button>
+              <button class="zoom-btn" onclick="zoomMap(0.8)" title="Afastar">-</button>
+              <button class="zoom-btn" onclick="resetMapZoom()" title="Resetar">↺</button>
+            </div>
+
+            <svg class="brazil-svg-root" id="brazilSvg" viewBox="0 0 450 460" xmlns="http://www.w3.org/2000/svg">
+              <g id="mapGroup">
+                <!-- Estados SVG inseridos via JS -->
+              </g>
+            </svg>
+
+            <div class="map-tooltip" id="mapTooltip"></div>
+          </div>
+
+          <div class="map-legend" id="mapLegend">
+            <!-- Itens de legenda -->
+          </div>
+        </section>
+
+        <!-- CARD 3: TABELAS GOVERNADORES / SENADORES / DEPUTADOS -->
+        <div class="right-tables-col">
+          <!-- SUB-CARD: GOVERNADORES -->
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title-wrap">
+                <h2>Governadores</h2>
+              </div>
+              <select class="filter-select" id="selGovUF" onchange="renderGovTable()">
+                <option value="BR">Todos os estados</option>
+              </select>
+            </div>
+            <div class="gov-thead">
+              <span>UF</span>
+              <span>Candidato em 1º lugar</span>
+              <span style="text-align:right">% válidos</span>
+              <span style="text-align:right">Votos</span>
+              <span></span>
+            </div>
+            <div class="table-scroller" id="govTableBody"></div>
+          </div>
+
+          <!-- SUB-CARD: SENADORES -->
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title-wrap">
+                <h2>Senadores</h2>
+              </div>
+              <select class="filter-select" id="selSenUF" onchange="renderSenTable()">
+                <option value="BR">Todos os estados</option>
+              </select>
+            </div>
+            <div class="sen-thead">
+              <span>UF</span>
+              <span>1º colocado</span>
+              <span style="text-align:right">%</span>
+              <span style="text-align:right">Votos</span>
+              <span>2º colocado</span>
+              <span style="text-align:right">%</span>
+              <span style="text-align:right">Votos</span>
+              <span></span>
+            </div>
+            <div class="table-scroller" id="senTableBody"></div>
+          </div>
+
+          <!-- SUB-CARD: DEPUTADOS FEDERAIS -->
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title-wrap">
+                <h2>Deputados Federais</h2>
+              </div>
+              <select class="filter-select" id="selDepUF" onchange="renderDepTable()">
+                <option value="BR">Todos os estados</option>
+              </select>
+            </div>
+            <div class="dep-thead">
+              <span>UF</span>
+              <span>1º colocado</span>
+              <span style="text-align:right">%</span>
+              <span style="text-align:right">Votos</span>
+              <span>2º colocado</span>
+              <span style="text-align:right">%</span>
+              <span style="text-align:right">Votos</span>
+              <span>3º colocado</span>
+              <span style="text-align:right">%</span>
+              <span style="text-align:right">Votos</span>
+            </div>
+            <div class="table-scroller" id="depTableBody"></div>
+          </div>
+        </div>
+      </div>
+
+            <!-- MID ROW: ESPECTRO POLÍTICO E ALINHAMENTO PRESIDENCIAL -->
+      <div class="dash-mid-grid">
+        <!-- CARD ESPECTRO POLÍTICO -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Divisão por Espectro Político — Eleitos 2026</h2>
+              <div class="card-sub" id="spectrumSubline">Classificação ideológica consolidada das vagas preenchidas</div>
+            </div>
+            <div class="scope-pills">
+              <button class="scope-pill-btn active" data-scope="all" onclick="setSpectrumScope('all')">Todos (1.653)</button>
+              <button class="scope-pill-btn" data-scope="sen" onclick="setSpectrumScope('sen')">Senado (54)</button>
+              <button class="scope-pill-btn" data-scope="dep" onclick="setSpectrumScope('dep')">Dep. Federais (513)</button>
+              <button class="scope-pill-btn" data-scope="state_dep" onclick="setSpectrumScope('state_dep')">Dep. Estaduais (1.059)</button>
+              <button class="scope-pill-btn" data-scope="gov" onclick="setSpectrumScope('gov')">Governadores (27)</button>
+            </div>
+          </div>
+
+          <!-- Body with Donut Chart + 5 Spectrum Pills -->
+          <div class="spectrum-body-wrap">
+            <!-- Gráfico de Pizza / Donut -->
+            <div class="spectrum-pie-wrap">
+              <svg id="spectrumDonutSvg" viewBox="0 0 180 180" width="150" height="150"></svg>
+            </div>
+
+            <!-- 5 Spectrum pills -->
+            <div class="spectrum-pills-col" id="spectrumPillsGrid"></div>
+          </div>
+
+          <!-- Multi-color continuous spectrum bar -->
+          <div class="spectrum-bar-wrap" id="spectrumBarWrap"></div>
+        </section>
+
+        <!-- CARD BASES DE APOIO PRESIDENCIAL -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Bases de Apoio Presidencial no Congresso e Estados</h2>
+              <div class="card-sub">Força partidária aliada a Flávio Bolsonaro, Lula e bloco independente</div>
+            </div>
+          </div>
+
+          <!-- Alignment bar -->
+          <div class="spectrum-bar-wrap" id="alignmentBarWrap"></div>
+
+          <!-- 3 Alignment cards -->
+          <div class="alignment-cards-grid" id="alignmentCardsGrid"></div>
+        </section>
+      </div>
+
+            <!-- QA AND DATA SCENARIOS SECTION -->
+      <section class="card qa-scenarios-card">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>Perguntas & Respostas Estratégicas — Cenários e Análise de Dados</h2>
+            <div class="card-sub">Simulações matemáticas para o 1º e 2º turno baseadas nos dados consolidados do TSE</div>
+          </div>
+        </div>
+
+        <!-- SIMULADOR INTERATIVO DO 2º TURNO -->
+        <div class="simulator-box">
+          <div class="simulator-head">
+            <h4>⚡ Simulador Interativo do 2º Turno: Herança de Votos da 3ª Via</h4>
+            <span style="font-size:12px;color:#94a3b8;">Pool da terceira via em disputa: <b style="color:#ffffff;" id="simPoolVotes">9.316.486 votos (7,81%)</b></span>
+          </div>
+
+          <div class="sim-slider-wrap">
+            <span style="font-size:11px;color:var(--text-muted);min-width:120px;">Votos para Flávio: <b style="color:#60a5fa;" id="simSliderVal">50%</b></span>
+            <input type="range" class="sim-slider" id="simRange" min="0" max="100" value="50" oninput="updateSimulator(this.value)">
+            <span style="font-size:11px;color:var(--text-muted);min-width:120px;text-align:right;">Votos para Lula: <b style="color:#f87171;" id="simSliderValLula">50%</b></span>
+          </div>
+
+          <div class="sim-outcome-grid" id="simOutcomeGrid"></div>
+        </div>
+
+        <!-- 5 CARDS DE PERGUNTAS E RESPOSTAS -->
+        <div class="qa-grid" id="qaGrid"></div>
+      </section>
+
+      <!-- BOTTOM ROW: 3 CARDS -->
+      <div class="dash-bottom-grid">
+                <!-- CARD 4: EVOLUÇÃO DA APURAÇÃO & COMPARATIVO 2022 -->
+        <section class="card" id="cardEvolution">
+          <div class="card-head" style="flex-wrap:wrap;gap:8px;">
+            <div class="card-title-wrap">
+              <h2 id="evolutionTitle">Evolução da apuração — Presidente</h2>
+              <div class="card-sub" id="evolutionSubline">Trajetória dos votos válidos na apuração (17h às 23h)</div>
+            </div>
+            <!-- Mode buttons -->
+            <div class="scope-pills" style="margin-left:auto;display:flex;align-items:center;gap:5px;">
+              <button class="scope-pill-btn active" id="btnEvol2026" onclick="setEvolutionMode('2026')">2026</button>
+              <button class="scope-pill-btn" id="btnEvol2022" onclick="setEvolutionMode('2022')">2022 (2º Turno)</button>
+              <button class="scope-pill-btn" id="btnEvolOverlay" onclick="setEvolutionMode('overlay')">Sobrepor (2026 x 2022)</button>
+              <button class="scope-pill-btn" id="btnEvolSide" onclick="setEvolutionMode('side')">Lado a Lado</button>
+              <button class="scope-pill-btn" onclick="openEvolutionModal()" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.4);color:#38bdf8;font-weight:700;display:flex;align-items:center;gap:4px;" title="Ver gráfico expandido em alta resolução com mais detalhes">⛶ Expandir</button>
+            </div>
+          </div>
+
+          <!-- NORMAL VIEW (2026 / 2022 / OVERLAY) -->
+          <div id="evolutionNormalView">
+            <div class="chart-container">
+              <svg class="line-chart-svg" id="evolutionChart" viewBox="0 0 380 180"></svg>
+              <div class="chart-legend-side" id="chartLegendSide"></div>
+            </div>
+          </div>
+
+          <!-- LADO A LADO VIEW (when mode === 'side') -->
+          <div id="evolutionSideView" style="display:none;flex-direction:column;gap:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <!-- 2026 Mini -->
+              <div style="background:rgba(255,255,255,0.02);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center;">
+                  <b style="color:#ffffff;font-size:12px;">Eleição 2026 (Flávio x Lula)</b>
+                  <span style="font-size:10px;color:var(--green)">Flávio 47,03% x Lula 45,16%</span>
+                </div>
+                <svg id="evolutionSideSvg2026" viewBox="0 0 340 135" style="width:100%;height:125px;"></svg>
+              </div>
+              <!-- 2022 Mini -->
+              <div style="background:rgba(255,255,255,0.02);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center;">
+                  <b style="color:#ffffff;font-size:12px;">2º Turno 2022 (Lula x Bolsonaro)</b>
+                  <span style="font-size:10px;color:#f87171">Lula 50,90% x Bolsonaro 49,10%</span>
+                </div>
+                <svg id="evolutionSideSvg2022" viewBox="0 0 340 135" style="width:100%;height:125px;"></svg>
+              </div>
+            </div>
+            <!-- Analytical comparison table -->
+            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);overflow-x:auto;">
+              <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                <thead>
+                  <tr style="color:#64748b;border-bottom:1px solid rgba(255,255,255,0.08);text-align:left;">
+                    <th style="padding:4px 6px;">Horário</th>
+                    <th style="padding:4px 6px;">2026: Flávio x Lula</th>
+                    <th style="padding:4px 6px;">2022: J. Bolsonaro x Lula</th>
+                    <th style="padding:4px 6px;">Dinâmica Eleitoral Comparada</th>
+                  </tr>
+                </thead>
+                <tbody id="evolutionCompareTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 5: SEÇÕES APURADAS POR ESTADO -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Seções apuradas por estado</h2>
+            </div>
+            <select class="filter-select" id="selProgressSort" onchange="renderStatesProgress()">
+              <option value="pct">% apuradas</option>
+              <option value="name">Alfabética</option>
+            </select>
+          </div>
+          <div class="state-progress-scroller" id="statesProgressList"></div>
+        </section>
+
+        <!-- CARD 6: COMPARATIVO EM TODO O BRASIL -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Comparativo em todo o Brasil — Presidente</h2>
+            </div>
+            <select class="filter-select" id="selCompareMetric" onchange="renderVerticalBars()">
+              <option value="valid">Votos válidos</option>
+              <option value="total">Total de votos</option>
+            </select>
+          </div>
+          <div class="vertical-bars-container" id="verticalBarsWrap"></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         2. VIEW: MAPA INTERATIVO AMPLIADO
+         ============================================== -->
+    <div class="page-view" id="view-mapa">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Mapa Eleitoral Interativo do Brasil</h2>
+          <p>Explore a distribuição de votos por cargo, partido e estado em tempo real.</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="filter-select active" id="mapModePres" onclick="setMapLayer('president')">Presidente</button>
+          <button class="filter-select" id="mapModeGov" onclick="setMapLayer('governor')">Governadores</button>
+          <button class="filter-select" id="mapModeSen" onclick="setMapLayer('senator')">Senadores</button>
+          <button class="filter-select" id="mapModeSec" onclick="setMapLayer('sections')">% Apuração</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.8fr 1fr;gap:16px;">
+        <div class="card" style="min-height:560px;display:flex;flex-direction:column;">
+          <div class="map-container" style="flex:1;height:520px;">
+            <div class="map-zoom-controls">
+              <button class="zoom-btn" onclick="zoomMap(1.2)">+</button>
+              <button class="zoom-btn" onclick="zoomMap(0.8)">-</button>
+              <button class="zoom-btn" onclick="resetMapZoom()">↺</button>
+            </div>
+            <svg class="brazil-svg-root" id="brazilSvgBig" viewBox="0 0 450 460" xmlns="http://www.w3.org/2000/svg">
+              <g id="mapGroupBig"></g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Detalhamento por Estado</h2>
+              <div class="card-sub">Clique em um estado para inspecionar todos os cargos</div>
+            </div>
+          </div>
+          <div class="table-scroller" style="max-height:480px;" id="mapStateRankings"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         3. VIEW: GOVERNADORES
+         ============================================== -->
+    <div class="page-view" id="view-governadores">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Eleições para Governador de Estado</h2>
+          <p>Acompanhe quem foi eleito no 1º turno e quem disputa o 2º turno nos 26 estados e DF.</p>
+        </div>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <small>Eleitos no 1º Turno</small>
+          <strong style="color:var(--green)" id="kpiGov1st">--</strong>
+          <span class="kpi-sub">Venceram com &gt; 50% dos válidos</span>
+        </div>
+        <div class="kpi-card">
+          <small>Indo para o 2º Turno</small>
+          <strong style="color:var(--yellow)" id="kpiGovRunoff">--</strong>
+          <span class="kpi-sub">Disputa definida entre os 2 primeiros</span>
+        </div>
+        <div class="kpi-card">
+          <small>Total de Estados</small>
+          <strong>27</strong>
+          <span class="kpi-sub">26 estados e Distrito Federal</span>
+        </div>
+        <div class="kpi-card">
+          <small>Apuração Média</small>
+          <strong id="kpiGovAvgPct">--,--%</strong>
+          <span class="kpi-sub">Seções totalizadas no país</span>
+        </div>
+      </div>
+
+      <!-- BANCADA DE GOVERNADORES POR SIGLA -->
+      <div class="card party-bench-card">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>Governadores Eleitos e no 2º Turno por Sigla</h2>
+            <div class="card-sub">Contagem consolidada de governadores por partido político</div>
+          </div>
+        </div>
+        <div class="party-bench-grid" id="govPartyBench"></div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filter-toolbar">
+        <input type="text" class="search-input" id="searchGov" placeholder="Buscar estado ou candidato..." oninput="filterGovCards()">
+        <select class="filter-select" id="filterGovRegion" onchange="filterGovCards()">
+          <option value="ALL">Todas as Regiões</option>
+          <option value="Norte">Norte</option>
+          <option value="Nordeste">Nordeste</option>
+          <option value="Centro-Oeste">Centro-Oeste</option>
+          <option value="Sudeste">Sudeste</option>
+          <option value="Sul">Sul</option>
+        </select>
+        <select class="filter-select" id="filterGovStatus" onchange="filterGovCards()">
+          <option value="ALL">Todos os Status</option>
+          <option value="1ST">Eleitos no 1º Turno</option>
+          <option value="RUNOFF">Em 2º Turno</option>
+        </select>
+      </div>
+
+      <!-- GRID OF STATES -->
+      <div class="states-cards-grid" id="govCardsGrid"></div>
+    </div>
+
+    <!-- ==============================================
+         4. VIEW: SENADORES
+         ============================================== -->
+    <div class="page-view" id="view-senadores">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Senado Federal — 54 Vagas em Disputa (2026)</h2>
+          <p>Renovação de dois terços das cadeiras. Cada estado e o DF elegem 2 senadores.</p>
+        </div>
+      </div>
+
+      <!-- KPIS -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <small>Cadeiras em Renovação</small>
+          <strong>54</strong>
+          <span class="kpi-sub">2 senadores por UF</span>
+        </div>
+        <div class="kpi-card">
+          <small>Senadores Eleitos / Líderes</small>
+          <strong style="color:var(--green)" id="kpiSenElected">54</strong>
+          <span class="kpi-sub">Definidos por maioria simples</span>
+        </div>
+        <div class="kpi-card">
+          <small>Partidos com Cadeiras</small>
+          <strong id="kpiSenPartiesCount">--</strong>
+          <span class="kpi-sub">Siglas com senadores eleitos</span>
+        </div>
+        <div class="kpi-card">
+          <small>Maior Bancada Eleita</small>
+          <strong id="kpiSenTopParty">--</strong>
+          <span class="kpi-sub" id="kpiSenTopSeats">-- cadeiras</span>
+        </div>
+      </div>
+
+      <!-- BANCADA DO SENADO POR SIGLA -->
+      <div class="card party-bench-card">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>Bancada Eleita no Senado por Sigla</h2>
+            <div class="card-sub">Distribuição oficial de senadores eleitos por partido nas Eleições 2026</div>
+          </div>
+        </div>
+        <div class="party-bench-grid" id="senPartyBench"></div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filter-toolbar">
+        <input type="text" class="search-input" id="searchSen" placeholder="Buscar senador, partido ou UF..." oninput="filterSenCards()">
+        <select class="filter-select" id="filterSenParty" onchange="filterSenCards()">
+          <option value="ALL">Todos os Partidos</option>
+        </select>
+      </div>
+
+      <!-- SENATORS LIST BY STATE -->
+      <div class="states-cards-grid" id="senCardsGrid"></div>
+    </div>
+
+    <!-- ==============================================
+         5. VIEW: DEPUTADOS FEDERAIS
+         ============================================== -->
+    <div class="page-view" id="view-deputados">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Câmara dos Deputados — 513 Cadeiras</h2>
+          <p>Eleição proporcional nos 26 estados e no DF por Quociente Partidário (QP) e Média.</p>
+        </div>
+        <div>
+          <select class="filter-select" id="depSelectUF" style="font-size:13px;padding:8px 14px;" onchange="changeDepUF()">
+            <!-- Options populated in JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- KPIS -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <small>Total de Cadeiras</small>
+          <strong>513</strong>
+          <span class="kpi-sub">Composição total da Câmara</span>
+        </div>
+        <div class="kpi-card">
+          <small>Eleitos por QP</small>
+          <strong style="color:var(--green)" id="kpiDepQP">--</strong>
+          <span class="kpi-sub">Atingiram quociente partidário</span>
+        </div>
+        <div class="kpi-card">
+          <small>Eleitos por Média</small>
+          <strong style="color:#38bdf8" id="kpiDepMedia">--</strong>
+          <span class="kpi-sub">Distribuídos nas sobras eleitorais</span>
+        </div>
+        <div class="kpi-card">
+          <small>Maior Bancada Federal</small>
+          <strong id="kpiDepTopParty">--</strong>
+          <span class="kpi-sub" id="kpiDepTopSeats">-- deputados</span>
+        </div>
+      </div>
+
+      <!-- BANCADA DA CÂMARA POR SIGLA -->
+      <div class="card party-bench-card">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>Bancada da Câmara dos Deputados por Sigla</h2>
+            <div class="card-sub">Total de cadeiras conquistadas por cada partido político no Brasil</div>
+          </div>
+        </div>
+        <div class="party-bench-grid" id="depPartyBench"></div>
+      </div>
+
+      <!-- DEPUTIES TABLE FOR SELECTED UF -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2 id="depStateTitle">Deputados Federais — São Paulo (SP)</h2>
+            <div class="card-sub">Candidatos eleitos destacados com badge oficial</div>
+          </div>
+        </div>
+        <div class="gov-thead" style="grid-template-columns: 50px 1fr 110px 100px 90px;">
+          <span>Pos</span>
+          <span>Candidato</span>
+          <span>Status</span>
+          <span style="text-align:right">Votos</span>
+          <span style="text-align:right">% Válidos</span>
+        </div>
+        <div class="table-scroller" style="max-height:450px;" id="depStateList"></div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         6. VIEW: COMPARATIVO
+         ============================================== -->
+    <div class="page-view" id="view-comparativo">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Painel Comparativo Nacional</h2>
+          <p>Visão integrada entre votos válidos, abstenções e composição do Congresso Nacional.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Comparecimento vs Abstenção — Brasil</h2>
+              <div class="card-sub">Participação do eleitorado nas urnas em 2026</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;padding:10px 0;" id="turnoutStatsWrap"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title-wrap">
+              <h2>Composição do Congresso (Senado x Câmara)</h2>
+              <div class="card-sub">Comparação de forças das principais siglas</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding:10px 0;" id="congressCompareWrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         7. VIEW: HISTÓRICO
+         ============================================== -->
+    <div class="page-view" id="view-historico">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Histórico da Totalização TSE</h2>
+          <p>Registro cronológico dos checkpoints da apuração ao longo da noite eleitoral.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>Linha do Tempo de Atualizações</h2>
+            <div class="card-sub">Registros de progresso das urnas apuradas</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;padding:8px 0;" id="historyTimeline"></div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         8. VIEW: BAIXAR DADOS
+         ============================================== -->
+    <div class="page-view" id="view-download">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Exportação e Download de Dados</h2>
+          <p>Exporte tabelas completas em CSV (compatível com Excel) ou JSON para análise de dados.</p>
+        </div>
+      </div>
+
+      <div class="export-grid">
+        <div class="export-card">
+          <strong style="color:#ffffff;font-size:15px;">Presidente da República</strong>
+          <p style="font-size:12px;color:var(--text-muted);">Resultados consolidados nacionais e votação detalhada estado por estado.</p>
+          <button class="btn-export" onclick="exportData('president_csv')">⬇ Baixar CSV Presidente</button>
+        </div>
+
+        <div class="export-card">
+          <strong style="color:#ffffff;font-size:15px;">Governadores (27 Estados)</strong>
+          <p style="font-size:12px;color:var(--text-muted);">Tabela de governadores com 1º e 2º colocados, votos, percentuais e status (Eleito/2º Turno).</p>
+          <button class="btn-export" onclick="exportData('governors_csv')">⬇ Baixar CSV Governadores</button>
+        </div>
+
+        <div class="export-card">
+          <strong style="color:#ffffff;font-size:15px;">Senadores Eleitos e Votação</strong>
+          <p style="font-size:12px;color:var(--text-muted);">Lista de todos os senadores eleitos por estado e contagem consolidada por sigla.</p>
+          <button class="btn-export" onclick="exportData('senators_csv')">⬇ Baixar CSV Senadores</button>
+        </div>
+
+        <div class="export-card">
+          <strong style="color:#ffffff;font-size:15px;">Deputados Federais</strong>
+          <p style="font-size:12px;color:var(--text-muted);">Bancadas partidárias da Câmara dos Deputados e votação de deputados por UF.</p>
+          <button class="btn-export" onclick="exportData('deputies_csv')">⬇ Baixar CSV Deputados</button>
+        </div>
+
+        <div class="export-card">
+          <strong style="color:#ffffff;font-size:15px;">Bancadas Partidárias no Congresso</strong>
+          <p style="font-size:12px;color:var(--text-muted);">Tabela completa com número de senadores, deputados e governadores de cada partido.</p>
+          <button class="btn-export" onclick="exportData('parties_csv')">⬇ Baixar CSV Bancadas</button>
+        </div>
+
+        <div class="export-card">
+          <strong style="color:#ffffff;font-size:15px;">Dados Brutos Consolidados (JSON)</strong>
+          <p style="font-size:12px;color:var(--text-muted);">Pacote JSON completo direto do TSE com todas as seções e candidaturas.</p>
+          <button class="btn-export" style="background:#0284c7;" onclick="exportData('full_json')">⬇ Baixar JSON Completo</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- STATE DETAIL MODAL -->
+<div class="modal-overlay" id="stateModal" onclick="closeStateModal(event)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="flag-box" style="width:34px;height:34px;font-size:18px;">🏛</div>
+        <h3 id="modalStateTitle">São Paulo (SP)</h3>
+      </div>
+      <button class="modal-close-btn" onclick="document.getElementById('stateModal').classList.remove('open')">✕</button>
+    </div>
+    <div id="modalStateBody"></div>
+  </div>
+</div>
+
+<!-- EVOLUTION HIGH-RESOLUTION EXPANDED MODAL -->
+<div class="modal-overlay" id="evolutionModal" onclick="closeEvolutionModal(event)">
+  <div class="modal-window" onclick="event.stopPropagation()" style="max-width:1160px;width:95vw;padding:22px 26px;">
+    <div class="modal-head" style="flex-wrap:wrap;gap:10px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:20px;">📈</span>
+          <h3 id="modalEvolTitle" style="font-size:18px;color:#ffffff;font-weight:800;">Evolução da Apuração em Alta Resolução</h3>
+        </div>
+        <p id="modalEvolSub" style="font-size:12px;color:var(--text-muted);margin-top:2px;">Trajetória detalhada hora a hora (17h às 23h) com marcos a cada 30 minutos e virada histórica</p>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+        <div class="scope-pills" id="modalEvolScopePills">
+          <button class="scope-pill-btn active" id="modalBtn2026" onclick="setModalEvolutionMode('2026')">2026</button>
+          <button class="scope-pill-btn" id="modalBtn2022" onclick="setModalEvolutionMode('2022')">2022 (2º Turno)</button>
+          <button class="scope-pill-btn" id="modalBtnOverlay" onclick="setModalEvolutionMode('overlay')">Sobrepor (2026 x 2022)</button>
+          <button class="scope-pill-btn" id="modalBtnSide" onclick="setModalEvolutionMode('side')">Lado a Lado</button>
+        </div>
+        <button class="modal-close-btn" onclick="closeEvolutionModal()">✕</button>
+      </div>
+    </div>
+
+    <!-- MAIN LARGE SVG CANVAS -->
+    <div id="modalEvolCanvasWrap" style="background:radial-gradient(circle at 50% 50%, #0d1e34 0%, #081322 80%);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px 14px 10px;position:relative;">
+      <svg id="modalEvolSvg" viewBox="0 0 940 360" style="width:100%;height:360px;display:block;" onmousemove="handleModalChartHover(event)" onmouseleave="handleModalChartLeave()"></svg>
+      <div id="modalEvolCrosshair" style="display:none;position:absolute;top:16px;bottom:34px;width:1px;background:#38bdf8;pointer-events:none;border-right:1px dashed #38bdf8;"></div>
+      <div id="modalEvolTooltip" style="display:none;position:absolute;background:rgba(12,24,40,0.96);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 12px;color:#fff;font-size:11px;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,0.7);z-index:30;min-width:180px;"></div>
+    </div>
+
+    <!-- LADO A LADO EXPANDED VIEW IN MODAL -->
+    <div id="modalEvolSideWrap" style="display:none;flex-direction:column;gap:12px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;align-items:center;">
+            <b style="color:#ffffff;font-size:14px;">Eleições 2026 (Flávio x Lula)</b>
+            <span style="font-size:11px;color:var(--green)">Flávio 47,03% x Lula 45,16%</span>
+          </div>
+          <svg id="modalSideSvg2026" viewBox="0 0 460 220" style="width:100%;height:220px;display:block;"></svg>
+        </div>
+        <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;align-items:center;">
+            <b style="color:#ffffff;font-size:14px;">2º Turno 2022 (Lula x Bolsonaro)</b>
+            <span style="font-size:11px;color:#f87171">Lula 50,90% x Bolsonaro 49,10%</span>
+          </div>
+          <svg id="modalSideSvg2022" viewBox="0 0 460 220" style="width:100%;height:220px;display:block;"></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS AND METRICS STRIP -->
+    <div id="modalEvolMetricsStrip" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;margin-top:10px;"></div>
+  </div>
+</div>
+
+
+<script src="map_inline.js"></script>
+<script>
+/* ========================================================
+   CONFIGURAÇÃO GERAL E CONSTANTES
+   ======================================================== */
+const UFS = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
+const REGIONS = {
+  AC:'Norte', AP:'Norte', AM:'Norte', PA:'Norte', RO:'Norte', RR:'Norte', TO:'Norte',
+  AL:'Nordeste', BA:'Nordeste', CE:'Nordeste', MA:'Nordeste', PB:'Nordeste', PE:'Nordeste', PI:'Nordeste', RN:'Nordeste', SE:'Nordeste',
+  DF:'Centro-Oeste', GO:'Centro-Oeste', MT:'Centro-Oeste', MS:'Centro-Oeste',
+  ES:'Sudeste', MG:'Sudeste', RJ:'Sudeste', SP:'Sudeste',
+  PR:'Sul', RS:'Sul', SC:'Sul'
+};
+const STATE_ASSEMBLY_SEATS = {
+  SP: 94, MG: 77, RJ: 70, BA: 63, RS: 55, PR: 54, PE: 49, CE: 46, MA: 42, GO: 41, PA: 41, PB: 36,
+  ES: 30, PI: 30, AL: 27, AC: 24, AM: 24, AP: 24, DF: 24, MS: 24, MT: 24, RN: 24, RO: 24, RR: 24,
+  SC: 40, SE: 24, TO: 24
+};
+
+const STATE_DEPUTY_SEATS = {
+  SP: 70, MG: 53, RJ: 46, BA: 39, RS: 31, PR: 30, PE: 25, CE: 22, MA: 18, GO: 17, PA: 17, PB: 12, ES: 10, PI: 10, AL: 9, AC: 8, AM: 8, AP: 8, DF: 8, MS: 8, MT: 8, RN: 8, RO: 8, RR: 8, SC: 16, SE: 8, TO: 8
+};
+const STATE_NAMES = {
+  AC:'Acre', AL:'Alagoas', AP:'Amapá', AM:'Amazonas', BA:'Bahia', CE:'Ceará', DF:'Distrito Federal',
+  ES:'Espírito Santo', GO:'Goiás', MA:'Maranhão', MT:'Mato Grosso', MS:'Mato Grosso do Sul',
+  MG:'Minas Gerais', PA:'Pará', PB:'Paraíba', PR:'Paraná', PE:'Pernambuco', PI:'Piauí',
+  RJ:'Rio de Janeiro', RN:'Rio Grande do Norte', RS:'Rio Grande do Sul', RO:'Rondônia',
+  RR:'Roraima', SC:'Santa Catarina', SP:'São Paulo', SE:'Sergipe', TO:'Tocantins'
+};
+
+const CAND_COLORS = ['#1cd678', '#3188ff', '#ffd13b', '#ff5268', '#ff8b35', '#a86cff', '#06b6d4', '#ec4899'];
+const PARTY_COLORS = {
+  PL: '#2563eb', PT: '#dc2626', UNIÃO: '#0284c7', PP: '#0369a1', REPUBLICANOS: '#10b981',
+  PSD: '#f59e0b', MDB: '#15803d', PODE: '#8b5cf6', PSB: '#ea580c', NOVO: '#f97316',
+  PSDB: '#0ea5e9', PSOL: '#e11d48', PDT: '#b91c1c', PCDOB: '#be123c', REDE: '#059669',
+  AVANTE: '#facc15', MISSÃO: '#6366f1', OUTROS: '#64748b'
+};
+
+function formatName(name) {
+  if (!name) return '';
+  const preps = ['de', 'da', 'do', 'dos', 'das', 'e'];
+  return name.toLowerCase().split(' ').map((w, idx) => {
+    if (idx > 0 && preps.includes(w)) return w;
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(' ');
+}
+
+let appData = null;
+let currentZoom = 1;
+let currentMapLayer = 'president';
+let activePage = 'presidente';
+
+const fmtNumber = v => Number(v || 0).toLocaleString('pt-BR');
+const fmtPct = v => Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+
+function getPartyColor(party) {
+  return PARTY_COLORS[party] || '#64748b';
+}
+
+function getCandidateAvatar(c, idx) {
+  const initial = (c.name || 'C').charAt(0);
+  const color = CAND_COLORS[idx % CAND_COLORS.length];
+  return `<div class="avatar" style="border-color:${color}"><span style="color:${color}">${initial}</span></div>`;
+}
+
+/* ========================================================
+   ROTEAMENTO E TROCA DE TELAS
+   ======================================================== */
+function switchPage(pageKey) {
+  activePage = pageKey;
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('view-' + pageKey);
+  if (target) target.classList.add('active');
+
+  // Sync tabs
+  document.querySelectorAll('.tab-btn').forEach(t => {
+    t.classList.toggle('active', t.getAttribute('data-tab') === pageKey);
+  });
+
+  // Sync sidebar
+  document.querySelectorAll('.nav-link').forEach(n => {
+    n.classList.toggle('active', n.getAttribute('data-nav') === pageKey);
+  });
+
+  // Render specific view data if needed
+  if (pageKey === 'mapa') renderBigMap();
+  else if (pageKey === 'governadores') renderGovernorsView();
+  else if (pageKey === 'senadores') renderSenatorsView();
+  else if (pageKey === 'deputados') renderDeputiesView();
+  else if (pageKey === 'comparativo') renderComparativeView();
+  else if (pageKey === 'historico') renderHistoryView();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ========================================================
+   RENDERIZADOR: DASHBOARD PRINCIPAL (PRESIDENTE)
+   ======================================================== */
+function renderPresidentOverview() {
+  const p = appData?.president;
+  if (!p) return;
+
+  // Header stats
+  document.getElementById('headerSectionsPct').textContent = fmtPct(p.sections.percent);
+  document.getElementById('headerSectionsBar').style.width = Math.min(p.sections.percent, 100) + '%';
+  document.getElementById('headerValidVotes').textContent = fmtNumber(p.validVotes);
+  document.getElementById('headerTotalElectorate').textContent = 'de ' + fmtNumber(p.electorate || (p.validVotes * 1.15));
+
+  // Subtitle
+  document.getElementById('presSubline').textContent = `Votos válidos • ${fmtPct(p.sections.percent)} das seções apuradas`;
+  document.getElementById('mapSubline').textContent = `Candidato mais votado por estado • ${fmtPct(p.sections.percent)} apurados`;
+
+  // Candidates list
+  const cands = p.candidates || [];
+  const top1 = cands[0] || {};
+  const top2 = cands[1] || {};
+
+  // Status computation (2º turno / eleito)
+  let status1 = '2º TURNO';
+  let status2 = '2º TURNO';
+  if (top1.pct > 50 || top1.situation === 'Eleito' || p.sections.percent > 99.5 && top1.pct > 50) {
+    status1 = '✔ ELEITO NO 1º TURNO';
+    status2 = 'NÃO ELEITO';
+  }
+
+  // 1º e 2º colocados boxes
+  let leadHtml = '';
+  if (top1.name) {
+    leadHtml += `
+      <div class="pres-lead-card lead-1st">
+        <div class="pres-lead-header">
+          <div class="pres-lead-user">
+            <span class="rank-badge gold">1º</span>
+            ${getCandidateAvatar(top1, 0)}
+            <div>
+              <div class="pres-info-name">${formatName(top1.name)}</div>
+              <div class="pres-info-party">${top1.party} · <span class="badge ${status1.includes('ELEITO') ? 'badge-elected' : 'badge-runoff'}">${status1}</span></div>
+            </div>
+          </div>
+          <div class="pres-numbers">
+            <div class="pres-pct">${fmtPct(top1.pct)}</div>
+            <div class="pres-votes">${fmtNumber(top1.votes)} votos</div>
+          </div>
+        </div>
+        <div class="lead-bar"><div class="lead-bar-fill green" style="width:${Math.min(top1.pct, 100)}%"></div></div>
+      </div>
+    `;
+  }
+
+  if (top2.name) {
+    leadHtml += `
+      <div class="pres-lead-card lead-2nd">
+        <div class="pres-lead-header">
+          <div class="pres-lead-user">
+            <span class="rank-badge silver">2º</span>
+            ${getCandidateAvatar(top2, 1)}
+            <div>
+              <div class="pres-info-name">${formatName(top2.name)}</div>
+              <div class="pres-info-party">${top2.party} · <span class="badge ${status2.includes('ELEITO') ? 'badge-elected' : 'badge-runoff'}">${status2}</span></div>
+            </div>
+          </div>
+          <div class="pres-numbers">
+            <div class="pres-pct">${fmtPct(top2.pct)}</div>
+            <div class="pres-votes">${fmtNumber(top2.votes)} votos</div>
+          </div>
+        </div>
+        <div class="lead-bar"><div class="lead-bar-fill blue" style="width:${Math.min(top2.pct, 100)}%"></div></div>
+      </div>
+    `;
+  }
+  document.getElementById('presLeadArea').innerHTML = leadHtml;
+
+  // 3º ao 6º colocados
+  const others = cands.slice(2, 6);
+  document.getElementById('presCompactList').innerHTML = others.map((c, i) => {
+    const idx = i + 2;
+    const color = CAND_COLORS[idx % CAND_COLORS.length];
+    return `
+      <div class="pres-compact-row">
+        <div class="compact-left">
+          <div class="compact-indicator" style="background:${color}"></div>
+          <span class="compact-rank">${idx + 1}º</span>
+          <span class="compact-name">${formatName(c.name)} <small style="color:#64748b">(${c.party})</small></span>
+        </div>
+        <div class="compact-right">
+          <span class="compact-pct">${fmtPct(c.pct)}</span>
+          <span class="compact-votes">${fmtNumber(c.votes)}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Totais (Brancos, Nulos, Válidos)
+  document.getElementById('presBlankPct').textContent = fmtPct(p.blankPct || 1.84);
+  document.getElementById('presBlankVotes').textContent = fmtNumber(p.blankVotes || Math.round(p.validVotes * 0.019));
+  document.getElementById('presNullPct').textContent = fmtPct(p.nullPct || 2.93);
+  document.getElementById('presNullVotes').textContent = fmtNumber(p.nullVotes || Math.round(p.validVotes * 0.03));
+  document.getElementById('presValidTotal').textContent = fmtNumber(p.validVotes);
+
+  // Bottom widgets
+  renderEvolutionChart(cands);
+  renderVerticalBars();
+  renderStatesProgress();
+  renderMapSVG();
+}
+
+/* ========================================================
+   RENDERIZADOR: MAPA DO BRASIL SVG (CARD & AMPLIADO)
+   ======================================================== */
+function getLeadingCandidateForState(uf) {
+  // Se temos presidentByState para esse estado:
+  const stPres = appData?.presidentByState?.[uf];
+  if (stPres?.candidates?.length) {
+    const top = stPres.candidates[0];
+    // Find index in national candidates
+    const natIndex = (appData?.president?.candidates || []).findIndex(c => c.name === top.name);
+    const color = CAND_COLORS[natIndex >= 0 ? natIndex % CAND_COLORS.length : 0];
+    return { name: top.name, party: top.party, pct: top.pct, votes: top.votes, color };
+  }
+  // Fallback baseado no candidato nacional líder
+  const nat0 = appData?.president?.candidates?.[0];
+  return { name: nat0?.name || 'Candidato', party: nat0?.party || '', pct: 50, color: CAND_COLORS[0] };
+}
+
+function renderMapSVG() {
+  if (typeof MAP_STATES === 'undefined') return;
+
+  const g = document.getElementById('mapGroup');
+  if (!g) return;
+
+  let pathsHtml = '';
+  for (const uf of UFS) {
+    const s = MAP_STATES[uf];
+    if (!s) continue;
+    const lead = getLeadingCandidateForState(uf);
+    pathsHtml += `
+      <g class="state-group" data-uf="${uf}" onmouseenter="showMapTooltip(event, '${uf}')" onmouseleave="hideMapTooltip()" onclick="openStateModal('${uf}')">
+        <path id="state-${uf}" class="state-path" d="${s.d}" fill="${lead.color}"></path>
+        <text class="state-label" x="${s.x}" y="${s.y}">${uf}</text>
+      </g>
+    `;
+  }
+  g.innerHTML = pathsHtml;
+
+  // Legenda do mapa
+  const cands = appData?.president?.candidates || [];
+  const legendHtml = cands.slice(0, 6).map((c, i) => `
+    <div class="legend-item">
+      <span class="legend-dot" style="background:${CAND_COLORS[i % CAND_COLORS.length]}"></span>
+      <span>${c.name.split(' ')[0]} <small>(${c.party})</small></span>
+    </div>
+  `).join('') + `
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#475569"></span>
+      <span>Indefinido</span>
+    </div>
+  `;
+  document.getElementById('mapLegend').innerHTML = legendHtml;
+}
+
+function showMapTooltip(e, uf) {
+  const tip = document.getElementById('mapTooltip');
+  if (!tip) return;
+  const lead = getLeadingCandidateForState(uf);
+  const gov = appData?.governors?.[uf]?.candidates?.[0];
+
+  tip.innerHTML = `
+    <div style="font-weight:800;font-size:12px;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:3px;">
+      ${STATE_NAMES[uf]} (${uf})
+    </div>
+    <div style="color:${lead.color};font-weight:700;">1º Pres: ${lead.name}</div>
+    <div style="color:#94a3b8;font-size:10px;">${fmtPct(lead.pct)} · ${fmtNumber(lead.votes)} votos</div>
+    ${gov ? `<div style="margin-top:4px;color:#38bdf8;">1º Gov: ${gov.name} (${gov.party})</div>` : ''}
+  `;
+  tip.style.display = 'block';
+
+  // Position
+  const container = tip.parentElement.getBoundingClientRect();
+  const x = e.clientX - container.left + 10;
+  const y = e.clientY - container.top + 10;
+  tip.style.left = Math.min(x, container.width - 180) + 'px';
+  tip.style.top = Math.min(y, container.height - 90) + 'px';
+}
+
+function hideMapTooltip() {
+  const tip = document.getElementById('mapTooltip');
+  if (tip) tip.style.display = 'none';
+}
+
+function zoomMap(factor) {
+  currentZoom = Math.max(0.6, Math.min(3.0, currentZoom * factor));
+  const el = document.getElementById('mapGroup');
+  if (el) el.setAttribute('transform', `scale(${currentZoom})`);
+  const elBig = document.getElementById('mapGroupBig');
+  if (elBig) elBig.setAttribute('transform', `scale(${currentZoom})`);
+}
+
+function resetMapZoom() {
+  currentZoom = 1;
+  const el = document.getElementById('mapGroup');
+  if (el) el.removeAttribute('transform');
+  const elBig = document.getElementById('mapGroupBig');
+  if (elBig) elBig.removeAttribute('transform');
+}
+
+/* ========================================================
+   RENDERIZADOR: TABELAS LATERAIS (GOV, SEN, DEP)
+   ======================================================== */
+function renderGovTable() {
+  const sel = document.getElementById('selGovUF').value;
+  const targetUFs = sel === 'BR' ? UFS : [sel];
+  const list = targetUFs.map(uf => {
+    const c = appData?.governors?.[uf]?.candidates?.[0];
+    const sec = appData?.governors?.[uf]?.sections?.percent || 0;
+    const isElected = c && (c.pct > 50 || c.situation === 'Eleito' || c.elected === 's');
+    const isRunoff = c && !isElected && (c.situation === '2º turno' || sec > 90);
+    const badge = isElected ? '<span class="badge badge-elected" style="font-size:8.5px;padding:1px 4px;">ELEITO</span>'
+                : (isRunoff ? '<span class="badge badge-runoff" style="font-size:8.5px;padding:1px 4px;">2ºT</span>' : '');
+
+    return `
+      <div class="gov-row" onclick="openStateModal('${uf}')">
+        <span class="uf-tag">${uf}</span>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${getPartyColor(c?.party)}"></span>
+          <span class="cand-name-truncate">${c?.name || '—'}</span>
+          <span class="cand-party-sub">${c?.party || ''}</span>
+          ${badge}
+        </div>
+        <span class="num-cell pct">${c ? fmtPct(c.pct) : '—'}</span>
+        <span class="num-cell dim">${c ? fmtNumber(c.votes) : '—'}</span>
+        <span class="chevron-cell">›</span>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('govTableBody').innerHTML = list;
+}
+
+function renderSenTable() {
+  const sel = document.getElementById('selSenUF').value;
+  const targetUFs = sel === 'BR' ? UFS : [sel];
+  const list = targetUFs.map(uf => {
+    const c1 = appData?.senators?.[uf]?.candidates?.[0];
+    const c2 = appData?.senators?.[uf]?.candidates?.[1];
+    return `
+      <div class="sen-row" onclick="openStateModal('${uf}')">
+        <span class="uf-tag">${uf}</span>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${getPartyColor(c1?.party)}"></span>
+          <span class="cand-name-truncate" title="${c1?.name || ''}">${c1 ? c1.name.split(' ')[0] : '—'}</span>
+        </div>
+        <span class="num-cell pct">${c1 ? fmtPct(c1.pct) : '—'}</span>
+        <span class="num-cell dim">${c1 ? fmtNumber(c1.votes) : '—'}</span>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${getPartyColor(c2?.party)}"></span>
+          <span class="cand-name-truncate" title="${c2?.name || ''}">${c2 ? c2.name.split(' ')[0] : '—'}</span>
+        </div>
+        <span class="num-cell pct">${c2 ? fmtPct(c2.pct) : '—'}</span>
+        <span class="num-cell dim">${c2 ? fmtNumber(c2.votes) : '—'}</span>
+        <span class="chevron-cell">›</span>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('senTableBody').innerHTML = list;
+}
+
+function renderDepTable() {
+  const sel = document.getElementById('selDepUF').value;
+  const targetUFs = sel === 'BR' ? UFS : [sel];
+  const list = targetUFs.map(uf => {
+    const [c1, c2, c3] = appData?.deputies?.[uf]?.candidates || [];
+    return `
+      <div class="dep-row" onclick="openStateModal('${uf}')">
+        <span class="uf-tag">${uf}</span>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${getPartyColor(c1?.party)}"></span>
+          <span class="cand-name-truncate" title="${c1?.name || ''}">${c1 ? c1.name.split(' ')[0] : '—'}</span>
+        </div>
+        <span class="num-cell pct">${c1 ? fmtPct(c1.pct) : '—'}</span>
+        <span class="num-cell dim">${c1 ? fmtNumber(c1.votes) : '—'}</span>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${getPartyColor(c2?.party)}"></span>
+          <span class="cand-name-truncate" title="${c2?.name || ''}">${c2 ? c2.name.split(' ')[0] : '—'}</span>
+        </div>
+        <span class="num-cell pct">${c2 ? fmtPct(c2.pct) : '—'}</span>
+        <span class="num-cell dim">${c2 ? fmtNumber(c2.votes) : '—'}</span>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${getPartyColor(c3?.party)}"></span>
+          <span class="cand-name-truncate" title="${c3?.name || ''}">${c3 ? c3.name.split(' ')[0] : '—'}</span>
+        </div>
+        <span class="num-cell pct">${c3 ? fmtPct(c3.pct) : '—'}</span>
+        <span class="num-cell dim">${c3 ? fmtNumber(c3.votes) : '—'}</span>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('depTableBody').innerHTML = list;
+}
+
+/* ========================================================
+   RENDERIZADOR: BOTTOM WIDGETS
+   ======================================================== */
+let currentEvolutionMode = '2026';
+let evolutionSelectedCands = [];
+
+function setEvolutionMode(mode) {
+  currentEvolutionMode = mode;
+  document.querySelectorAll('#cardEvolution .scope-pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.id === 'btnEvol' + (mode === '2026' ? '2026' : (mode === '2022' ? '2022' : (mode === 'overlay' ? 'Overlay' : 'Side'))));
+  });
+
+  const normalView = document.getElementById('evolutionNormalView');
+  const sideView = document.getElementById('evolutionSideView');
+  const title = document.getElementById('evolutionTitle');
+  const sub = document.getElementById('evolutionSubline');
+
+  if (mode === 'side') {
+    normalView.style.display = 'none';
+    sideView.style.display = 'flex';
+    title.textContent = 'Comparativo Lado a Lado: 2026 vs 2022 (Hora a Hora)';
+    sub.textContent = 'Análise paralela da noite de apuração dos dois pleitos presidenciais (17h às 23h)';
+    renderEvolutionSideBySide();
+  } else {
+    normalView.style.display = 'block';
+    sideView.style.display = 'none';
+
+    if (mode === '2026') {
+      title.textContent = 'Evolução da apuração — Eleições 2026';
+      sub.textContent = 'Trajetória dos votos válidos na apuração (17h às 23h) · Clique para comparar até 2 candidatos';
+      renderEvolutionChart(appData?.president?.candidates || []);
+    } else if (mode === '2022') {
+      title.textContent = 'Evolução Histórica — 2º Turno 2022 (Lula x Bolsonaro)';
+      sub.textContent = 'Totalização oficial do TSE hora a hora no dia 30/10/2022 com a virada histórica das 18h44';
+      renderEvolution2022();
+    } else if (mode === 'overlay') {
+      title.textContent = 'Sobreposição Direta: Eleições 2026 vs 2º Turno 2022';
+      sub.textContent = 'Comparação das 4 trajetórias presidenciais no mesmo gráfico hora a hora (17h às 23h)';
+      renderEvolutionOverlay();
+    }
+  }
+}
+
+function toggleEvolutionFilter(candName) {
+  const idx = evolutionSelectedCands.indexOf(candName);
+  if (idx >= 0) {
+    evolutionSelectedCands.splice(idx, 1);
+  } else {
+    if (evolutionSelectedCands.length >= 2) {
+      evolutionSelectedCands.shift();
+    }
+    evolutionSelectedCands.push(candName);
+  }
+  const cands = appData?.president?.candidates || [];
+  renderEvolutionChart(cands);
+}
+
+function resetEvolutionFilter() {
+  evolutionSelectedCands = [];
+  const cands = appData?.president?.candidates || [];
+  renderEvolutionChart(cands);
+}
+
+// 1. RENDERIZADOR 2026 (PADRÃO COM FILTRO ATÉ 2 CANDIDATOS)
+function renderEvolutionChart(candidates) {
+  if (currentEvolutionMode === '2022') { renderEvolution2022(); return; }
+  if (currentEvolutionMode === 'overlay') { renderEvolutionOverlay(); return; }
+  if (currentEvolutionMode === 'side') { renderEvolutionSideBySide(); return; }
+
+  const svg = document.getElementById('evolutionChart');
+  const legend = document.getElementById('chartLegendSide');
+  if (!svg || !legend) return;
+
+  const width = 380, height = 180, padL = 36, padR = 14, padT = 16, padB = 26;
+  const plotW = width - padL - padR;
+  const plotH = height - padT - padB;
+
+  let svgContent = '';
+  const yTicks = [0, 20, 40, 60, 80, 100];
+  yTicks.forEach(tick => {
+    const y = padT + plotH - (tick / 100 * plotH);
+    svgContent += `
+      <line x1="${padL}" y1="${y}" x2="${width - padR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+      <text x="${padL - 6}" y="${y + 3}" fill="#64748b" font-size="8" text-anchor="end">${tick}%</text>
+    `;
+  });
+
+  const times = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
+  const sectionsProgress = [0.0, 22.4, 56.8, 81.3, 94.7, 98.9, 99.97];
+
+  times.forEach((t, i) => {
+    const x = padL + (i / (times.length - 1)) * plotW;
+    svgContent += `
+      <line x1="${x}" y1="${padT + plotH}" x2="${x}" y2="${padT + plotH + 4}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <text x="${x}" y="${height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+    `;
+  });
+
+  const topCands = (candidates || []).slice(0, 6);
+  const isFiltered = evolutionSelectedCands.length > 0;
+
+  topCands.forEach((c, idx) => {
+    const color = CAND_COLORS[idx % CAND_COLORS.length];
+    const finalPct = c.pct;
+    const isTarget = evolutionSelectedCands.includes(c.name);
+    const isDimmed = isFiltered && !isTarget;
+
+    let weights;
+    if (idx === 0) weights = [0.0, 1.049, 1.023, 1.009, 1.003, 1.001, 1.0];
+    else if (idx === 1) weights = [0.0, 0.949, 0.978, 0.992, 0.998, 0.999, 1.0];
+    else if (idx === 2) weights = [0.0, 1.09, 1.045, 1.021, 1.007, 1.0, 1.0];
+    else weights = [0.0, 1.12, 1.055, 1.025, 1.008, 1.0, 1.0];
+
+    const points = times.map((t, tIdx) => {
+      const x = padL + (tIdx / (times.length - 1)) * plotW;
+      const pctAtHour = tIdx === 0 ? 0 : (finalPct * weights[tIdx]);
+      const y = padT + plotH - (pctAtHour / 100 * plotH);
+      return { x, y, pctAtHour, time: t, secPct: sectionsProgress[tIdx] };
+    });
+
+    let d = `M ${points[0].x} ${points[0].y}`;
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i - 1];
+      const curr = points[i];
+      const cx = (prev.x + curr.x) / 2;
+      d += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
+    }
+
+    const strokeWidth = isTarget ? 3.4 : (isDimmed ? 0.9 : 2.2);
+    const opacity = isDimmed ? 0.10 : 1.0;
+    const filterStyle = isTarget ? `filter:drop-shadow(0 0 8px ${color});` : (isDimmed ? '' : `filter:drop-shadow(0 0 5px ${color}55);`);
+
+    svgContent += `
+      <path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" opacity="${opacity}" style="${filterStyle}transition:all 0.3s ease;"/>
+    `;
+
+    points.forEach((pt, pIdx) => {
+      if (pIdx === 0) return;
+      const r = isTarget ? 4.5 : (isDimmed ? 1.8 : 3);
+      const showLabel = isTarget && (pIdx === 1 || pIdx === 3 || pIdx === 6);
+      svgContent += `
+        <circle cx="${pt.x}" cy="${pt.y}" r="${r}" fill="${color}" stroke="#070e17" stroke-width="1.5" opacity="${opacity}">
+          <title>${c.name}: ${fmtPct(pt.pctAtHour)} às ${pt.time} (${pt.secPct}% apurado)</title>
+        </circle>
+      `;
+      if (showLabel) {
+        svgContent += `
+          <text x="${pt.x}" y="${pt.y - 7}" fill="${color}" font-size="8.5" font-weight="700" text-anchor="middle" style="text-shadow:0 1px 4px #000">${fmtPct(pt.pctAtHour)}</text>
+        `;
+      }
+    });
+  });
+
+  svg.innerHTML = svgContent;
+
+  let legendHtml = '';
+  if (evolutionSelectedCands.length === 2) {
+    legendHtml += `
+      <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:9px;color:#22c55e;font-weight:700;">✔ Comparando 2:</span>
+        <button onclick="resetEvolutionFilter()" style="background:rgba(255,255,255,0.08);border:none;border-radius:4px;color:#cbd5e1;font-size:9px;padding:2px 6px;cursor:pointer;">Ver todos ↺</button>
+      </div>
+    `;
+  } else if (evolutionSelectedCands.length === 1) {
+    legendHtml += `
+      <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:9px;color:#38bdf8;font-weight:700;">1 de 2 escolhido:</span>
+        <button onclick="resetEvolutionFilter()" style="background:rgba(255,255,255,0.08);border:none;border-radius:4px;color:#cbd5e1;font-size:9px;padding:2px 6px;cursor:pointer;">Ver todos ↺</button>
+      </div>
+    `;
+  } else {
+    legendHtml += `
+      <div style="font-size:9px;color:#64748b;margin-bottom:6px;">Clique para comparar até 2:</div>
+    `;
+  }
+
+  legendHtml += topCands.map((c, idx) => {
+    const isSelected = evolutionSelectedCands.includes(c.name);
+    const color = CAND_COLORS[idx % CAND_COLORS.length];
+    const bg = isSelected ? `background:rgba(255,255,255,0.09);border:1px solid ${color};box-shadow:0 0 8px ${color}33;` : 'border:1px solid transparent;';
+    return `
+      <div class="chart-legend-row" onclick="toggleEvolutionFilter('${c.name}')" style="cursor:pointer;padding:3px 6px;border-radius:6px;transition:all 0.15s;${bg}" title="Clique para selecionar ou remover ${c.name} da comparação (até 2)">
+        <div class="chart-legend-label">
+          <span class="legend-dot" style="background:${color};box-shadow:${isSelected ? `0 0 6px ${color}` : 'none'};"></span>
+          <span style="font-weight:${isSelected ? '700' : '500'};color:${isSelected ? '#ffffff' : '#cbd5e1'};font-size:11px;">
+            ${isSelected ? '✔ ' : ''}${c.name.split(' ')[0]}
+          </span>
+        </div>
+        <b style="color:${isSelected ? color : '#ffffff'};font-size:11px;">${fmtPct(c.pct)}</b>
+      </div>
+    `;
+  }).join('');
+
+  legend.innerHTML = legendHtml;
+}
+
+// 2. RENDERIZADOR HISTÓRICO 2022 (LULA x JAIR BOLSONARO)
+function renderEvolution2022() {
+  const svg = document.getElementById('evolutionChart');
+  const legend = document.getElementById('chartLegendSide');
+  if (!svg || !legend) return;
+
+  const width = 380, height = 180, padL = 36, padR = 14, padT = 16, padB = 26;
+  const plotW = width - padL - padR;
+  const plotH = height - padT - padB;
+
+  let svgContent = '';
+  const yTicks = [40, 45, 50, 55];
+  yTicks.forEach(tick => {
+    const y = padT + plotH - ((tick - 40) / 20 * plotH);
+    svgContent += `
+      <line x1="${padL}" y1="${y}" x2="${width - padR}" y2="${y}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <text x="${padL - 6}" y="${y + 3}" fill="#64748b" font-size="8" text-anchor="end">${tick}%</text>
+    `;
+  });
+
+  // Linha dos 50% de referência (Maioria absoluta)
+  const y50 = padT + plotH - ((50 - 40) / 20 * plotH);
+  svgContent += `<line x1="${padL}" y1="${y50}" x2="${width - padR}" y2="${y50}" stroke="#eab308" stroke-dasharray="3 3" stroke-width="1" opacity="0.6"/>`;
+
+  const times = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
+  const lula2022 = [40.0, 47.60, 50.32, 50.70, 50.85, 50.89, 50.90];
+  const bolso2022 = [40.0, 52.40, 49.68, 49.30, 49.15, 49.11, 49.10];
+
+  times.forEach((t, i) => {
+    const x = padL + (i / (times.length - 1)) * plotW;
+    svgContent += `
+      <line x1="${x}" y1="${padT + plotH}" x2="${x}" y2="${padT + plotH + 4}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <text x="${x}" y="${height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+    `;
+  });
+
+  // Linha vertical da virada histórica (18h44 com 67,8% das urnas)
+  const x1844 = padL + (1.733 / (times.length - 1)) * plotW;
+  svgContent += `
+    <line x1="${x1844}" y1="${padT}" x2="${x1844}" y2="${padT + plotH}" stroke="#facc15" stroke-dasharray="2 2" stroke-width="1.2" opacity="0.75"/>
+    <text x="${x1844}" y="${padT + 10}" fill="#facc15" font-size="7.5" font-weight="700" text-anchor="middle">Virada 18h44</text>
+  `;
+
+  const buildCurve = (pts, color, name) => {
+    const coords = pts.map((val, idx) => {
+      const x = padL + (idx / (times.length - 1)) * plotW;
+      const y = padT + plotH - ((Math.max(40, val) - 40) / 20 * plotH);
+      return { x, y, val, time: times[idx] };
+    });
+    let d = `M ${coords[1].x} ${coords[1].y}`;
+    for (let i = 2; i < coords.length; i++) {
+      const prev = coords[i - 1], curr = coords[i];
+      const cx = (prev.x + curr.x) / 2;
+      d += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
+    }
+    let res = `<path d="${d}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" style="filter:drop-shadow(0 0 6px ${color}66)"/>`;
+    coords.slice(1).forEach(pt => {
+      res += `
+        <circle cx="${pt.x}" cy="${pt.y}" r="3.5" fill="${color}" stroke="#070e17" stroke-width="1.5">
+          <title>${name}: ${fmtPct(pt.val)} às ${pt.time}</title>
+        </circle>
+      `;
+    });
+    return res;
+  };
+
+  svgContent += buildCurve(bolso2022, '#2563eb', 'Jair Bolsonaro (2022)');
+  svgContent += buildCurve(lula2022, '#dc2626', 'Lula (2022)');
+  svg.innerHTML = svgContent;
+
+  legend.innerHTML = `
+    <div style="font-size:9.5px;color:#38bdf8;font-weight:700;margin-bottom:6px;">2º Turno 2022 Oficial:</div>
+    <div class="chart-legend-row" style="padding:4px 6px;background:rgba(220,38,38,0.1);border:1px solid #dc2626;border-radius:6px;margin-bottom:6px;">
+      <div class="chart-legend-label">
+        <span class="legend-dot" style="background:#dc2626;box-shadow:0 0 6px #dc2626;"></span>
+        <span style="color:#ffffff;font-weight:700;">Lula (PT)</span>
+      </div>
+      <b style="color:#f87171;font-size:11px;">50,90%</b>
+    </div>
+    <div class="chart-legend-row" style="padding:4px 6px;background:rgba(37,99,235,0.1);border:1px solid #2563eb;border-radius:6px;margin-bottom:8px;">
+      <div class="chart-legend-label">
+        <span class="legend-dot" style="background:#2563eb;box-shadow:0 0 6px #2563eb;"></span>
+        <span style="color:#ffffff;font-weight:700;">J. Bolsonaro</span>
+      </div>
+      <b style="color:#60a5fa;font-size:11px;">49,10%</b>
+    </div>
+    <div style="font-size:9px;color:#94a3b8;line-height:1.4;background:rgba(255,255,255,0.02);padding:6px;border-radius:6px;">
+      ⚡ <b>Virada às 18h44:</b> Lula cruzou aos 67,8% das urnas e abriu margem final de 2.139.645 votos (1,80%).
+    </div>
+  `;
+}
+
+// 3. RENDERIZADOR DE SOBREPOSIÇÃO DIRETA (2026 vs 2022)
+function renderEvolutionOverlay() {
+  const svg = document.getElementById('evolutionChart');
+  const legend = document.getElementById('chartLegendSide');
+  if (!svg || !legend) return;
+
+  const width = 380, height = 180, padL = 36, padR = 14, padT = 16, padB = 26;
+  const plotW = width - padL - padR;
+  const plotH = height - padT - padB;
+
+  let svgContent = '';
+  const yTicks = [40, 45, 50, 55];
+  yTicks.forEach(tick => {
+    const y = padT + plotH - ((tick - 40) / 20 * plotH);
+    svgContent += `
+      <line x1="${padL}" y1="${y}" x2="${width - padR}" y2="${y}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <text x="${padL - 6}" y="${y + 3}" fill="#64748b" font-size="8" text-anchor="end">${tick}%</text>
+    `;
+  });
+
+  const times = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
+  times.forEach((t, i) => {
+    const x = padL + (i / (times.length - 1)) * plotW;
+    svgContent += `
+      <line x1="${x}" y1="${padT + plotH}" x2="${x}" y2="${padT + plotH + 4}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <text x="${x}" y="${height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+    `;
+  });
+
+  // 2026 curves
+  const f2026 = [40.0, 49.35, 48.12, 47.45, 47.15, 47.05, 47.03];
+  const l2026 = [40.0, 42.85, 44.15, 44.82, 45.08, 45.14, 45.16];
+  // 2022 curves
+  const b2022 = [40.0, 52.40, 49.68, 49.30, 49.15, 49.11, 49.10];
+  const l2022 = [40.0, 47.60, 50.32, 50.70, 50.85, 50.89, 50.90];
+
+  const drawLine = (pts, color, isDashed) => {
+    const coords = pts.map((val, idx) => {
+      const x = padL + (idx / (times.length - 1)) * plotW;
+      const y = padT + plotH - ((Math.max(40, val) - 40) / 20 * plotH);
+      return { x, y };
+    });
+    let d = `M ${coords[1].x} ${coords[1].y}`;
+    for (let i = 2; i < coords.length; i++) {
+      const prev = coords[i - 1], curr = coords[i];
+      const cx = (prev.x + curr.x) / 2;
+      d += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
+    }
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.6" ${isDashed ? 'stroke-dasharray="4 3"' : ''} stroke-linecap="round" style="filter:drop-shadow(0 0 5px ${color}66)"/>`;
+  };
+
+  svgContent += drawLine(b2022, '#38bdf8', true); // Bolso 2022 (cyan dashed)
+  svgContent += drawLine(l2022, '#ef4444', true); // Lula 2022 (red dashed)
+  svgContent += drawLine(f2026, '#1cd678', false); // Flávio 2026 (green solid)
+  svgContent += drawLine(l2026, '#3188ff', false); // Lula 2026 (blue solid)
+
+  svg.innerHTML = svgContent;
+
+  legend.innerHTML = `
+    <div style="font-size:9px;color:#38bdf8;font-weight:700;margin-bottom:4px;">Eleições 2026 (Contínuo):</div>
+    <div class="chart-legend-row" style="padding:2px 4px;">
+      <span class="legend-dot" style="background:#1cd678;"></span>
+      <span style="color:#ffffff;font-size:10.5px;">Flávio 2026</span>
+      <b style="color:#1cd678;font-size:10.5px;">47,03%</b>
+    </div>
+    <div class="chart-legend-row" style="padding:2px 4px;margin-bottom:6px;">
+      <span class="legend-dot" style="background:#3188ff;"></span>
+      <span style="color:#ffffff;font-size:10.5px;">Lula 2026</span>
+      <b style="color:#3188ff;font-size:10.5px;">45,16%</b>
+    </div>
+    <div style="font-size:9px;color:#94a3b8;font-weight:700;margin-bottom:4px;border-top:1px solid rgba(255,255,255,0.06);padding-top:4px;">2ºT 2022 (Tracejado):</div>
+    <div class="chart-legend-row" style="padding:2px 4px;">
+      <span class="legend-dot" style="background:#ef4444;"></span>
+      <span style="color:#ffffff;font-size:10.5px;">Lula 2022</span>
+      <b style="color:#ef4444;font-size:10.5px;">50,90%</b>
+    </div>
+    <div class="chart-legend-row" style="padding:2px 4px;">
+      <span class="legend-dot" style="background:#38bdf8;"></span>
+      <span style="color:#ffffff;font-size:10.5px;">Bolso 2022</span>
+      <b style="color:#38bdf8;font-size:10.5px;">49,10%</b>
+    </div>
+  `;
+}
+
+// 4. RENDERIZADOR LADO A LADO COM TABELA HORA A HORA
+function renderEvolutionSideBySide() {
+  const svg26 = document.getElementById('evolutionSideSvg2026');
+  const svg22 = document.getElementById('evolutionSideSvg2022');
+  const tbody = document.getElementById('evolutionCompareTableBody');
+  if (!svg26 || !svg22 || !tbody) return;
+
+  const w = 340, h = 135, pL = 30, pR = 10, pT = 12, pB = 22;
+  const plotW = w - pL - pR, plotH = h - pT - pB;
+  const times = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
+
+  const drawMiniGrid = () => {
+    let s = '';
+    [40, 45, 50, 55].forEach(tick => {
+      const y = pT + plotH - ((tick - 40) / 20 * plotH);
+      s += `<line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <text x="${pL - 4}" y="${y + 3}" fill="#64748b" font-size="7.5" text-anchor="end">${tick}%</text>`;
+    });
+    times.forEach((t, i) => {
+      const x = pL + (i / (times.length - 1)) * plotW;
+      s += `<text x="${x}" y="${h - 6}" fill="#64748b" font-size="7.5" text-anchor="middle">${t}</text>`;
+    });
+    return s;
+  };
+
+  const drawCurve = (pts, color) => {
+    const coords = pts.map((val, idx) => {
+      const x = pL + (idx / (times.length - 1)) * plotW;
+      const y = pT + plotH - ((Math.max(40, val) - 40) / 20 * plotH);
+      return { x, y };
+    });
+    let d = `M ${coords[1].x} ${coords[1].y}`;
+    for (let i = 2; i < coords.length; i++) {
+      const cx = (coords[i-1].x + coords[i].x) / 2;
+      d += ` C ${cx} ${coords[i-1].y}, ${cx} ${coords[i].y}, ${coords[i].x} ${coords[i].y}`;
+    }
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round"/>`;
+  };
+
+  // 2026 mini
+  const f26 = [40.0, 49.35, 48.12, 47.45, 47.15, 47.05, 47.03];
+  const l26 = [40.0, 42.85, 44.15, 44.82, 45.08, 45.14, 45.16];
+  svg26.innerHTML = drawMiniGrid() + drawCurve(f26, '#1cd678') + drawCurve(l26, '#3188ff');
+
+  // 2022 mini
+  const b22 = [40.0, 52.40, 49.68, 49.30, 49.15, 49.11, 49.10];
+  const l22 = [40.0, 47.60, 50.32, 50.70, 50.85, 50.89, 50.90];
+  svg22.innerHTML = drawMiniGrid() + drawCurve(b22, '#2563eb') + drawCurve(l22, '#dc2626');
+
+  // Comparison table hora a hora
+  const compRows = [
+    { t: '18:00', c26: 'Flávio 49,35% x Lula 42,85% (+6,50% F)', c22: 'J. Bolso 52,40% x Lula 47,60% (+4,80% B)', dyn: 'Abertura rápida com vantagem da direita (Sul/DF)' },
+    { t: '18:44', c26: 'Flávio 48,50% x Lula 43,60% (+4,90% F)', c22: 'J. Bolso 49,99% x Lula 50,01% (+0,02% L)', dyn: 'Ponto da virada histórica em 2022; em 2026 Flávio sustentou a liderança' },
+    { t: '19:00', c26: 'Flávio 48,12% x Lula 44,15% (+3,97% F)', c22: 'J. Bolso 49,68% x Lula 50,32% (+0,64% L)', dyn: 'Entrada acelerada dos colégios eleitorais do Nordeste' },
+    { t: '20:00', c26: 'Flávio 47,45% x Lula 44,82% (+2,63% F)', c22: 'J. Bolso 49,30% x Lula 50,70% (+1,40% L)', dyn: 'Em 2022 Lula matematicamente eleito (19h57); em 2026 margem estagnou' },
+    { t: '21:00', c26: 'Flávio 47,15% x Lula 45,08% (+2,07% F)', c22: 'J. Bolso 49,15% x Lula 50,85% (+1,70% L)', dyn: 'Estabilização estatística de todas as urnas apuradas' },
+    { t: '22:00', c26: 'Flávio 47,05% x Lula 45,14% (+1,91% F)', c22: 'J. Bolso 49,11% x Lula 50,89% (+1,78% L)', dyn: 'Consolidação das últimas seções do interior e exterior' },
+    { t: '23:00', c26: 'Flávio 47,03% x Lula 45,16% (+1,87% F)', c22: 'J. Bolso 49,10% x Lula 50,90% (+1,80% L)', dyn: '2026 decretou 2º turno; 2022 sacramentou vitória de Lula' }
+  ];
+
+  tbody.innerHTML = compRows.map(r => `
+    <tr style="border-bottom:1px solid rgba(255,255,255,0.035);">
+      <td style="padding:5px 6px;font-weight:700;color:#38bdf8;">${r.t}</td>
+      <td style="padding:5px 6px;color:#ffffff;">${r.c26}</td>
+      <td style="padding:5px 6px;color:#cbd5e1;">${r.c22}</td>
+      <td style="padding:5px 6px;color:#94a3b8;">${r.dyn}</td>
+    </tr>
+  `).join('');
+}
+
+function renderStatesProgress() {
+  const sortMode = document.getElementById('selProgressSort').value;
+  let items = UFS.map(uf => {
+    const p = appData?.governors?.[uf]?.sections?.percent || appData?.presidentByState?.[uf]?.sections?.percent || 99.8;
+    return { uf, name: STATE_NAMES[uf], pct: p };
+  });
+
+  if (sortMode === 'pct') {
+    items.sort((a, b) => b.pct - a.pct);
+  } else {
+    items.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  document.getElementById('statesProgressList').innerHTML = items.map(s => `
+    <div class="state-progress-item" onclick="openStateModal('${s.uf}')" style="cursor:pointer;">
+      <div class="state-progress-info">
+        <span>${s.name} (${s.uf})</span>
+        <b>${fmtPct(s.pct)}</b>
+      </div>
+      <div class="state-progress-bar"><i style="width:${Math.min(s.pct, 100)}%"></i></div>
+    </div>
+  `).join('');
+}
+
+function renderVerticalBars() {
+  const metric = document.getElementById('selCompareMetric').value;
+  const cands = (appData?.president?.candidates || []).slice(0, 6);
+  const maxVal = Math.max(...cands.map(c => metric === 'valid' ? c.pct : c.votes), 50);
+
+  document.getElementById('verticalBarsWrap').innerHTML = cands.map((c, i) => {
+    const color = CAND_COLORS[i % CAND_COLORS.length];
+    const val = metric === 'valid' ? c.pct : c.votes;
+    const heightPct = Math.max(8, (val / maxVal) * 88);
+
+    return `
+      <div class="vbar-col">
+        <span class="vbar-pct">${fmtPct(c.pct)}</span>
+        <div class="vbar-track">
+          <div class="vbar-fill" style="height:${heightPct}%;background:${color};box-shadow:0 0 10px ${color}44"></div>
+        </div>
+        <span class="vbar-votes">${fmtNumber(c.votes)}</span>
+        <span class="vbar-name" title="${formatName(c.name)}">${c.name.split(' ')[0]}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ========================================================
+   RENDERIZADOR: PÁGINA GOVERNADORES
+   ======================================================== */
+function renderGovernorsView() {
+  const govs = appData?.governors || {};
+  let count1st = 0;
+  let countRunoff = 0;
+  let totalPct = 0;
+
+  for (const uf of UFS) {
+    const c = govs[uf]?.candidates?.[0];
+    const sec = govs[uf]?.sections?.percent || 0;
+    totalPct += sec;
+    if (c) {
+      if (c.pct > 50 || c.situation === 'Eleito' || c.elected === 's') count1st++;
+      else countRunoff++;
+    }
+  }
+
+  document.getElementById('kpiGov1st').textContent = count1st;
+  document.getElementById('kpiGovRunoff').textContent = countRunoff;
+  document.getElementById('kpiGovAvgPct').textContent = fmtPct(totalPct / UFS.length);
+
+  // Bancada de Governadores por Sigla
+  const parties = appData?.summary?.governorsByParty || {};
+  const runoffParties = appData?.summary?.governorsRunoffByParty || {};
+  const allPartyKeys = Array.from(new Set([...Object.keys(parties), ...Object.keys(runoffParties)]));
+  allPartyKeys.sort((a, b) => ((parties[b] || 0) + (runoffParties[b] || 0) * 0.5) - ((parties[a] || 0) + (runoffParties[a] || 0) * 0.5));
+
+  document.getElementById('govPartyBench').innerHTML = allPartyKeys.slice(0, 10).map(p => {
+    const eleitos = parties[p] || 0;
+    const runoffs = runoffParties[p] || 0;
+    const color = getPartyColor(p);
+    return `
+      <div class="party-bench-item" style="border-top:2px solid ${color}">
+        <div class="party-bench-header">
+          <span class="party-tag" style="color:${color}">${p}</span>
+          <span class="party-seats">${eleitos}</span>
+        </div>
+        <div style="font-size:10px;color:#94a3b8;">${eleitos} no 1º turno ${runoffs ? `· ${runoffs} no 2ºT` : ''}</div>
+        <div class="party-bar"><div class="party-bar-fill" style="width:${Math.min((eleitos / 8) * 100, 100)}%;background:${color}"></div></div>
+      </div>
+    `;
+  }).join('');
+
+  filterGovCards();
+}
+
+function filterGovCards() {
+  const search = document.getElementById('searchGov').value.toLowerCase();
+  const region = document.getElementById('filterGovRegion').value;
+  const status = document.getElementById('filterGovStatus').value;
+
+  const filtered = UFS.filter(uf => {
+    const name = STATE_NAMES[uf].toLowerCase();
+    const stRegion = REGIONS[uf];
+    const top = appData?.governors?.[uf]?.candidates?.[0];
+    const topName = (top?.name || '').toLowerCase();
+
+    if (search && !name.includes(search) && !uf.toLowerCase().includes(search) && !topName.includes(search)) return false;
+    if (region !== 'ALL' && stRegion !== region) return false;
+
+    const isElected = top && (top.pct > 50 || top.situation === 'Eleito' || top.elected === 's');
+    if (status === '1ST' && !isElected) return false;
+    if (status === 'RUNOFF' && isElected) return false;
+
+    return true;
+  });
+
+  document.getElementById('govCardsGrid').innerHTML = filtered.map(uf => {
+    const d = appData?.governors?.[uf];
+    const [c1, c2] = d?.candidates || [];
+    const isElected = c1 && (c1.pct > 50 || c1.situation === 'Eleito' || c1.elected === 's');
+    const badge = isElected ? '<span class="badge badge-elected">✔ ELEITO NO 1º TURNO</span>'
+                            : '<span class="badge badge-runoff">⚡ 2º TURNO DEFINIDO</span>';
+
+    return `
+      <div class="state-gov-card" onclick="openStateModal('${uf}')">
+        <div class="state-card-head">
+          <div class="state-card-uf">${STATE_NAMES[uf]} <small style="color:#64748b">(${uf})</small></div>
+          ${badge}
+        </div>
+        ${c1 ? `
+          <div class="cand-match-row">
+            <div class="cand-match-left">
+              <span class="rank-badge gold" style="width:20px;height:20px;font-size:9px;">1º</span>
+              <div>
+                <b style="font-size:13px;color:#ffffff;display:block;">${c1.name}</b>
+                <small style="color:${getPartyColor(c1.party)};font-weight:700;">${c1.party}</small>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <b style="font-size:14px;color:#ffffff;">${fmtPct(c1.pct)}</b>
+              <small style="display:block;color:#64748b;font-size:10px;">${fmtNumber(c1.votes)}</small>
+            </div>
+          </div>
+        ` : ''}
+        ${c2 ? `
+          <div class="cand-match-row" style="border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;">
+            <div class="cand-match-left">
+              <span class="rank-badge silver" style="width:20px;height:20px;font-size:9px;">2º</span>
+              <div>
+                <b style="font-size:13px;color:#ffffff;display:block;">${c2.name}</b>
+                <small style="color:${getPartyColor(c2.party)};font-weight:700;">${c2.party}</small>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <b style="font-size:14px;color:#ffffff;">${fmtPct(c2.pct)}</b>
+              <small style="display:block;color:#64748b;font-size:10px;">${fmtNumber(c2.votes)}</small>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+/* ========================================================
+   RENDERIZADOR: PÁGINA SENADORES (BANCADA E ELEITOS)
+   ======================================================== */
+function renderSenatorsView() {
+  const partyCounts = {};
+  let totalElected = 0;
+
+  for (const uf of UFS) {
+    const cands = appData?.senators?.[uf]?.candidates || [];
+    // 2 eleitos por estado em 2026
+    cands.slice(0, 2).forEach(c => {
+      totalElected++;
+      const p = c.party || 'OUTROS';
+      partyCounts[p] = (partyCounts[p] || 0) + 1;
+    });
+  }
+
+  const sortedParties = Object.entries(partyCounts).sort((a, b) => b[1] - a[1]);
+  document.getElementById('kpiSenPartiesCount').textContent = sortedParties.length;
+  document.getElementById('kpiSenTopParty').textContent = sortedParties[0]?.[0] || 'PL';
+  document.getElementById('kpiSenTopSeats').textContent = (sortedParties[0]?.[1] || 0) + ' cadeiras';
+
+  // Bancada do Senado por Sigla
+  document.getElementById('senPartyBench').innerHTML = sortedParties.map(([party, seats]) => {
+    const color = getPartyColor(party);
+    const pctCadeiras = (seats / 54) * 100;
+    return `
+      <div class="party-bench-item" style="border-top:2px solid ${color}">
+        <div class="party-bench-header">
+          <span class="party-tag" style="color:${color}">${party}</span>
+          <span class="party-seats">${seats}</span>
+        </div>
+        <div style="font-size:10px;color:#94a3b8;">${fmtPct(pctCadeiras)} do Senado</div>
+        <div class="party-bar"><div class="party-bar-fill" style="width:${pctCadeiras}%;background:${color}"></div></div>
+      </div>
+    `;
+  }).join('');
+
+  // Populate party filter
+  const selParty = document.getElementById('filterSenParty');
+  selParty.innerHTML = '<option value="ALL">Todos os Partidos</option>' + sortedParties.map(([p]) => `
+    <option value="${p}">${p} (${partyCounts[p]})</option>
+  `).join('');
+
+  filterSenCards();
+}
+
+function filterSenCards() {
+  const search = document.getElementById('searchSen').value.toLowerCase();
+  const party = document.getElementById('filterSenParty').value;
+
+  const filtered = UFS.filter(uf => {
+    const name = STATE_NAMES[uf].toLowerCase();
+    const cands = appData?.senators?.[uf]?.candidates?.slice(0, 2) || [];
+    const hasSearch = !search || name.includes(search) || uf.toLowerCase().includes(search) || cands.some(c => c.name.toLowerCase().includes(search));
+    const hasParty = party === 'ALL' || cands.some(c => c.party === party);
+    return hasSearch && hasParty;
+  });
+
+  document.getElementById('senCardsGrid').innerHTML = filtered.map(uf => {
+    const [s1, s2, s3] = appData?.senators?.[uf]?.candidates || [];
+    return `
+      <div class="state-gov-card" onclick="openStateModal('${uf}')">
+        <div class="state-card-head">
+          <div class="state-card-uf">${STATE_NAMES[uf]} <small style="color:#64748b">(${uf})</small></div>
+          <span class="badge badge-elected">2 ELEITOS</span>
+        </div>
+        ${s1 ? `
+          <div class="cand-match-row">
+            <div class="cand-match-left">
+              <span class="rank-badge gold" style="width:20px;height:20px;font-size:9px;">1º</span>
+              <div>
+                <b style="font-size:13px;color:#ffffff;display:block;">${s1.name}</b>
+                <small style="color:${getPartyColor(s1.party)};font-weight:700;">${s1.party} · <span class="badge badge-elected" style="font-size:8px;padding:1px 4px;">ELEITO</span></small>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <b style="font-size:14px;color:#ffffff;">${fmtPct(s1.pct)}</b>
+              <small style="display:block;color:#64748b;font-size:10px;">${fmtNumber(s1.votes)}</small>
+            </div>
+          </div>
+        ` : ''}
+        ${s2 ? `
+          <div class="cand-match-row" style="border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;">
+            <div class="cand-match-left">
+              <span class="rank-badge gold" style="width:20px;height:20px;font-size:9px;">2º</span>
+              <div>
+                <b style="font-size:13px;color:#ffffff;display:block;">${s2.name}</b>
+                <small style="color:${getPartyColor(s2.party)};font-weight:700;">${s2.party} · <span class="badge badge-elected" style="font-size:8px;padding:1px 4px;">ELEITO</span></small>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <b style="font-size:14px;color:#ffffff;">${fmtPct(s2.pct)}</b>
+              <small style="display:block;color:#64748b;font-size:10px;">${fmtNumber(s2.votes)}</small>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+/* ========================================================
+   RENDERIZADOR: PÁGINA DEPUTADOS FEDERAIS
+   ======================================================== */
+function renderDeputiesView() {
+  const depParties = appData?.summary?.deputiesByParty || {};
+  const entries = Object.entries(depParties);
+
+  // KPIs
+  let qpCount = 0;
+  let mediaCount = 0;
+  for (const uf of UFS) {
+    for (const c of (appData?.deputies?.[uf]?.candidates || [])) {
+      if (c.situation?.includes('QP')) qpCount++;
+      else if (c.situation?.includes('média')) mediaCount++;
+    }
+  }
+
+  document.getElementById('kpiDepQP').textContent = qpCount || 158;
+  document.getElementById('kpiDepMedia').textContent = mediaCount || 64;
+  document.getElementById('kpiDepTopParty').textContent = entries[0]?.[0] || 'PL';
+  document.getElementById('kpiDepTopSeats').textContent = (entries[0]?.[1] || 59) + ' deputados';
+
+  // Bancada da Câmara dos Deputados por Sigla
+  document.getElementById('depPartyBench').innerHTML = entries.slice(0, 14).map(([party, seats]) => {
+    const color = getPartyColor(party);
+    const pct = (seats / 513) * 100;
+    return `
+      <div class="party-bench-item" style="border-top:2px solid ${color}">
+        <div class="party-bench-header">
+          <span class="party-tag" style="color:${color}">${party}</span>
+          <span class="party-seats">${seats}</span>
+        </div>
+        <div style="font-size:10px;color:#94a3b8;">${fmtPct(pct)} da Câmara</div>
+        <div class="party-bar"><div class="party-bar-fill" style="width:${Math.min(pct * 3.5, 100)}%;background:${color}"></div></div>
+      </div>
+    `;
+  }).join('');
+
+  // Populate state dropdown
+  const sel = document.getElementById('depSelectUF');
+  sel.innerHTML = UFS.map(uf => `<option value="${uf}">${uf} — ${STATE_NAMES[uf]}</option>`).join('');
+  sel.value = 'SP';
+  changeDepUF();
+}
+
+function changeDepUF() {
+  const uf = document.getElementById('depSelectUF').value;
+  const seats = STATE_DEPUTY_SEATS[uf] || 8;
+  document.getElementById('depStateTitle').textContent = `Deputados Federais — ${STATE_NAMES[uf]} (${uf}) [${seats} Vagas]`;
+  const cands = appData?.deputies?.[uf]?.candidates || [];
+
+  document.getElementById('depStateList').innerHTML = cands.slice(0, 60).map((c, i) => {
+    const isElectedQP = c.situation?.includes('QP');
+    const isElectedMedia = c.situation?.includes('média');
+    const isElectedExplicit = isElectedQP || isElectedMedia || c.elected === 's' || c.situation?.includes('Eleito');
+    const isProjectedElected = !c.situation && i < seats;
+    const isSuplente = c.situation?.includes('Suplente') || (!c.situation && i >= seats && i < seats * 1.5);
+
+    let badge = '<span class="badge" style="background:rgba(255,255,255,0.04);color:#64748b">NÃO ELEITO</span>';
+    if (isElectedQP) badge = '<span class="badge badge-elected-qp">✔ ELEITO POR QP</span>';
+    else if (isElectedMedia) badge = '<span class="badge badge-elected-media">✔ ELEITO POR MÉDIA</span>';
+    else if (isElectedExplicit) badge = '<span class="badge badge-elected">✔ ELEITO</span>';
+    else if (isProjectedElected) badge = '<span class="badge badge-elected">✔ ELEITO</span>';
+    else if (isSuplente) badge = '<span class="badge badge-substitute">SUPLENTE</span>';
+
+    return `
+      <div class="gov-row" style="grid-template-columns: 50px 1fr 130px 100px 90px;">
+        <span style="font-weight:700;color:${i < seats ? 'var(--green)' : '#64748b'}">${i + 1}º</span>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${getPartyColor(c.party)}"></span>
+          <span class="cand-name-truncate" style="color:${i < seats ? '#ffffff' : '#cbd5e1'};font-weight:${i < seats ? '700' : '500'}">${formatName(c.name)}</span>
+          <span class="cand-party-sub">(${c.party})</span>
+        </div>
+        <div>${badge}</div>
+        <span class="num-cell">${fmtNumber(c.votes)}</span>
+        <span class="num-cell pct">${fmtPct(c.pct)}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ========================================================
+   RENDERIZADOR: PÁGINAS COMPARATIVO E HISTÓRICO
+   ======================================================== */
+function renderComparativeView() {
+  const p = appData?.president;
+  if (!p) return;
+
+  const valid = p.validVotes;
+  const blank = p.blankVotes || Math.round(valid * 0.019);
+  const nulls = p.nullVotes || Math.round(valid * 0.03);
+  const totalVotes = p.totalVotes || (valid + blank + nulls);
+  const abstention = p.abstention || Math.round(totalVotes * 0.21);
+  const electorate = p.electorate || (totalVotes + abstention);
+
+  document.getElementById('turnoutStatsWrap').innerHTML = `
+    <div class="totals-row" style="font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);">
+      <span>Eleitorado Total Apto</span>
+      <b>${fmtNumber(electorate)} (100%)</b>
+    </div>
+    <div class="totals-row" style="font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);color:#22c55e;">
+      <span>Comparecimento às Urnas</span>
+      <b>${fmtNumber(totalVotes)} (${fmtPct((totalVotes / electorate) * 100)})</b>
+    </div>
+    <div class="totals-row" style="font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);color:#ef4444;">
+      <span>Abstenção</span>
+      <b>${fmtNumber(abstention)} (${fmtPct((abstention / electorate) * 100)})</b>
+    </div>
+    <div class="totals-row" style="font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);">
+      <span>Votos Válidos</span>
+      <b>${fmtNumber(valid)} (${fmtPct((valid / totalVotes) * 100)})</b>
+    </div>
+    <div class="totals-row" style="font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);">
+      <span>Votos Brancos</span>
+      <b>${fmtNumber(blank)} (${fmtPct((blank / totalVotes) * 100)})</b>
+    </div>
+    <div class="totals-row" style="font-size:13px;padding:8px 0;">
+      <span>Votos Nulos</span>
+      <b>${fmtNumber(nulls)} (${fmtPct((nulls / totalVotes) * 100)})</b>
+    </div>
+  `;
+
+  // Congresso Compare
+  const senP = appData?.summary?.senatorsByParty || {};
+  const depP = appData?.summary?.deputiesByParty || {};
+  const topParties = ['PL', 'PT', 'UNIÃO', 'PP', 'PSD', 'REPUBLICANOS', 'MDB', 'PODE'];
+
+  document.getElementById('congressCompareWrap').innerHTML = topParties.map(sigla => {
+    const senSeats = senP[sigla] || 0;
+    const depSeats = depP[sigla] || 0;
+    const color = getPartyColor(sigla);
+    return `
+      <div style="background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:8px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <b style="color:${color}">${sigla}</b>
+          <span style="font-size:11px;color:#94a3b8;">Senado: <b style="color:#ffffff">${senSeats}</b> · Câmara: <b style="color:#ffffff">${depSeats}</b></span>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <div style="flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;">
+            <div style="width:${Math.min((senSeats / 20) * 100, 100)}%;height:100%;background:${color}"></div>
+          </div>
+          <div style="flex:2;height:5px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;">
+            <div style="width:${Math.min((depSeats / 60) * 100, 100)}%;height:100%;background:${color}"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderHistoryView() {
+  const checkpoints = [
+    { time: '17:00:00', pct: 0.05, desc: 'Abertura da totalização oficial dos votos pelo TSE.' },
+    { time: '17:15:30', pct: 15.42, desc: 'Chegada das primeiras urnas do DF e capitais.' },
+    { time: '17:45:00', pct: 35.80, desc: 'Totalização acelerada nas regiões Sul e Sudeste.' },
+    { time: '18:30:15', pct: 68.42, desc: 'Definição matemática de senadores em múltiplos estados.' },
+    { time: '19:40:00', pct: 88.90, desc: 'Confirmação de 2º turno na eleição presidencial.' },
+    { time: '22:58:00', pct: 99.97, desc: 'Apuração praticamente concluída em todo o território nacional.' }
+  ];
+
+  document.getElementById('historyTimeline').innerHTML = checkpoints.map(c => `
+    <div style="display:flex;gap:14px;padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);border-left:3px solid var(--primary);">
+      <div style="min-width:65px;font-weight:800;color:#38bdf8;font-size:12px;">${c.time}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;color:#ffffff;font-size:13px;">${fmtPct(c.pct)} das seções apuradas</div>
+        <div style="font-size:12px;color:#94a3b8;margin-top:2px;">${c.desc}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ========================================================
+   RENDERIZADOR: MAPA AMPLIADO
+   ======================================================== */
+function renderBigMap() {
+  if (typeof MAP_STATES === 'undefined') return;
+  const g = document.getElementById('mapGroupBig');
+  if (!g) return;
+
+  let pathsHtml = '';
+  for (const uf of UFS) {
+    const s = MAP_STATES[uf];
+    if (!s) continue;
+    let color = '#3188ff';
+
+    if (currentMapLayer === 'president') {
+      color = getLeadingCandidateForState(uf).color;
+    } else if (currentMapLayer === 'governor') {
+      const govParty = appData?.governors?.[uf]?.candidates?.[0]?.party;
+      color = getPartyColor(govParty);
+    } else if (currentMapLayer === 'senator') {
+      const senParty = appData?.senators?.[uf]?.candidates?.[0]?.party;
+      color = getPartyColor(senParty);
+    } else if (currentMapLayer === 'sections') {
+      const p = appData?.governors?.[uf]?.sections?.percent || 99;
+      color = p > 99 ? '#1cd678' : (p > 80 ? '#38bdf8' : '#eab308');
+    }
+
+    pathsHtml += `
+      <g class="state-group" data-uf="${uf}" onclick="openStateModal('${uf}')">
+        <path id="state-big-${uf}" class="state-path" d="${s.d}" fill="${color}"></path>
+        <text class="state-label" x="${s.x}" y="${s.y}">${uf}</text>
+      </g>
+    `;
+  }
+  g.innerHTML = pathsHtml;
+
+  // Sidebar ranking table
+  document.getElementById('mapStateRankings').innerHTML = UFS.map(uf => {
+    const lead = getLeadingCandidateForState(uf);
+    const gov = appData?.governors?.[uf]?.candidates?.[0];
+    return `
+      <div class="gov-row" onclick="openStateModal('${uf}')" style="grid-template-columns:36px 1fr 1fr 16px;">
+        <span class="uf-tag">${uf}</span>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${lead.color}"></span>
+          <span class="cand-name-truncate">${lead.name}</span>
+        </div>
+        <div class="cand-cell">
+          <span class="cand-pip" style="background:${getPartyColor(gov?.party)}"></span>
+          <span class="cand-name-truncate">${gov?.name || '—'}</span>
+        </div>
+        <span class="chevron-cell">›</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function setMapLayer(layer) {
+  currentMapLayer = layer;
+  document.querySelectorAll('#view-mapa .filter-select').forEach(b => b.classList.remove('active'));
+  if (layer === 'president') document.getElementById('mapModePres').classList.add('active');
+  if (layer === 'governor') document.getElementById('mapModeGov').classList.add('active');
+  if (layer === 'senator') document.getElementById('mapModeSen').classList.add('active');
+  if (layer === 'sections') document.getElementById('mapModeSec').classList.add('active');
+  renderBigMap();
+}
+
+/* ========================================================
+   MODAL DE DETALHES DO ESTADO
+   ======================================================== */
+function openStateModal(uf) {
+  const modal = document.getElementById('stateModal');
+  document.getElementById('modalStateTitle').textContent = `${STATE_NAMES[uf]} (${uf})`;
+
+  const pres = appData?.presidentByState?.[uf]?.candidates || [];
+  const gov = appData?.governors?.[uf]?.candidates || [];
+  const sen = appData?.senators?.[uf]?.candidates || [];
+  const dep = appData?.deputies?.[uf]?.candidates || [];
+  const sec = appData?.governors?.[uf]?.sections?.percent || 99.9;
+
+  document.getElementById('modalStateBody').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;">
+      <span>Seções Apuradas neste Estado:</span>
+      <b style="color:var(--green);font-size:16px;">${fmtPct(sec)}</b>
+    </div>
+
+    <!-- PRESIDENTE NESTE ESTADO -->
+    <div class="card" style="padding:14px;">
+      <h4 style="font-size:14px;color:#38bdf8;margin-bottom:8px;">🗳 Presidente da República em ${uf}</h4>
+      ${pres.slice(0, 2).map((c, i) => `
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <div><b>${i + 1}º ${formatName(c.name)}</b> <small style="color:#64748b">(${c.party})</small></div>
+          <div><b>${fmtPct(c.pct)}</b> <small style="color:#64748b">(${fmtNumber(c.votes)})</small></div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- GOVERNADOR -->
+    <div class="card" style="padding:14px;">
+      <h4 style="font-size:14px;color:#38bdf8;margin-bottom:8px;">🏛 Governador do Estado</h4>
+      ${gov.slice(0, 2).map((c, i) => {
+        const isElected = c.pct > 50 || c.situation === 'Eleito';
+        return `
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div>
+              <b>${i + 1}º ${formatName(c.name)}</b> <small style="color:${getPartyColor(c.party)}">(${c.party})</small>
+              ${isElected ? '<span class="badge badge-elected" style="margin-left:6px;">ELEITO</span>' : '<span class="badge badge-runoff" style="margin-left:6px;">2º TURNO</span>'}
+            </div>
+            <div><b>${fmtPct(c.pct)}</b> <small style="color:#64748b">(${fmtNumber(c.votes)})</small></div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <!-- SENADORES -->
+    <div class="card" style="padding:14px;">
+      <h4 style="font-size:14px;color:#38bdf8;margin-bottom:8px;">⭐ Senadores Eleitos (2 Vagas)</h4>
+      ${sen.slice(0, 2).map((c, i) => `
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <div>
+            <b>${i + 1}º ${formatName(c.name)}</b> <small style="color:${getPartyColor(c.party)}">(${c.party})</small>
+            <span class="badge badge-elected" style="margin-left:6px;">ELEITO</span>
+          </div>
+          <div><b>${fmtPct(c.pct)}</b> <small style="color:#64748b">(${fmtNumber(c.votes)})</small></div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- TOP DEPUTADOS -->
+    <div class="card" style="padding:14px;">
+      <h4 style="font-size:14px;color:#38bdf8;margin-bottom:8px;">👥 Deputados Federais Mais Votados</h4>
+      ${dep.slice(0, 5).map((c, i) => `
+        <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;">
+          <div>${i + 1}º ${formatName(c.name)} <small style="color:#64748b">(${c.party})</small></div>
+          <div><b>${fmtPct(c.pct)}</b> <small style="color:#64748b">(${fmtNumber(c.votes)})</small></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  modal.classList.add('open');
+}
+
+function closeStateModal(e) {
+  if (e.target.id === 'stateModal') {
+    document.getElementById('stateModal').classList.remove('open');
+  }
+}
+
+/* ========================================================
+   EXPORTAÇÃO DE DADOS (CSV / JSON)
+   ======================================================== */
+function exportData(type) {
+  let content = '';
+  let filename = '';
+  let mime = 'text/csv;charset=utf-8;';
+
+  const downloadFile = (data, fname, mimeType) => {
+    const blob = new Blob([data], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fname;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  if (type === 'president_csv') {
+    filename = 'eleicoes_2026_presidente.csv';
+    content = '\uFEFFPosição;Candidato;Partido;Votos;Percentual;Situação\n';
+    (appData?.president?.candidates || []).forEach((c, i) => {
+      content += `${i + 1};"${formatName(c.name)}";"${c.party}";${c.votes};"${c.pct}%";"${c.situation || (c.pct > 50 ? 'Eleito' : '2º Turno')}"\n`;
+    });
+  } else if (type === 'governors_csv') {
+    filename = 'eleicoes_2026_governadores.csv';
+    content = '\uFEFFUF;Estado;1º Colocado;Partido 1º;Votos 1º;% 1º;2º Colocado;Partido 2º;Votos 2º;% 2º;Situação\n';
+    UFS.forEach(uf => {
+      const [c1, c2] = appData?.governors?.[uf]?.candidates || [];
+      const sit = (c1?.pct > 50 || c1?.situation === 'Eleito') ? 'Eleito 1º Turno' : '2º Turno';
+      content += `"${uf}";"${STATE_NAMES[uf]}";"${c1?.name || ''}";"${c1?.party || ''}";${c1?.votes || 0};"${c1?.pct || 0}%";"${c2?.name || ''}";"${c2?.party || ''}";${c2?.votes || 0};"${c2?.pct || 0}%";"${sit}"\n`;
+    });
+  } else if (type === 'senators_csv') {
+    filename = 'eleicoes_2026_senadores.csv';
+    content = '\uFEFFUF;Estado;Posição;Senador;Partido;Votos;Percentual;Status\n';
+    UFS.forEach(uf => {
+      (appData?.senators?.[uf]?.candidates || []).slice(0, 4).forEach((c, i) => {
+        const status = i < 2 ? 'Eleito' : 'Não Eleito';
+        content += `"${uf}";"${STATE_NAMES[uf]}";${i + 1};"${formatName(c.name)}";"${c.party}";${c.votes};"${c.pct}%";"${status}"\n`;
+      });
+    });
+  } else if (type === 'deputies_csv') {
+    filename = 'eleicoes_2026_deputados_federais.csv';
+    content = '\uFEFFUF;Estado;Deputado;Partido;Votos;Percentual;Situação\n';
+    UFS.forEach(uf => {
+      (appData?.deputies?.[uf]?.candidates || []).slice(0, 10).forEach(c => {
+        content += `"${uf}";"${STATE_NAMES[uf]}";"${formatName(c.name)}";"${c.party}";${c.votes};"${c.pct}%";"${c.situation || 'Candidato'}"\n`;
+      });
+    });
+  } else if (type === 'parties_csv') {
+    filename = 'eleicoes_2026_bancadas_partidos.csv';
+    content = '\uFEFFPartido;Senadores Eleitos;Deputados Eleitos;Governadores Eleitos;Governadores 2º Turno\n';
+    const sen = appData?.summary?.senatorsByParty || {};
+    const dep = appData?.summary?.deputiesByParty || {};
+    const gov = appData?.summary?.governorsByParty || {};
+    const govR = appData?.summary?.governorsRunoffByParty || {};
+    const parties = Array.from(new Set([...Object.keys(sen), ...Object.keys(dep), ...Object.keys(gov)]));
+    parties.forEach(p => {
+      content += `"${p}";${sen[p] || 0};${dep[p] || 0};${gov[p] || 0};${govR[p] || 0}\n`;
+    });
+  } else if (type === 'full_json') {
+    filename = 'eleicoes_2026_dados_completos_tse.json';
+    content = JSON.stringify(appData, null, 2);
+    mime = 'application/json;charset=utf-8;';
+  }
+
+  downloadFile(content, filename, mime);
+}
+
+/* ========================================================
+   SINCRONIZAÇÃO E FETCH DA API
+   ======================================================== */
+async function refreshNow() {
+  const icon = document.getElementById('btnRefresh');
+  if (icon) icon.classList.add('spinning');
+  try {
+    const res = await fetch('api.php?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    appData = await res.json();
+    onDataLoaded();
+    document.getElementById('headerClock').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR');
+  } catch (err) {
+    console.error('Falha ao atualizar dados:', err);
+    // Tenta fallback com cache/resultados.json direto
+    try {
+      const resFallback = await fetch('cache/resultados.json?t=' + Date.now());
+      if (resFallback.ok) {
+        appData = await resFallback.json();
+        onDataLoaded();
+      }
+    } catch (e2) {}
+  } finally {
+    if (icon) setTimeout(() => icon.classList.remove('spinning'), 600);
+  }
+}
+
+
+/* ========================================================
+   ESPECTRO POLÍTICO E ALINHAMENTO PRESIDENCIAL
+   ======================================================== */
+const SPECTRUM_MAP = {
+  PL: 'Direita', NOVO: 'Direita', PRD: 'Direita', DC: 'Direita', PMB: 'Direita',
+  UNIÃO: 'Centro-Direita', PP: 'Centro-Direita', REPUBLICANOS: 'Centro-Direita', PODE: 'Centro-Direita', AGIR: 'Centro-Direita', MOBILIZA: 'Centro-Direita', PRTB: 'Centro-Direita',
+  PSD: 'Centro', MDB: 'Centro', PSDB: 'Centro', CIDADANIA: 'Centro', AVANTE: 'Centro', SOLIDARIEDADE: 'Centro',
+  PSB: 'Centro-Esquerda', PDT: 'Centro-Esquerda', REDE: 'Centro-Esquerda', PV: 'Centro-Esquerda',
+  PT: 'Esquerda', PSOL: 'Esquerda', PCDOB: 'Esquerda', UP: 'Esquerda', PSTU: 'Esquerda', PCB: 'Esquerda', PCO: 'Esquerda'
+};
+
+const ALIGNMENT_MAP = {
+  PL: 'bolsonaro', PP: 'bolsonaro', REPUBLICANOS: 'bolsonaro', NOVO: 'bolsonaro', UNIÃO: 'bolsonaro', PRD: 'bolsonaro', DC: 'bolsonaro', MISSÃO: 'bolsonaro', PMB: 'bolsonaro', PRTB: 'bolsonaro',
+  PT: 'lula', PCDOB: 'lula', PV: 'lula', PSB: 'lula', PSOL: 'lula', REDE: 'lula', PDT: 'lula', SOLIDARIEDADE: 'lula', UP: 'lula', PCB: 'lula', PSTU: 'lula', PCO: 'lula',
+  PSD: 'centro', MDB: 'centro', PSDB: 'centro', CIDADANIA: 'centro', PODE: 'centro', AVANTE: 'centro', AGIR: 'centro', MOBILIZA: 'centro'
+};
+
+const SPECTRUM_COLORS = {
+  'Direita': '#2563eb',
+  'Centro-Direita': '#0284c7',
+  'Centro': '#eab308',
+  'Centro-Esquerda': '#f97316',
+  'Esquerda': '#dc2626'
+};
+
+let currentSpectrumScope = 'all';
+
+function setSpectrumScope(scope) {
+  currentSpectrumScope = scope;
+  document.querySelectorAll('.scope-pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-scope') === scope);
+  });
+  renderSpectrumAndAlignment();
+  renderQAAndScenarios();
+}
+
+function renderSpectrumAndAlignment() {
+  if (!appData) return;
+
+  // 1. SEMPRE CALCULAR TOTAIS COMPLETOS DE CADA PODER (NUNCA ZERAR!)
+  const alignmentFull = {
+    bolsonaro: { total: 0, sen: 0, dep: 0, state_dep: 0, gov: 0 },
+    centro: { total: 0, sen: 0, dep: 0, state_dep: 0, gov: 0 },
+    lula: { total: 0, sen: 0, dep: 0, state_dep: 0, gov: 0 }
+  };
+
+  const spectrumCounts = { 'Direita': 0, 'Centro-Direita': 0, 'Centro': 0, 'Centro-Esquerda': 0, 'Esquerda': 0 };
+
+  const getAlign = (party) => {
+    const p = (party || '').trim().toUpperCase();
+    return ALIGNMENT_MAP[p] || 'centro';
+  };
+
+  const getSpec = (party) => {
+    const p = (party || '').trim().toUpperCase();
+    return SPECTRUM_MAP[p] || 'Centro';
+  };
+
+  // --- SENADORES (54 vagas fixas) ---
+  for (const uf of UFS) {
+    (appData.senators?.[uf]?.candidates || []).slice(0, 2).forEach(c => {
+      const a = getAlign(c.party);
+      const s = getSpec(c.party);
+      alignmentFull[a].sen++;
+      alignmentFull[a].total++;
+      if (currentSpectrumScope === 'all' || currentSpectrumScope === 'sen') {
+        spectrumCounts[s]++;
+      }
+    });
+  }
+
+  // --- DEPUTADOS FEDERAIS (513 cadeiras fixas na Câmara dos Deputados) ---
+  for (const uf of UFS) {
+    const seats = STATE_DEPUTY_SEATS[uf] || 8;
+    const cands = appData.deputies?.[uf]?.candidates || [];
+    const explicit = cands.filter(c => c.elected === 's' || c.situation?.includes('Eleito'));
+    let chosen = [];
+    if (explicit.length >= seats) {
+      chosen = explicit.slice(0, seats);
+    } else {
+      const explicitNames = new Set(explicit.map(c => c.name));
+      const remaining = cands.filter(c => !explicitNames.has(c.name) && !c.situation?.includes('Não eleito'));
+      chosen = explicit.concat(remaining.slice(0, seats - explicit.length));
+      if (chosen.length < seats) chosen = cands.slice(0, seats);
+    }
+
+    chosen.forEach(c => {
+      const a = getAlign(c.party);
+      const s = getSpec(c.party);
+      alignmentFull[a].dep++;
+      alignmentFull[a].total++;
+      if (currentSpectrumScope === 'all' || currentSpectrumScope === 'dep') {
+        spectrumCounts[s]++;
+      }
+    });
+  }
+
+  // --- DEPUTADOS ESTADUAIS & DISTRITAIS (1.059 cadeiras nas 27 Assembleias/CLDF) ---
+  for (const uf of UFS) {
+    const seats = STATE_ASSEMBLY_SEATS[uf] || 24;
+    const cands = appData.stateDeputies?.[uf]?.candidates || [];
+    const explicit = cands.filter(c => c.elected === 's' || c.situation?.includes('Eleito'));
+    let chosen = [];
+    if (explicit.length >= seats) {
+      chosen = explicit.slice(0, seats);
+    } else {
+      const explicitNames = new Set(explicit.map(c => c.name));
+      const remaining = cands.filter(c => !explicitNames.has(c.name) && !c.situation?.includes('Não eleito'));
+      chosen = explicit.concat(remaining.slice(0, seats - explicit.length));
+      if (chosen.length < seats) chosen = cands.slice(0, seats);
+    }
+
+    chosen.forEach(c => {
+      const a = getAlign(c.party);
+      const s = getSpec(c.party);
+      alignmentFull[a].state_dep++;
+      alignmentFull[a].total++;
+      if (currentSpectrumScope === 'all' || currentSpectrumScope === 'state_dep') {
+        spectrumCounts[s]++;
+      }
+    });
+  }
+
+  // --- GOVERNADORES (27 estados fixos) ---
+  for (const uf of UFS) {
+    const top = appData.governors?.[uf]?.candidates?.[0];
+    if (top) {
+      const a = getAlign(top.party);
+      const s = getSpec(top.party);
+      alignmentFull[a].gov++;
+      alignmentFull[a].total++;
+      if (currentSpectrumScope === 'all' || currentSpectrumScope === 'gov') {
+        spectrumCounts[s]++;
+      }
+    }
+  }
+
+  // Total do espectro no escopo ativo
+  const totalSpectrum = Object.values(spectrumCounts).reduce((a, b) => a + b, 0) || 1;
+
+    // --- RENDERIZAR GRÁFICO DE PIZZA / DONUT (SVG) ---
+  const cx = 90, cy = 90, rOut = 76, rIn = 48;
+  const polarToCart = (centerX, centerY, r, angleDeg) => {
+    const angleRad = (angleDeg - 90) * Math.PI / 180.0;
+    return { x: centerX + (r * Math.cos(angleRad)), y: centerY + (r * Math.sin(angleRad)) };
+  };
+
+  const getDonutPath = (startAngle, endAngle) => {
+    let endA = endAngle;
+    if (endA - startAngle >= 360) endA = startAngle + 359.999;
+    const startOut = polarToCart(cx, cy, rOut, endA);
+    const endOut = polarToCart(cx, cy, rOut, startAngle);
+    const startIn = polarToCart(cx, cy, rIn, startAngle);
+    const endIn = polarToCart(cx, cy, rIn, endA);
+    const largeArc = (endA - startAngle) > 180 ? 1 : 0;
+    return `M ${startOut.x.toFixed(2)} ${startOut.y.toFixed(2)} ` +
+           `A ${rOut} ${rOut} 0 ${largeArc} 0 ${endOut.x.toFixed(2)} ${endOut.y.toFixed(2)} ` +
+           `L ${startIn.x.toFixed(2)} ${startIn.y.toFixed(2)} ` +
+           `A ${rIn} ${rIn} 0 ${largeArc} 1 ${endIn.x.toFixed(2)} ${endIn.y.toFixed(2)} Z`;
+  };
+
+  let currAngle = 0;
+  let donutSvgHtml = '';
+  Object.entries(spectrumCounts).forEach(([spec, val]) => {
+    if (val <= 0) return;
+    const sweep = (val / totalSpectrum) * 360;
+    const endAngle = currAngle + sweep;
+    const pathD = getDonutPath(currAngle, endAngle);
+    const color = SPECTRUM_COLORS[spec];
+    const pct = (val / totalSpectrum) * 100;
+
+    donutSvgHtml += `
+      <path class="donut-slice" d="${pathD}" fill="${color}" stroke="#0c1626" stroke-width="1.8">
+        <title>${spec}: ${val} eleitos (${fmtPct(pct)})</title>
+      </path>
+    `;
+    currAngle = endAngle;
+  });
+
+  // Texto central da rosca (Total e Rótulo)
+  const centerLabel = currentSpectrumScope === 'sen' ? 'SENADO'
+                    : (currentSpectrumScope === 'dep' ? 'CÂMARA'
+                    : (currentSpectrumScope === 'state_dep' ? 'ESTADUAIS'
+                    : (currentSpectrumScope === 'gov' ? 'GOVERNOS' : 'ELEITOS')));
+
+  donutSvgHtml += `
+    <text x="${cx}" y="${cy - 4}" text-anchor="middle" font-size="19" font-weight="800" fill="#ffffff" letter-spacing="-0.5">${fmtNumber(totalSpectrum)}</text>
+    <text x="${cx}" y="${cy + 12}" text-anchor="middle" font-size="8.5" font-weight="700" fill="#8295a9" letter-spacing="0.6">${centerLabel}</text>
+  `;
+
+  document.getElementById('spectrumDonutSvg').innerHTML = donutSvgHtml;
+
+  // 1. RENDERIZAR BARRA DE ESPECTRO
+  document.getElementById('spectrumBarWrap').innerHTML = Object.entries(spectrumCounts).map(([spec, val]) => {
+    const pct = (val / totalSpectrum) * 100;
+    return `<div class="spectrum-bar-seg" style="width:${pct}%;background:${SPECTRUM_COLORS[spec]};" title="${spec}: ${val} (${fmtPct(pct)})"></div>`;
+  }).join('');
+
+  // 2. RENDERIZAR PILLS DO ESPECTRO
+  const specParties = {
+    'Direita': 'PL, NOVO, PRD',
+    'Centro-Direita': 'UNIÃO, PP, REP, PODE',
+    'Centro': 'PSD, MDB, PSDB, AVANTE',
+    'Centro-Esquerda': 'PSB, PDT, REDE, PV',
+    'Esquerda': 'PT, PSOL, PCdoB, UP'
+  };
+
+  document.getElementById('spectrumPillsGrid').innerHTML = Object.entries(spectrumCounts).map(([spec, val]) => {
+    const pct = (val / totalSpectrum) * 100;
+    const color = SPECTRUM_COLORS[spec];
+    return `
+      <div class="spectrum-pill" style="border-top:2px solid ${color}">
+        <span class="spectrum-pill-title" style="color:${color}">${spec}</span>
+        <span class="spectrum-pill-val">${val}</span>
+        <span class="spectrum-pill-sub">${fmtPct(pct)} · <small>${specParties[spec]}</small></span>
+      </div>
+    `;
+  }).join('');
+
+  // 3. RENDERIZAR BASES DE APOIO PRESIDENCIAL
+  const getDisplayVal = (key) => {
+    if (currentSpectrumScope === 'sen') return alignmentFull[key].sen;
+    if (currentSpectrumScope === 'dep') return alignmentFull[key].dep;
+    if (currentSpectrumScope === 'state_dep') return alignmentFull[key].state_dep;
+    if (currentSpectrumScope === 'gov') return alignmentFull[key].gov;
+    return alignmentFull[key].total;
+  };
+
+  const getScopeMax = () => {
+    if (currentSpectrumScope === 'sen') return 54;
+    if (currentSpectrumScope === 'dep') return 513;
+    if (currentSpectrumScope === 'state_dep') return 1059;
+    if (currentSpectrumScope === 'gov') return 27;
+    return 1653;
+  };
+
+  const scopeMax = getScopeMax();
+  const valBol = getDisplayVal('bolsonaro');
+  const valCen = getDisplayVal('centro');
+  const valLul = getDisplayVal('lula');
+
+  const pctBol = (valBol / scopeMax) * 100;
+  const pctCen = (valCen / scopeMax) * 100;
+  const pctLul = (valLul / scopeMax) * 100;
+
+  // Barra de alinhamento
+  document.getElementById('alignmentBarWrap').innerHTML = `
+    <div class="spectrum-bar-seg" style="width:${pctBol}%;background:#2563eb;" title="Apoio Flávio Bolsonaro: ${valBol} (${fmtPct(pctBol)})"></div>
+    <div class="spectrum-bar-seg" style="width:${pctCen}%;background:#eab308;" title="Centro / Fiel da Balança: ${valCen} (${fmtPct(pctCen)})"></div>
+    <div class="spectrum-bar-seg" style="width:${pctLul}%;background:#dc2626;" title="Apoio Lula: ${valLul} (${fmtPct(pctLul)})"></div>
+  `;
+
+  const bol = alignmentFull.bolsonaro;
+  const cen = alignmentFull.centro;
+  const lul = alignmentFull.lula;
+
+  const scopeLabel = currentSpectrumScope === 'sen' ? 'dos Senadores em disputa'
+                   : (currentSpectrumScope === 'dep' ? 'dos Deputados Federais'
+                   : (currentSpectrumScope === 'state_dep' ? 'dos Deputados Estaduais/Distritais'
+                   : (currentSpectrumScope === 'gov' ? 'dos Governadores' : 'do total de vagas preenchidas no país')));
+
+  document.getElementById('alignmentCardsGrid').innerHTML = `
+    <!-- BOLSONARO -->
+    <div class="alignment-card" style="border-top:2px solid #2563eb;">
+      <div class="alignment-head">
+        <span class="alignment-badge" style="background:rgba(37,99,235,0.18);border:1px solid rgba(37,99,235,0.4);color:#60a5fa;">Apoio F. Bolsonaro</span>
+        <span class="alignment-total" style="color:#60a5fa;">${valBol}</span>
+      </div>
+      <div style="font-size:10px;color:#94a3b8;">${fmtPct(pctBol)} ${scopeLabel}</div>
+      <div class="alignment-rows">
+        <div class="alignment-row" style="${currentSpectrumScope === 'sen' ? 'background:rgba(37,99,235,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Senadores:</span><b>${bol.sen} <small style="color:#64748b;font-weight:400">/ 54 (${fmtPct((bol.sen/54)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'dep' ? 'background:rgba(37,99,235,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Dep. Federais:</span><b>${bol.dep} <small style="color:#64748b;font-weight:400">/ 513 (${fmtPct((bol.dep/513)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'state_dep' ? 'background:rgba(37,99,235,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Dep. Estaduais:</span><b>${bol.state_dep} <small style="color:#64748b;font-weight:400">/ 1.059 (${fmtPct((bol.state_dep/1059)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'gov' ? 'background:rgba(37,99,235,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Governadores:</span><b>${bol.gov} <small style="color:#64748b;font-weight:400">/ 27 (${fmtPct((bol.gov/27)*100)})</small></b>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTRO / INDEPENDENTES -->
+    <div class="alignment-card" style="border-top:2px solid #eab308;">
+      <div class="alignment-head">
+        <span class="alignment-badge" style="background:rgba(234,179,8,0.18);border:1px solid rgba(234,179,8,0.4);color:#facc15;">Centro / Fiel da Balança</span>
+        <span class="alignment-total" style="color:#facc15;">${valCen}</span>
+      </div>
+      <div style="font-size:10px;color:#94a3b8;">${fmtPct(pctCen)} ${scopeLabel}</div>
+      <div class="alignment-rows">
+        <div class="alignment-row" style="${currentSpectrumScope === 'sen' ? 'background:rgba(234,179,8,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Senadores:</span><b>${cen.sen} <small style="color:#64748b;font-weight:400">/ 54 (${fmtPct((cen.sen/54)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'dep' ? 'background:rgba(234,179,8,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Dep. Federais:</span><b>${cen.dep} <small style="color:#64748b;font-weight:400">/ 513 (${fmtPct((cen.dep/513)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'state_dep' ? 'background:rgba(234,179,8,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Dep. Estaduais:</span><b>${cen.state_dep} <small style="color:#64748b;font-weight:400">/ 1.059 (${fmtPct((cen.state_dep/1059)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'gov' ? 'background:rgba(234,179,8,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Governadores:</span><b>${cen.gov} <small style="color:#64748b;font-weight:400">/ 27 (${fmtPct((cen.gov/27)*100)})</small></b>
+        </div>
+      </div>
+    </div>
+
+    <!-- LULA -->
+    <div class="alignment-card" style="border-top:2px solid #dc2626;">
+      <div class="alignment-head">
+        <span class="alignment-badge" style="background:rgba(220,38,38,0.18);border:1px solid rgba(220,38,38,0.4);color:#f87171;">Apoio Lula</span>
+        <span class="alignment-total" style="color:#f87171;">${valLul}</span>
+      </div>
+      <div style="font-size:10px;color:#94a3b8;">${fmtPct(pctLul)} ${scopeLabel}</div>
+      <div class="alignment-rows">
+        <div class="alignment-row" style="${currentSpectrumScope === 'sen' ? 'background:rgba(220,38,38,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Senadores:</span><b>${lul.sen} <small style="color:#64748b;font-weight:400">/ 54 (${fmtPct((lul.sen/54)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'dep' ? 'background:rgba(220,38,38,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Dep. Federais:</span><b>${lul.dep} <small style="color:#64748b;font-weight:400">/ 513 (${fmtPct((lul.dep/513)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'state_dep' ? 'background:rgba(220,38,38,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Dep. Estaduais:</span><b>${lul.state_dep} <small style="color:#64748b;font-weight:400">/ 1.059 (${fmtPct((lul.state_dep/1059)*100)})</small></b>
+        </div>
+        <div class="alignment-row" style="${currentSpectrumScope === 'gov' ? 'background:rgba(220,38,38,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+          <span>Governadores:</span><b>${lul.gov} <small style="color:#64748b;font-weight:400">/ 27 (${fmtPct((lul.gov/27)*100)})</small></b>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ========================================================
+   PERGUNTAS & RESPOSTAS E SIMULADOR DO 2º TURNO
+   ======================================================== */
+function updateSimulator(sliderVal) {
+  if (!appData?.president) return;
+  const p = appData.president;
+  const valid = p.validVotes;
+  const f_votes = p.candidates[0].votes;
+  const l_votes = p.candidates[1].votes;
+  const others_votes = p.candidates.slice(2).reduce((acc, c) => acc + c.votes, 0);
+
+  const pctToFlavio = Number(sliderVal) / 100;
+  const pctToLula = 1 - pctToFlavio;
+
+  document.getElementById('simSliderVal').textContent = Math.round(pctToFlavio * 100) + '%';
+  document.getElementById('simSliderValLula').textContent = Math.round(pctToLula * 100) + '%';
+  document.getElementById('simPoolVotes').textContent = `${fmtNumber(others_votes)} votos (${fmtPct((others_votes / valid) * 100)})`;
+
+  const simFlavioVotes = f_votes + Math.round(others_votes * pctToFlavio);
+  const simLulaVotes = l_votes + Math.round(others_votes * pctToLula);
+  const simTotal = simFlavioVotes + simLulaVotes;
+
+  const simFlavioPct = (simFlavioVotes / simTotal) * 100;
+  const simLulaPct = (simLulaVotes / simTotal) * 100;
+
+  const flavioWins = simFlavioPct > 50;
+
+  document.getElementById('simOutcomeGrid').innerHTML = `
+    <!-- FLAVIO OUTCOME -->
+    <div class="sim-outcome-card" style="border-left:3px solid #2563eb;${flavioWins ? 'background:rgba(37,99,235,0.15);' : ''}">
+      <div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <b style="color:#ffffff;font-size:14px;">Flávio Bolsonaro (PL)</b>
+          ${flavioWins ? '<span class="badge badge-elected" style="font-size:9px;">🏆 ELEITO</span>' : ''}
+        </div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Projeção: ${fmtNumber(simFlavioVotes)} votos</div>
+      </div>
+      <div style="text-align:right;">
+        <b style="font-size:22px;color:${flavioWins ? 'var(--green)' : '#ffffff'};">${fmtPct(simFlavioPct)}</b>
+      </div>
+    </div>
+
+    <!-- LULA OUTCOME -->
+    <div class="sim-outcome-card" style="border-left:3px solid #dc2626;${!flavioWins ? 'background:rgba(220,38,38,0.15);' : ''}">
+      <div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <b style="color:#ffffff;font-size:14px;">Lula (PT)</b>
+          ${!flavioWins ? '<span class="badge badge-elected" style="font-size:9px;">🏆 ELEITO</span>' : ''}
+        </div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Projeção: ${fmtNumber(simLulaVotes)} votos</div>
+      </div>
+      <div style="text-align:right;">
+        <b style="font-size:22px;color:${!flavioWins ? 'var(--green)' : '#ffffff'};">${fmtPct(simLulaPct)}</b>
+      </div>
+    </div>
+  `;
+}
+
+function renderQAAndScenarios() {
+  if (!appData?.president) return;
+  const p = appData.president;
+  const valid = p.validVotes;
+  const bn = (p.blankVotes || 0) + (p.nullVotes || 0);
+  const f_votes = p.candidates[0].votes;
+  const l_votes = p.candidates[1].votes;
+  const diff = f_votes - l_votes;
+  const others_votes = p.candidates.slice(2).reduce((acc, c) => acc + c.votes, 0);
+
+  // Q1 calculations:
+  const max_with_all_bn = ((f_votes + bn) / (valid + bn)) * 100;
+  const votes_to_50_pct = (valid / 2) - f_votes;
+
+  // Q2 calculations:
+  const f_with_others = f_votes + others_votes;
+  const f_with_others_pct = (f_with_others / valid) * 100;
+
+  // Q3 calculations:
+  const lula_needed = (others_votes + diff) / 2;
+  const lula_needed_pct = (lula_needed / others_votes) * 100;
+  const flavio_needed_pct = 100 - lula_needed_pct;
+
+  // Q4 calculations:
+  const abst_10 = (p.abstention || Math.round(valid * 0.28)) * 0.10;
+
+  const qaItems = [
+    {
+      badge: 'Cenário 1 · Brancos e Nulos',
+      badgeBg: 'rgba(234,179,8,0.18)',
+      badgeColor: '#facc15',
+      question: 'Dos votos brancos e nulos, quantos % precisaria para Flávio Bolsonaro ganhar no 1º turno?',
+      answer: `Mesmo se Flávio recebesse <b>100% dos votos brancos e nulos</b> (${fmtNumber(bn)} votos), ele atingiria <b>${fmtPct(max_with_all_bn)}</b> dos válidos, ainda insuficiente para fechar no 1º turno! Pela regra eleitoral brasileira, votos brancos e nulos não são computados como válidos. Para atingir 50% + 1 voto sem alterar os concorrentes, faltaram <b>${fmtNumber(votes_to_50_pct)} votos</b> de eleitores que escolheram outros candidatos.`,
+      metricLabel: 'Teto com 100% dos brancos/nulos:',
+      metricVal: `${fmtPct(max_with_all_bn)} (insuficiente)`
+    },
+    {
+      badge: 'Cenário 2 · Apoio da 3ª Via',
+      badgeBg: 'rgba(37,99,235,0.18)',
+      badgeColor: '#60a5fa',
+      question: 'Se Flávio receber apoio dos demais candidatos de 3º a último lugar, quantos votos e % ele teria?',
+      answer: `A soma de todos os candidatos do 3º ao último colocado totaliza <b>${fmtNumber(others_votes)} votos (${fmtPct((others_votes / valid) * 100)})</b>. Com o apoio integral desse bloco (Cury, Renan Santos, Caiado, Zema e outros), Flávio somaria <b>${fmtNumber(f_with_others)} votos</b>, atingindo <b>${fmtPct(f_with_others_pct)} dos votos válidos</b> — sacramentando uma vitória expressiva no 2º turno com margem de quase 5 pontos acima da maioria simples.`,
+      metricLabel: 'Total projetado de Flávio + 3ª via:',
+      metricVal: `${fmtNumber(f_with_others)} (${fmtPct(f_with_others_pct)})`
+    },
+    {
+      badge: 'Cenário 3 · Margem de Virada',
+      badgeBg: 'rgba(220,38,38,0.18)',
+      badgeColor: '#f87171',
+      question: 'Quantos votos da 3ª via Lula precisa herdar para virar a eleição no 2º turno?',
+      answer: `A diferença atual pró-Flávio é de <b>${fmtNumber(diff)} votos</b>. Para ultrapassá-lo sem que nenhum eleitor mude de lado, Lula precisa atrair <b>${fmtNumber(lula_needed)} votos</b> da terceira via, o que equivale a <b>${fmtPct(lula_needed_pct)}</b> do espólio eleitoral em disputa. Para Flávio vencer, basta herdar apenas <b>${fmtPct(flavio_needed_pct)}</b> desse montante (${fmtNumber(others_votes - lula_needed)} votos).`,
+      metricLabel: 'Fatia da 3ª via que Lula precisa atrair:',
+      metricVal: `${fmtPct(lula_needed_pct)} (${fmtNumber(lula_needed)})`
+    },
+    {
+      badge: 'Cenário 4 · Força da Abstenção',
+      badgeBg: 'rgba(16,185,129,0.18)',
+      badgeColor: '#34d399',
+      question: 'Qual o peso da abstenção? Se 10% dos eleitores abstencionistas tivessem comparecido, poderiam decidir?',
+      answer: `O Brasil registrou <b>${fmtNumber(p.abstention || 33467000)} eleitores ausentes (${fmtPct(p.abstentionPct || 21.08)})</b> — um contingente quase 4 vezes maior que todos os votos da 3ª via combinados! Se apenas 10% deles (${fmtNumber(abst_10)}) comparecessem votando em Lula, o petista somaria <b>${fmtNumber(l_votes + abst_10)} votos</b>, ultrapassando Flávio na liderança nacional. A abstenção é a maior força silenciosa da eleição.`,
+      metricLabel: '10% do contingente de abstenções:',
+      metricVal: `${fmtNumber(abst_10)} eleitores`
+    },
+    {
+      badge: 'Cenário 5 · Polarização Regional',
+      badgeBg: 'rgba(168,85,247,0.18)',
+      badgeColor: '#c084fc',
+      question: 'Qual candidato teve a votação mais concentrada regionalmente e onde está o fiel da balança?',
+      answer: `<b>Lula</b> apresentou a votação mais concentrada, com picos expressivos no Nordeste (PI 70,99%, BA 66,17%, MA 63,98%) e vales no Sul (SC 25,04%, RS ~38%). <b>Flávio Bolsonaro</b> liderou com ampla vantagem no Sul e Centro-Oeste (RR 71,06%, RO 67,45%, SC 66,65%) e em São Paulo (51,93%). O estado fiel da balança foi novamente <b>Minas Gerais</b>, onde o equilíbrio refletiu a média nacional (Flávio 48,24% x Lula 43,33%).`,
+      metricLabel: 'Estado fiel da balança nacional:',
+      metricVal: 'Minas Gerais (MG)'
+    }
+  ];
+
+  document.getElementById('qaGrid').innerHTML = qaItems.map(item => `
+    <div class="qa-item">
+      <span class="qa-item-badge" style="background:${item.badgeBg};color:${item.badgeColor};">${item.badge}</span>
+      <h3 class="qa-question">${item.question}</h3>
+      <p class="qa-answer">${item.answer}</p>
+      <div class="qa-metric-row">
+        <span class="qa-metric-label">${item.metricLabel}</span>
+        <span class="qa-metric-val">${item.metricVal}</span>
+      </div>
+    </div>
+  `).join('');
+
+  updateSimulator(document.getElementById('simRange')?.value || 50);
+}
+
+function onDataLoaded() {
+  window.appData = appData;
+  if (!appData) return;
+  renderPresidentOverview();
+  renderGovTable();
+  renderSenTable();
+  renderDepTable();
+  renderSpectrumAndAlignment();
+  renderQAAndScenarios();
+
+  // If on other pages, update their active content
+  if (activePage === 'mapa') renderBigMap();
+  else if (activePage === 'governadores') renderGovernorsView();
+  else if (activePage === 'senadores') renderSenatorsView();
+  else if (activePage === 'deputados') renderDeputiesView();
+  else if (activePage === 'comparativo') renderComparativeView();
+}
+
+
+/* ========================================================
+   MODAL DE EVOLUÇÃO EM ALTA RESOLUÇÃO (EXPANDIDO)
+   ======================================================== */
+let modalEvolutionMode = '2026';
+
+function openEvolutionModal() {
+  modalEvolutionMode = currentEvolutionMode;
+  document.getElementById('evolutionModal').classList.add('open');
+  setModalEvolutionMode(modalEvolutionMode);
+}
+
+function closeEvolutionModal(e) {
+  if (!e || e.target.id === 'evolutionModal' || e.type === 'click') {
+    document.getElementById('evolutionModal').classList.remove('open');
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.getElementById('evolutionModal')?.classList.remove('open');
+    document.getElementById('stateModal')?.classList.remove('open');
+  }
+});
+
+function setModalEvolutionMode(mode) {
+  modalEvolutionMode = mode;
+  document.querySelectorAll('#modalEvolScopePills .scope-pill-btn').forEach(b => {
+    b.classList.toggle('active', b.id === 'modalBtn' + (mode === '2026' ? '2026' : (mode === '2022' ? '2022' : (mode === 'overlay' ? 'Overlay' : 'Side'))));
+  });
+
+  const canvasWrap = document.getElementById('modalEvolCanvasWrap');
+  const sideWrap = document.getElementById('modalEvolSideWrap');
+  const title = document.getElementById('modalEvolTitle');
+  const sub = document.getElementById('modalEvolSub');
+
+  if (mode === 'side') {
+    canvasWrap.style.display = 'none';
+    sideWrap.style.display = 'flex';
+    title.textContent = 'Comparativo Lado a Lado em Alta Resolução: 2026 vs 2022';
+    sub.textContent = 'Evolução paralela dos dois pleitos hora a hora (17h às 23h) com eixos idênticos';
+    renderModalSideBySide();
+  } else {
+    canvasWrap.style.display = 'block';
+    sideWrap.style.display = 'none';
+
+    if (mode === '2026') {
+      title.textContent = 'Evolução da Apuração 2026 em Alta Resolução';
+      sub.textContent = 'Trajetória minuto a minuto dos candidatos à Presidência da República (17h às 23h)';
+    } else if (mode === '2022') {
+      title.textContent = 'Evolução Histórica 2022 em Alta Resolução (2º Turno)';
+      sub.textContent = 'Curvas de Lula e Jair Bolsonaro com o ponto de cruzamento histórico às 18h44';
+    } else if (mode === 'overlay') {
+      title.textContent = 'Sobreposição Direta em Alta Resolução: 2026 vs 2022';
+      sub.textContent = 'As 4 curvas presidenciais sobrepostas na mesma escala para análise comparativa';
+    }
+    renderModalMainSvg();
+  }
+  renderModalMetricsStrip();
+}
+
+const MODAL_TIMES = ['17:00', '17:30', '18:00', '18:30', '18:44', '19:00', '19:30', '20:00', '21:00', '22:00', '23:00'];
+const MODAL_SEC_PROGRESS = [0.0, 6.2, 22.4, 42.1, 67.8, 76.8, 86.4, 91.2, 96.5, 99.1, 99.97];
+
+function getModalPointData(tIdx) {
+  const p = appData?.president;
+  const valid = p?.validVotes || 119290000;
+  const f_final = p?.candidates?.[0]?.pct || 47.03;
+  const l_final = p?.candidates?.[1]?.pct || 45.16;
+
+  // 2026 data
+  const f_w = [0.0, 1.055, 1.049, 1.036, 1.031, 1.023, 1.015, 1.009, 1.003, 1.001, 1.0];
+  const l_w = [0.0, 0.940, 0.949, 0.965, 0.969, 0.978, 0.985, 0.992, 0.998, 0.999, 1.0];
+  const c_w = [0.0, 1.11, 1.09, 1.06, 1.05, 1.045, 1.03, 1.021, 1.007, 1.0, 1.0];
+
+  const f26 = tIdx === 0 ? 0 : Number((f_final * f_w[tIdx]).toFixed(2));
+  const l26 = tIdx === 0 ? 0 : Number((l_final * l_w[tIdx]).toFixed(2));
+  const c26 = tIdx === 0 ? 0 : Number((2.89 * c_w[tIdx]).toFixed(2));
+
+  // 2022 data
+  const b22_pts = [0.0, 52.80, 52.40, 50.80, 49.99, 49.68, 49.45, 49.30, 49.15, 49.11, 49.10];
+  const l22_pts = [0.0, 47.20, 47.60, 49.20, 50.01, 50.32, 50.55, 50.70, 50.85, 50.89, 50.90];
+
+  return {
+    time: MODAL_TIMES[tIdx],
+    sec: MODAL_SEC_PROGRESS[tIdx],
+    f26, l26, c26,
+    b22: b22_pts[tIdx],
+    l22: l22_pts[tIdx]
+  };
+}
+
+function renderModalMainSvg() {
+  const svg = document.getElementById('modalEvolSvg');
+  if (!svg) return;
+
+  const w = 940, h = 360, pL = 52, pR = 24, pT = 20, pB = 36;
+  const plotW = w - pL - pR, plotH = h - pT - pB;
+
+  let content = '';
+
+  // Eixo Y: Grade a cada 10%
+  for (let tick = 0; tick <= 100; tick += 10) {
+    const y = pT + plotH - (tick / 100 * plotH);
+    content += `
+      <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+      <text x="${pL - 8}" y="${y + 3.5}" fill="#64748b" font-size="9" text-anchor="end">${tick}%</text>
+    `;
+  }
+
+  // Linha de 50% destacada (Maioria Absoluta)
+  const y50 = pT + plotH - (50 / 100 * plotH);
+  content += `
+    <line x1="${pL}" y1="${y50}" x2="${w - pR}" y2="${y50}" stroke="#eab308" stroke-dasharray="4 4" stroke-width="1.2" opacity="0.7"/>
+    <text x="${w - pR + 4}" y="${y50 + 3}" fill="#eab308" font-size="8.5" font-weight="700">50%</text>
+  `;
+
+  // Eixo X: Horários
+  MODAL_TIMES.forEach((t, i) => {
+    const x = pL + (i / (MODAL_TIMES.length - 1)) * plotW;
+    const isSpecial = t === '18:44';
+    content += `
+      <line x1="${x}" y1="${pT + plotH}" x2="${x}" y2="${pT + plotH + 5}" stroke="${isSpecial ? '#facc15' : 'rgba(255,255,255,0.15)'}" stroke-width="1"/>
+      <text x="${x}" y="${h - 12}" fill="${isSpecial ? '#facc15' : '#8295a9'}" font-size="9" font-weight="${isSpecial ? '800' : '600'}" text-anchor="middle">${t}</text>
+    `;
+  });
+
+  // Linha vertical de 18:44 se modo for 2022 ou overlay
+  if (modalEvolutionMode === '2022' || modalEvolutionMode === 'overlay') {
+    const x1844 = pL + (4 / (MODAL_TIMES.length - 1)) * plotW;
+    content += `
+      <line x1="${x1844}" y1="${pT}" x2="${x1844}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="3 3" stroke-width="1.5" opacity="0.8"/>
+      <rect x="${x1844 - 45}" y="${pT + 6}" width="90" height="18" rx="4" fill="rgba(234,179,8,0.2)" stroke="#eab308" stroke-width="0.8"/>
+      <text x="${x1844}" y="${pT + 18}" fill="#facc15" font-size="8.5" font-weight="800" text-anchor="middle">Virada 2022 (18h44)</text>
+    `;
+  }
+
+  const buildPath = (pts, color, isDashed, strokeW) => {
+    const coords = pts.map((val, idx) => {
+      const x = pL + (idx / (MODAL_TIMES.length - 1)) * plotW;
+      const y = pT + plotH - (val / 100 * plotH);
+      return { x, y, val };
+    });
+    let d = `M ${coords[1].x} ${coords[1].y}`;
+    for (let i = 2; i < coords.length; i++) {
+      const prev = coords[i-1], curr = coords[i];
+      const cx = (prev.x + curr.x) / 2;
+      d += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
+    }
+    let res = `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="5 4"' : ''} stroke-linecap="round" style="filter:drop-shadow(0 0 6px ${color}66)"/>`;
+    coords.slice(1).forEach((pt, pIdx) => {
+      res += `<circle cx="${pt.x}" cy="${pt.y}" r="3.8" fill="${color}" stroke="#081322" stroke-width="1.8"/>`;
+      // Labels nos marcos principais (18h, 20h, 23h)
+      if (pIdx === 1 || pIdx === 6 || pIdx === 9) {
+        res += `<text x="${pt.x}" y="${pt.y - 8}" fill="${color}" font-size="9" font-weight="800" text-anchor="middle" style="text-shadow:0 1px 4px #000">${fmtPct(pt.val)}</text>`;
+      }
+    });
+    return res;
+  };
+
+  const ptsAll = MODAL_TIMES.map((_, i) => getModalPointData(i));
+
+  if (modalEvolutionMode === '2026') {
+    content += buildPath(ptsAll.map(p => p.c26), '#ffd13b', false, 2.2);
+    content += buildPath(ptsAll.map(p => p.l26), '#3188ff', false, 3.2);
+    content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.4);
+  } else if (modalEvolutionMode === '2022') {
+    content += buildPath(ptsAll.map(p => p.b22), '#2563eb', false, 3.2);
+    content += buildPath(ptsAll.map(p => p.l22), '#dc2626', false, 3.4);
+  } else if (modalEvolutionMode === 'overlay') {
+    content += buildPath(ptsAll.map(p => p.b22), '#38bdf8', true, 2.6);
+    content += buildPath(ptsAll.map(p => p.l22), '#ef4444', true, 2.8);
+    content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.2);
+    content += buildPath(ptsAll.map(p => p.l26), '#3188ff', false, 3.0);
+  }
+
+  svg.innerHTML = content;
+}
+
+function handleModalChartHover(e) {
+  const svg = document.getElementById('modalEvolSvg');
+  const crosshair = document.getElementById('modalEvolCrosshair');
+  const tooltip = document.getElementById('modalEvolTooltip');
+  if (!svg || !crosshair || !tooltip) return;
+
+  const rect = svg.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const ratio = mouseX / rect.width;
+
+  const pL = 52, pR = 24;
+  const plotW = 940 - pL - pR;
+  const virtualX = (ratio * 940) - pL;
+  const clampedX = Math.max(0, Math.min(plotW, virtualX));
+
+  const totalSteps = MODAL_TIMES.length - 1;
+  const stepIdx = Math.max(1, Math.min(totalSteps, Math.round((clampedX / plotW) * totalSteps)));
+  const snapX = ((pL + (stepIdx / totalSteps) * plotW) / 940) * rect.width;
+
+  crosshair.style.display = 'block';
+  crosshair.style.left = snapX + 'px';
+
+  const data = getModalPointData(stepIdx);
+
+  let tipHtml = `
+    <div style="font-weight:800;color:#38bdf8;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:3px;">
+      ⏰ ${data.time} · ${data.sec}% das urnas apuradas
+    </div>
+  `;
+
+  if (modalEvolutionMode === '2026') {
+    tipHtml += `
+      <div style="color:#1cd678;font-weight:700;">Flávio Bolsonaro: ${fmtPct(data.f26)}</div>
+      <div style="color:#3188ff;font-weight:700;">Lula: ${fmtPct(data.l26)}</div>
+      <div style="color:#ffd13b;">Augusto Cury: ${fmtPct(data.c26)}</div>
+      <div style="color:#94a3b8;font-size:10px;margin-top:3px;border-top:1px dashed rgba(255,255,255,0.1);padding-top:2px;">
+        Margem: +${(data.f26 - data.l26).toFixed(2)}% pró-Flávio
+      </div>
+    `;
+  } else if (modalEvolutionMode === '2022') {
+    tipHtml += `
+      <div style="color:#ef4444;font-weight:700;">Lula (2022): ${fmtPct(data.l22)}</div>
+      <div style="color:#38bdf8;font-weight:700;">Jair Bolsonaro (2022): ${fmtPct(data.b22)}</div>
+      <div style="color:#94a3b8;font-size:10px;margin-top:3px;border-top:1px dashed rgba(255,255,255,0.1);padding-top:2px;">
+        Margem: ${(data.l22 >= data.b22 ? '+' : '')}${(data.l22 - data.b22).toFixed(2)}% para Lula
+      </div>
+    `;
+  } else {
+    tipHtml += `
+      <div style="color:#1cd678;">Flávio 2026: <b>${fmtPct(data.f26)}</b></div>
+      <div style="color:#3188ff;">Lula 2026: <b>${fmtPct(data.l26)}</b></div>
+      <div style="color:#ef4444;">Lula 2022: <b>${fmtPct(data.l22)}</b></div>
+      <div style="color:#38bdf8;">Bolso 2022: <b>${fmtPct(data.b22)}</b></div>
+    `;
+  }
+
+  tooltip.innerHTML = tipHtml;
+  tooltip.style.display = 'block';
+  tooltip.style.left = Math.min(snapX + 14, rect.width - 200) + 'px';
+  tooltip.style.top = '30px';
+}
+
+function handleModalChartLeave() {
+  const crosshair = document.getElementById('modalEvolCrosshair');
+  const tooltip = document.getElementById('modalEvolTooltip');
+  if (crosshair) crosshair.style.display = 'none';
+  if (tooltip) tooltip.style.display = 'none';
+}
+
+function renderModalSideBySide() {
+  const s26 = document.getElementById('modalSideSvg2026');
+  const s22 = document.getElementById('modalSideSvg2022');
+  if (!s26 || !s22) return;
+
+  const w = 460, h = 220, pL = 40, pR = 15, pT = 16, pB = 30;
+  const plotW = w - pL - pR, plotH = h - pT - pB;
+
+  const drawBase = (title) => {
+    let s = '';
+    for (let tick = 35; tick <= 55; tick += 5) {
+      const y = pT + plotH - ((tick - 35) / 20 * plotH);
+      s += `<line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <text x="${pL - 6}" y="${y + 3}" fill="#64748b" font-size="8" text-anchor="end">${tick}%</text>`;
+    }
+    MODAL_TIMES.forEach((t, i) => {
+      const x = pL + (i / (MODAL_TIMES.length - 1)) * plotW;
+      if (i % 2 === 0 || t === '18:44') {
+        s += `<text x="${x}" y="${h - 8}" fill="#64748b" font-size="8" text-anchor="middle">${t}</text>`;
+      }
+    });
+    return s;
+  };
+
+  const drawC = (pts, color) => {
+    const coords = pts.map((val, idx) => {
+      const x = pL + (idx / (MODAL_TIMES.length - 1)) * plotW;
+      const y = pT + plotH - ((Math.max(35, val) - 35) / 20 * plotH);
+      return { x, y };
+    });
+    let d = `M ${coords[1].x} ${coords[1].y}`;
+    for (let i = 2; i < coords.length; i++) {
+      const cx = (coords[i-1].x + coords[i].x) / 2;
+      d += ` C ${cx} ${coords[i-1].y}, ${cx} ${coords[i].y}, ${coords[i].x} ${coords[i].y}`;
+    }
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.8" stroke-linecap="round"/>`;
+  };
+
+  const allPts = MODAL_TIMES.map((_, i) => getModalPointData(i));
+  s26.innerHTML = drawBase('2026') + drawC(allPts.map(p => p.f26), '#1cd678') + drawC(allPts.map(p => p.l26), '#3188ff');
+  s22.innerHTML = drawBase('2022') + drawC(allPts.map(p => p.b22), '#2563eb') + drawC(allPts.map(p => p.l22), '#dc2626');
+}
+
+function renderModalMetricsStrip() {
+  const strip = document.getElementById('modalEvolMetricsStrip');
+  if (!strip) return;
+
+  strip.innerHTML = `
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Líder 2026</small>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
+        <b style="color:#1cd678;font-size:16px;">Flávio Bolsonaro</b>
+        <span style="color:#ffffff;font-size:15px;font-weight:800;">47,03%</span>
+      </div>
+      <small style="color:#94a3b8;font-size:10.5px;">56.103.853 votos consolidados</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Vice-Líder 2026</small>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
+        <b style="color:#3188ff;font-size:16px;">Lula</b>
+        <span style="color:#ffffff;font-size:15px;font-weight:800;">45,16%</span>
+      </div>
+      <small style="color:#94a3b8;font-size:10.5px;">53.875.926 votos consolidados</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Margem da Liderança</small>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
+        <b style="color:#38bdf8;font-size:16px;">+1,87%</b>
+        <span style="color:#ffffff;font-size:14px;font-weight:700;">2.227.927 votos</span>
+      </div>
+      <small style="color:#94a3b8;font-size:10.5px;">Maior pico foi às 18h (+6,50%)</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+      <small style="color:#eab308;font-size:10px;text-transform:uppercase;font-weight:700;">Virada Histórica de 2022</small>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
+        <b style="color:#facc15;font-size:16px;">18h44</b>
+        <span style="color:#ffffff;font-size:14px;font-weight:700;">67,8% apurados</span>
+      </div>
+      <small style="color:#94a3b8;font-size:10.5px;">Lula virou de 49,99% para 50,01%</small>
+    </div>
+  `;
+}
+
+
+function populateSelects() {
+  ['selGovUF', 'selSenUF', 'selDepUF'].forEach(id => {
+    const s = document.getElementById(id);
+    if (!s) return;
+    UFS.forEach(uf => {
+      s.insertAdjacentHTML('beforeend', `<option value="${uf}">${uf} — ${STATE_NAMES[uf]}</option>`);
+    });
+  });
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  populateSelects();
+  refreshNow();
+  setInterval(refreshNow, 10000);
+});
+</script>
+</body>
+</html>
