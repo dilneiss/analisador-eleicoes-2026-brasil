@@ -478,7 +478,7 @@ button, select, input { font: inherit; }
 }
 
 .pres-lead-card.lead-2nd {
-  border-left: 3px solid var(--blue);
+  border-left: 3px solid #dc2626;
 }
 
 .pres-lead-header {
@@ -593,7 +593,8 @@ button, select, input { font: inherit; }
 }
 
 .lead-bar-fill.green { background: var(--green); box-shadow: 0 0 8px var(--green-glow); }
-.lead-bar-fill.blue { background: var(--blue); box-shadow: 0 0 8px rgba(49, 136, 255, 0.4); }
+.lead-bar-fill.red { background: #dc2626; box-shadow: 0 0 8px rgba(220, 38, 38, 0.4); }
+.lead-bar-fill.blue { background: #dc2626; box-shadow: 0 0 8px rgba(220, 38, 38, 0.4); }
 
 /* COMPACT CANDIDATE ROWS (3º AO 6º) */
 .pres-compact-list {
@@ -2290,7 +2291,7 @@ button, select, input { font: inherit; }
               <b>63.237.862 votos (52,61%)</b>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;">
-              <span style="color:#3188ff;font-weight:700;">Lula:</span>
+              <span style="color:#ef4444;font-weight:700;">Lula:</span>
               <b>56.962.421 votos (47,39%)</b>
             </div>
             <div style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:5px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;">
@@ -2313,7 +2314,7 @@ button, select, input { font: inherit; }
               <b>60.345.999 votos (50,90%)</b>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;">
-              <span style="color:#60a5fa;font-weight:700;">Flávio Bolsonaro:</span>
+              <span style="color:#1cd678;font-weight:700;">Flávio Bolsonaro:</span>
               <b>58.206.354 votos (49,10%)</b>
             </div>
             <div style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:5px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;">
@@ -2956,7 +2957,7 @@ button, select, input { font: inherit; }
               <b>63.237.862 votos (52,61%)</b>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;">
-              <span style="color:#3188ff;font-weight:700;">Lula:</span>
+              <span style="color:#ef4444;font-weight:700;">Lula:</span>
               <b>56.962.421 votos (47,39%)</b>
             </div>
             <div style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:5px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;">
@@ -2979,7 +2980,7 @@ button, select, input { font: inherit; }
               <b>60.345.999 votos (50,90%)</b>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;">
-              <span style="color:#60a5fa;font-weight:700;">Flávio Bolsonaro:</span>
+              <span style="color:#1cd678;font-weight:700;">Flávio Bolsonaro:</span>
               <b>58.206.354 votos (49,10%)</b>
             </div>
             <div style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:5px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;">
@@ -3058,9 +3059,9 @@ const STATE_NAMES = {
   RR:'Roraima', SC:'Santa Catarina', SP:'São Paulo', SE:'Sergipe', TO:'Tocantins'
 };
 
-const CAND_COLORS = ['#1cd678', '#3188ff', '#ffd13b', '#ff5268', '#ff8b35', '#a86cff', '#06b6d4', '#ec4899'];
+const CAND_COLORS = ['#1cd678', '#dc2626', '#ffd13b', '#3b82f6', '#ff8b35', '#a86cff', '#06b6d4', '#ec4899'];
 const PARTY_COLORS = {
-  PL: '#2563eb', PT: '#dc2626', UNIÃO: '#0284c7', PP: '#0369a1', REPUBLICANOS: '#10b981',
+  PL: '#16a34a', PT: '#dc2626', UNIÃO: '#0284c7', PP: '#0369a1', REPUBLICANOS: '#10b981',
   PSD: '#f59e0b', MDB: '#15803d', PODE: '#8b5cf6', PSB: '#ea580c', NOVO: '#f97316',
   PSDB: '#0ea5e9', PSOL: '#e11d48', PDT: '#b91c1c', PCDOB: '#be123c', REDE: '#059669',
   AVANTE: '#facc15', MISSÃO: '#6366f1', OUTROS: '#64748b'
@@ -3194,7 +3195,7 @@ function renderPresidentOverview() {
             <div class="pres-votes">${fmtNumber(top2.votes)} votos</div>
           </div>
         </div>
-        <div class="lead-bar"><div class="lead-bar-fill blue" style="width:${Math.min(top2.pct, 100)}%"></div></div>
+        <div class="lead-bar"><div class="lead-bar-fill red" style="width:${Math.min(top2.pct, 100)}%"></div></div>
       </div>
     `;
   }
@@ -3716,7 +3717,7 @@ function renderEvolution2022() {
     return res;
   };
 
-  svgContent += buildCurve(bolso2022, '#2563eb', 'Jair Bolsonaro (2022)');
+  svgContent += buildCurve(bolso2022, '#22c55e', 'Jair Bolsonaro (2022)');
   svgContent += buildCurve(lula2022, '#dc2626', 'Lula (2022)');
   svg.innerHTML = svgContent;
 
@@ -3729,12 +3730,12 @@ function renderEvolution2022() {
       </div>
       <b style="color:#f87171;font-size:11px;">50,90%</b>
     </div>
-    <div class="chart-legend-row" style="padding:4px 6px;background:rgba(37,99,235,0.1);border:1px solid #2563eb;border-radius:6px;margin-bottom:8px;">
+    <div class="chart-legend-row" style="padding:4px 6px;background:rgba(34,197,94,0.1);border:1px solid #22c55e;border-radius:6px;margin-bottom:8px;">
       <div class="chart-legend-label">
-        <span class="legend-dot" style="background:#2563eb;box-shadow:0 0 6px #2563eb;"></span>
+        <span class="legend-dot" style="background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
         <span style="color:#ffffff;font-weight:700;">J. Bolsonaro</span>
       </div>
-      <b style="color:#60a5fa;font-size:11px;">49,10%</b>
+      <b style="color:#4ade80;font-size:11px;">49,10%</b>
     </div>
     <div style="font-size:9px;color:#94a3b8;line-height:1.4;background:rgba(255,255,255,0.02);padding:6px;border-radius:6px;">
       ⚡ <b>Virada às 18h44:</b> Lula cruzou aos 67,8% das urnas e abriu margem final de 2.139.645 votos (1,80%).
@@ -3795,10 +3796,10 @@ function renderEvolutionOverlay() {
     return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.6" ${isDashed ? 'stroke-dasharray="4 3"' : ''} stroke-linecap="round" style="filter:drop-shadow(0 0 5px ${color}66)"/>`;
   };
 
-  svgContent += drawLine(b2022, '#38bdf8', true); // Bolso 2022 (cyan dashed)
-  svgContent += drawLine(l2022, '#ef4444', true); // Lula 2022 (red dashed)
+  svgContent += drawLine(b2022, '#4ade80', true); // Bolso 2022 (green dashed)
+  svgContent += drawLine(l2022, '#f87171', true); // Lula 2022 (red dashed)
   svgContent += drawLine(f2026, '#1cd678', false); // Flávio 2026 (green solid)
-  svgContent += drawLine(l2026, '#3188ff', false); // Lula 2026 (blue solid)
+  svgContent += drawLine(l2026, '#dc2626', false); // Lula 2026 (red solid)
 
   svg.innerHTML = svgContent;
 
@@ -3810,9 +3811,9 @@ function renderEvolutionOverlay() {
       <b style="color:#1cd678;font-size:10.5px;">47,03%</b>
     </div>
     <div class="chart-legend-row" style="padding:2px 4px;margin-bottom:6px;">
-      <span class="legend-dot" style="background:#3188ff;"></span>
+      <span class="legend-dot" style="background:#dc2626;"></span>
       <span style="color:#ffffff;font-size:10.5px;">Lula 2026</span>
-      <b style="color:#3188ff;font-size:10.5px;">45,16%</b>
+      <b style="color:#f87171;font-size:10.5px;">45,16%</b>
     </div>
     <div style="font-size:9px;color:#94a3b8;font-weight:700;margin-bottom:4px;border-top:1px solid rgba(255,255,255,0.06);padding-top:4px;">2ºT 2022 (Tracejado):</div>
     <div class="chart-legend-row" style="padding:2px 4px;">
@@ -3821,9 +3822,9 @@ function renderEvolutionOverlay() {
       <b style="color:#ef4444;font-size:10.5px;">50,90%</b>
     </div>
     <div class="chart-legend-row" style="padding:2px 4px;">
-      <span class="legend-dot" style="background:#38bdf8;"></span>
+      <span class="legend-dot" style="background:#4ade80;"></span>
       <span style="color:#ffffff;font-size:10.5px;">Bolso 2022</span>
-      <b style="color:#38bdf8;font-size:10.5px;">49,10%</b>
+      <b style="color:#4ade80;font-size:10.5px;">49,10%</b>
     </div>
   `;
 }
@@ -3879,7 +3880,7 @@ function renderEvolutionSideBySide() {
   const ne26_7 = [0.0, 12.8, 71.4, 91.8, 97.5, 99.4, 100.0];
   svg26.innerHTML = drawMiniGrid(0, 100, 25) +
     drawCurve(ne26_7, '#facc15', 0, 100, 1.8, true) +
-    drawCurve(l26, '#3188ff', 0, 100, 2.4, false) +
+    drawCurve(l26, '#dc2626', 0, 100, 2.4, false) +
     drawCurve(f26, '#1cd678', 0, 100, 2.6, false);
 
   // 2. 2022 mini (Bolsonaro x Lula + Curva NE 2022)
@@ -3888,7 +3889,7 @@ function renderEvolutionSideBySide() {
   const ne22_7 = [0.0, 10.4, 74.5, 93.4, 98.2, 99.7, 100.0];
   svg22.innerHTML = drawMiniGrid(0, 100, 25) +
     drawCurve(ne22_7, '#facc15', 0, 100, 1.8, true) +
-    drawCurve(b22, '#2563eb', 0, 100, 2.4, false) +
+    drawCurve(b22, '#22c55e', 0, 100, 2.4, false) +
     drawCurve(l22, '#dc2626', 0, 100, 2.6, false);
 
   // 3. NOVO: 3º GRÁFICO (RITMO DE APURAÇÃO DO NORDESTE: 2026 x 2022 SOBREPOSTOS)
@@ -4863,7 +4864,7 @@ function renderSpectrumAndAlignment() {
 
   // Barra de alinhamento
   document.getElementById('alignmentBarWrap').innerHTML = `
-    <div class="spectrum-bar-seg" style="width:${pctBol}%;background:#2563eb;" title="Apoio Flávio Bolsonaro: ${valBol} (${fmtPct(pctBol)})"></div>
+    <div class="spectrum-bar-seg" style="width:${pctBol}%;background:#16a34a;" title="Apoio Flávio Bolsonaro: ${valBol} (${fmtPct(pctBol)})"></div>
     <div class="spectrum-bar-seg" style="width:${pctCen}%;background:#eab308;" title="Centro / Fiel da Balança: ${valCen} (${fmtPct(pctCen)})"></div>
     <div class="spectrum-bar-seg" style="width:${pctLul}%;background:#dc2626;" title="Apoio Lula: ${valLul} (${fmtPct(pctLul)})"></div>
   `;
@@ -4879,23 +4880,23 @@ function renderSpectrumAndAlignment() {
 
   document.getElementById('alignmentCardsGrid').innerHTML = `
     <!-- BOLSONARO -->
-    <div class="alignment-card" style="border-top:2px solid #2563eb;">
+    <div class="alignment-card" style="border-top:2px solid #16a34a;">
       <div class="alignment-head">
-        <span class="alignment-badge" style="background:rgba(37,99,235,0.18);border:1px solid rgba(37,99,235,0.4);color:#60a5fa;">Apoio F. Bolsonaro</span>
-        <span class="alignment-total" style="color:#60a5fa;">${valBol}</span>
+        <span class="alignment-badge" style="background:rgba(22,163,74,0.18);border:1px solid rgba(22,163,74,0.4);color:#4ade80;">Apoio F. Bolsonaro</span>
+        <span class="alignment-total" style="color:#4ade80;">${valBol}</span>
       </div>
       <div style="font-size:10px;color:#94a3b8;">${fmtPct(pctBol)} ${scopeLabel}</div>
       <div class="alignment-rows">
-        <div class="alignment-row" style="${currentSpectrumScope === 'sen' ? 'background:rgba(37,99,235,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+        <div class="alignment-row" style="${currentSpectrumScope === 'sen' ? 'background:rgba(22,163,74,0.18);padding:2px 4px;border-radius:4px;' : ''}">
           <span>Senadores:</span><b>${bol.sen} <small style="color:#64748b;font-weight:400">/ 54 (${fmtPct((bol.sen/54)*100)})</small></b>
         </div>
-        <div class="alignment-row" style="${currentSpectrumScope === 'dep' ? 'background:rgba(37,99,235,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+        <div class="alignment-row" style="${currentSpectrumScope === 'dep' ? 'background:rgba(22,163,74,0.18);padding:2px 4px;border-radius:4px;' : ''}">
           <span>Dep. Federais:</span><b>${bol.dep} <small style="color:#64748b;font-weight:400">/ 513 (${fmtPct((bol.dep/513)*100)})</small></b>
         </div>
-        <div class="alignment-row" style="${currentSpectrumScope === 'state_dep' ? 'background:rgba(37,99,235,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+        <div class="alignment-row" style="${currentSpectrumScope === 'state_dep' ? 'background:rgba(22,163,74,0.18);padding:2px 4px;border-radius:4px;' : ''}">
           <span>Dep. Estaduais:</span><b>${bol.state_dep} <small style="color:#64748b;font-weight:400">/ 1.059 (${fmtPct((bol.state_dep/1059)*100)})</small></b>
         </div>
-        <div class="alignment-row" style="${currentSpectrumScope === 'gov' ? 'background:rgba(37,99,235,0.18);padding:2px 4px;border-radius:4px;' : ''}">
+        <div class="alignment-row" style="${currentSpectrumScope === 'gov' ? 'background:rgba(22,163,74,0.18);padding:2px 4px;border-radius:4px;' : ''}">
           <span>Governadores:</span><b>${bol.gov} <small style="color:#64748b;font-weight:400">/ 27 (${fmtPct((bol.gov/27)*100)})</small></b>
         </div>
       </div>
@@ -4978,7 +4979,7 @@ function updateSimulator(sliderVal) {
 
   document.getElementById('simOutcomeGrid').innerHTML = `
     <!-- FLAVIO OUTCOME -->
-    <div class="sim-outcome-card" style="border-left:3px solid #2563eb;${flavioWins ? 'background:rgba(37,99,235,0.15);' : ''}">
+    <div class="sim-outcome-card" style="border-left:3px solid #1cd678;${flavioWins ? 'background:rgba(28,214,120,0.15);' : ''}">
       <div>
         <div style="display:flex;align-items:center;gap:6px;">
           <b style="color:#ffffff;font-size:14px;">Flávio Bolsonaro (PL)</b>
@@ -5372,18 +5373,18 @@ function renderModalMainSvg() {
   // EXIBIR APENAS OS DOIS PRIMEIROS CANDIDATOS!
   if (modalEvolutionMode === '2026') {
     // APENAS Flávio e Lula (sem o 3º colocado)
-    content += buildPath(ptsAll.map(p => p.l26), '#3188ff', false, 3.4);
+    content += buildPath(ptsAll.map(p => p.l26), '#dc2626', false, 3.4);
     content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.6);
   } else if (modalEvolutionMode === '2022') {
     // APENAS Jair Bolsonaro e Lula
-    content += buildPath(ptsAll.map(p => p.b22), '#2563eb', false, 3.4);
+    content += buildPath(ptsAll.map(p => p.b22), '#22c55e', false, 3.4);
     content += buildPath(ptsAll.map(p => p.l22), '#dc2626', false, 3.6);
   } else if (modalEvolutionMode === 'overlay') {
     // 2026 x 2022 sobrepostos
-    content += buildPath(ptsAll.map(p => p.b22), '#38bdf8', true, 2.6);
+    content += buildPath(ptsAll.map(p => p.b22), '#4ade80', true, 2.6);
     content += buildPath(ptsAll.map(p => p.l22), '#ef4444', true, 2.8);
     content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.2);
-    content += buildPath(ptsAll.map(p => p.l26), '#3188ff', false, 3.0);
+    content += buildPath(ptsAll.map(p => p.l26), '#dc2626', false, 3.0);
   }
 
   svg.innerHTML = content;
@@ -5423,7 +5424,7 @@ function handleModalChartHover(e) {
   if (modalEvolutionMode === '2026') {
     tipHtml += `
       <div style="color:#1cd678;font-weight:700;">1º Flávio Bolsonaro: ${fmtPct(data.f26)}</div>
-      <div style="color:#3188ff;font-weight:700;">2º Lula: ${fmtPct(data.l26)}</div>
+      <div style="color:#ef4444;font-weight:700;">2º Lula: ${fmtPct(data.l26)}</div>
       <div style="color:#94a3b8;font-size:10px;margin-top:3px;border-top:1px dashed rgba(255,255,255,0.1);padding-top:2px;">
         Margem: +${(data.f26 - data.l26).toFixed(2)}% pró-Flávio
       </div>
@@ -5431,7 +5432,7 @@ function handleModalChartHover(e) {
   } else if (modalEvolutionMode === '2022') {
     tipHtml += `
       <div style="color:#ef4444;font-weight:700;">Lula (2022): ${fmtPct(data.l22)}</div>
-      <div style="color:#38bdf8;font-weight:700;">Jair Bolsonaro (2022): ${fmtPct(data.b22)}</div>
+      <div style="color:#4ade80;font-weight:700;">Jair Bolsonaro (2022): ${fmtPct(data.b22)}</div>
       <div style="color:#94a3b8;font-size:10px;margin-top:3px;border-top:1px dashed rgba(255,255,255,0.1);padding-top:2px;">
         Margem: ${(data.l22 >= data.b22 ? '+' : '')}${(data.l22 - data.b22).toFixed(2)}% para Lula
       </div>
@@ -5439,9 +5440,9 @@ function handleModalChartHover(e) {
   } else {
     tipHtml += `
       <div style="color:#1cd678;">Flávio 2026: <b>${fmtPct(data.f26)}</b></div>
-      <div style="color:#3188ff;">Lula 2026: <b>${fmtPct(data.l26)}</b></div>
+      <div style="color:#ef4444;">Lula 2026: <b>${fmtPct(data.l26)}</b></div>
       <div style="color:#ef4444;">Lula 2022: <b>${fmtPct(data.l22)}</b></div>
-      <div style="color:#38bdf8;">Bolso 2022: <b>${fmtPct(data.b22)}</b></div>
+      <div style="color:#4ade80;">Bolso 2022: <b>${fmtPct(data.b22)}</b></div>
       <div style="color:#facc15;font-size:9.5px;margin-top:2px;">NE 26: ${data.neSec26}% · NE 22: ${data.neSec22}%</div>
     `;
   }
@@ -5536,13 +5537,13 @@ function renderModalSideBySide() {
   // 1. 2026 mini
   s26.innerHTML = drawBase('2026', '2026') +
     drawC(allPts.map(p => p.neSec26), '#facc15', 2.0, true) +
-    drawC(allPts.map(p => p.l26), '#3188ff', 2.6, false) +
+    drawC(allPts.map(p => p.l26), '#dc2626', 2.6, false) +
     drawC(allPts.map(p => p.f26), '#1cd678', 2.8, false);
 
   // 2. 2022 mini
   s22.innerHTML = drawBase('2022', '2022') +
     drawC(allPts.map(p => p.neSec22), '#facc15', 2.0, true) +
-    drawC(allPts.map(p => p.b22), '#2563eb', 2.6, false) +
+    drawC(allPts.map(p => p.b22), '#22c55e', 2.6, false) +
     drawC(allPts.map(p => p.l22), '#dc2626', 2.8, false);
 
   // 3. NOVO: 3º GRÁFICO NO MODAL (SOBREPOSIÇÃO DO RITMO DAS URNAS DO NORDESTE)
@@ -5575,7 +5576,7 @@ function renderModalMetricsStrip() {
       <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Placar e Margem do Momento (2026)</small>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
         <div>
-          <b style="color:#1cd678;font-size:14px;">Flávio 47,03%</b> <small style="color:#94a3b8;">x</small> <b style="color:#3188ff;font-size:14px;">Lula 45,16%</b>
+          <b style="color:#1cd678;font-size:14px;">Flávio 47,03%</b> <small style="color:#94a3b8;">x</small> <b style="color:#ef4444;font-size:14px;">Lula 45,16%</b>
         </div>
         <span style="color:#38bdf8;font-size:14px;font-weight:800;">+1,87% (+${fmtNumber(diff_26)})</span>
       </div>
