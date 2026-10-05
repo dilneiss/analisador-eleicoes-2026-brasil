@@ -1721,16 +1721,44 @@ button, select, input { font: inherit; }
   max-width: 98vw !important;
   height: 96vh !important;
   max-height: 96vh !important;
-  padding: 16px 24px !important;
+  padding: 14px 22px !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 10px !important;
+  gap: 8px !important;
   border-radius: 14px !important;
 }
 
 .modal-window-fullscreen .modal-head {
-  padding-bottom: 8px !important;
+  padding-bottom: 6px !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  flex-shrink: 0 !important;
+}
+
+#modalEvolCanvasWrap {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: stretch !important;
+  padding: 10px 14px 6px !important;
+  background: radial-gradient(circle at 50% 50%, #0d1e34 0%, #081322 80%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  position: relative !important;
+}
+
+#modalEvolSvg {
+  width: 100% !important;
+  height: 100% !important;
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  display: block !important;
+}
+
+#modalEvolMetricsStrip {
+  flex-shrink: 0 !important;
 }
 
 .modal-window {
@@ -2783,6 +2811,7 @@ button, select, input { font: inherit; }
           <button class="scope-pill-btn" id="modalBtnOverlay" onclick="setModalEvolutionMode('overlay')">Sobrepor</button>
           <button class="scope-pill-btn" id="modalBtnSide" onclick="setModalEvolutionMode('side')">Lado a Lado</button>
           <button class="scope-pill-btn" id="modalBtnToggleNE" onclick="toggleModalNortheastUrns()" style="border-color:#f59e0b;color:#facc15;font-weight:700;" title="Exibir percentual de urnas apuradas no Nordeste">⚡ % Urnas NE</button>
+          <button class="scope-pill-btn active" id="modalBtnZoomY" onclick="toggleModalYScale()" style="border-color:#10b981;color:#34d399;font-weight:700;" title="Alternar entre Zoom na Disputa (35%-60%) e Escala Total (0-100%)">🔍 Zoom na Disputa (35%-60%)</button>
           <button class="scope-pill-btn" id="modalBtnTriCompare" onclick="setModalEvolutionMode('tri_compare')" style="border-color:#a855f7;color:#c084fc;font-weight:700;">📊 Comparativo 1ºT x 2ºT</button>
         </div>
         <button class="modal-close-btn" onclick="closeEvolutionModal()">✕</button>
@@ -2791,7 +2820,7 @@ button, select, input { font: inherit; }
 
     <!-- MAIN LARGE SVG CANVAS (FULLSCREEN HIGH-RES) -->
     <div id="modalEvolCanvasWrap" style="background:radial-gradient(circle at 50% 50%, #0d1e34 0%, #081322 80%);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px 10px;position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:380px;">
-      <svg id="modalEvolSvg" viewBox="0 0 1180 400" style="width:100%;height:100%;min-height:380px;max-height:480px;display:block;" onmousemove="handleModalChartHover(event)" onmouseleave="handleModalChartLeave()"></svg>
+      <svg id="modalEvolSvg" viewBox="0 0 1260 500" preserveAspectRatio="none" onmousemove="handleModalChartHover(event)" onmouseleave="handleModalChartLeave()"></svg>
       <div id="modalEvolCrosshair" style="display:none;position:absolute;top:16px;bottom:36px;width:1px;background:#38bdf8;pointer-events:none;border-right:1px dashed #38bdf8;"></div>
       <div id="modalEvolTooltip" style="display:none;position:absolute;background:rgba(12,24,40,0.96);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 12px;color:#fff;font-size:11px;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,0.7);z-index:30;min-width:210px;"></div>
     </div>
@@ -5132,8 +5161,11 @@ function onDataLoaded() {
    ======================================================== */
 let modalEvolutionMode = '2026';
 let modalShowNortheastUrns = false;
+let modalYScaleFocus = true; // Por padrão, foca na faixa da disputa (35% a 60%) para máxima amplitude visual!
 
 const NORTHEAST_PROGRESS_11 = [0.0, 2.5, 12.8, 38.5, 54.2, 71.4, 83.6, 91.8, 97.5, 99.4, 100.0];
+const NE_PROGRESS_2026_11 = [0.0, 2.5, 12.8, 38.5, 54.2, 71.4, 83.6, 91.8, 97.5, 99.4, 100.0];
+const NE_PROGRESS_2022_11 = [0.0, 1.8, 10.4, 34.2, 54.2, 74.5, 86.1, 93.4, 98.2, 99.7, 100.0];
 
 function openEvolutionModal() {
   modalEvolutionMode = currentEvolutionMode;
@@ -5163,10 +5195,24 @@ function toggleModalNortheastUrns() {
   }
 }
 
+function toggleModalYScale() {
+  modalYScaleFocus = (modalYScaleFocus ? false : true);
+  const btn = document.getElementById('modalBtnZoomY');
+  if (btn) {
+    btn.textContent = modalYScaleFocus ? '🔍 Zoom na Disputa (35%-60%)' : '📐 Escala Total (0-100%)';
+    btn.classList.toggle('active', modalYScaleFocus);
+  }
+  if (modalEvolutionMode !== 'tri_compare' && modalEvolutionMode !== 'side') {
+    renderModalMainSvg();
+  }
+}
+
 function setModalEvolutionMode(mode) {
   modalEvolutionMode = mode;
   document.querySelectorAll('#modalEvolScopePills .scope-pill-btn').forEach(b => {
-    b.classList.toggle('active', b.id === 'modalBtn' + (mode === '2026' ? '2026' : (mode === '2022' ? '2022' : (mode === 'overlay' ? 'Overlay' : (mode === 'side' ? 'Side' : 'TriCompare')))));
+    if (b.id !== 'modalBtnToggleNE' && b.id !== 'modalBtnZoomY') {
+      b.classList.toggle('active', b.id === 'modalBtn' + (mode === '2026' ? '2026' : (mode === '2022' ? '2022' : (mode === 'overlay' ? 'Overlay' : (mode === 'side' ? 'Side' : 'TriCompare')))));
+    }
   });
 
   const canvasWrap = document.getElementById('modalEvolCanvasWrap');
@@ -5174,34 +5220,38 @@ function setModalEvolutionMode(mode) {
   const triWrap = document.getElementById('modalEvolTriCompareWrap');
   const title = document.getElementById('modalEvolTitle');
   const sub = document.getElementById('modalEvolSub');
+  const btnZoom = document.getElementById('modalBtnZoomY');
 
   if (mode === 'tri_compare') {
     canvasWrap.style.display = 'none';
     sideWrap.style.display = 'none';
     if (triWrap) triWrap.style.display = 'flex';
+    if (btnZoom) btnZoom.style.display = 'none';
     title.textContent = 'Comparativo Histórico Presidencial: 2026 vs 2022 (1ºT e 2ºT)';
     sub.textContent = 'Votação lado a lado de Flávio, Lula e Bolsonaro, com percentuais, virada histórica e dinâmica da 3ª via';
   } else if (mode === 'side') {
     canvasWrap.style.display = 'none';
     if (triWrap) triWrap.style.display = 'none';
     sideWrap.style.display = 'flex';
+    if (btnZoom) btnZoom.style.display = 'none';
     title.textContent = 'Comparativo Lado a Lado em Alta Resolução: 2026 vs 2022';
-    sub.textContent = 'Evolução paralela dos dois pleitos hora a hora (17h às 23h) com eixos idênticos';
+    sub.textContent = 'Evolução paralela dos dois pleitos hora a hora (17h às 23h) com eixos sincronizados';
     renderModalSideBySide();
   } else {
     canvasWrap.style.display = 'block';
     sideWrap.style.display = 'none';
     if (triWrap) triWrap.style.display = 'none';
+    if (btnZoom) btnZoom.style.display = 'inline-block';
 
     if (mode === '2026') {
-      title.textContent = 'Evolução da Apuração 2026 em Alta Resolução';
-      sub.textContent = 'Trajetória minuto a minuto dos candidatos à Presidência da República (17h às 23h)';
+      title.textContent = 'Evolução da Apuração 2026 em Alta Resolução (Tela Cheia)';
+      sub.textContent = 'Trajetória dos dois líderes (Flávio Bolsonaro x Lula) com amplitude vertical maximizada (17h às 23h)';
     } else if (mode === '2022') {
       title.textContent = 'Evolução Histórica 2022 em Alta Resolução (2º Turno)';
-      sub.textContent = 'Curvas de Lula e Jair Bolsonaro com o ponto de cruzamento histórico às 18h44';
+      sub.textContent = 'Duelo oficial entre Lula e Jair Bolsonaro com o ponto da virada às 18h44 em destaque';
     } else if (mode === 'overlay') {
       title.textContent = 'Sobreposição Direta em Alta Resolução: 2026 vs 2022';
-      sub.textContent = 'As 4 curvas presidenciais sobrepostas na mesma escala para análise comparativa';
+      sub.textContent = 'As 4 trajetórias presidenciais sobrepostas na mesma escala para análise comparativa';
     }
     renderModalMainSvg();
   }
@@ -5210,10 +5260,6 @@ function setModalEvolutionMode(mode) {
 
 const MODAL_TIMES = ['17:00', '17:30', '18:00', '18:30', '18:44', '19:00', '19:30', '20:00', '21:00', '22:00', '23:00'];
 const MODAL_SEC_PROGRESS = [0.0, 6.2, 22.4, 42.1, 67.8, 76.8, 86.4, 91.2, 96.5, 99.1, 99.97];
-
-// Apuração oficial hora a hora do Nordeste por eleição
-const NE_PROGRESS_2026_11 = [0.0, 2.5, 12.8, 38.5, 54.2, 71.4, 83.6, 91.8, 97.5, 99.4, 100.0];
-const NE_PROGRESS_2022_11 = [0.0, 1.8, 10.4, 34.2, 54.2, 74.5, 86.1, 93.4, 98.2, 99.7, 100.0];
 
 function getModalPointData(tIdx) {
   const p = appData?.president;
@@ -5246,26 +5292,34 @@ function renderModalMainSvg() {
   const svg = document.getElementById('modalEvolSvg');
   if (!svg) return;
 
-  const w = 1180, h = 400, pL = 58, pR = 28, pT = 24, pB = 42;
+  // DIMENSÕES EXPANDIDAS DE ALTA DEFINIÇÃO: 1260 x 500!
+  const w = 1260, h = 500, pL = 58, pR = 32, pT = 24, pB = 44;
   const plotW = w - pL - pR, plotH = h - pT - pB;
+
+  // Escala dinâmica: Focada (35% a 60%) ou Total (0% a 100%)
+  const yMin = modalYScaleFocus ? 35.0 : 0.0;
+  const yMax = modalYScaleFocus ? 60.0 : 100.0;
+  const yStep = modalYScaleFocus ? 5 : 10;
+
+  const valToY = (val) => {
+    const clamped = Math.max(yMin, Math.min(yMax, val));
+    return pT + plotH - ((clamped - yMin) / (yMax - yMin) * plotH);
+  };
 
   let content = '';
 
-  // Eixo Y: Grade a cada 10%
-  for (let tick = 0; tick <= 100; tick += 10) {
-    const y = pT + plotH - (tick / 100 * plotH);
+  // Eixo Y: Grade horizontal
+  for (let tick = yMin; tick <= yMax; tick += yStep) {
+    const y = valToY(tick);
+    const isSpecial50 = tick === 50;
     content += `
-      <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-      <text x="${pL - 8}" y="${y + 3.5}" fill="#64748b" font-size="9" text-anchor="end">${tick}%</text>
+      <line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="${isSpecial50 ? 'rgba(234,179,8,0.35)' : 'rgba(255,255,255,0.06)'}" stroke-width="${isSpecial50 ? '1.5' : '1'}" stroke-dasharray="${isSpecial50 ? '4 4' : 'none'}"/>
+      <text x="${pL - 8}" y="${y + 3.5}" fill="${isSpecial50 ? '#facc15' : '#64748b'}" font-size="${isSpecial50 ? '10' : '9'}" font-weight="${isSpecial50 ? '800' : '500'}" text-anchor="end">${tick}%</text>
     `;
+    if (isSpecial50) {
+      content += `<text x="${w - pR + 4}" y="${y + 3.5}" fill="#facc15" font-size="9" font-weight="800">50%</text>`;
+    }
   }
-
-  // Linha de 50% destacada (Maioria Absoluta)
-  const y50 = pT + plotH - (50 / 100 * plotH);
-  content += `
-    <line x1="${pL}" y1="${y50}" x2="${w - pR}" y2="${y50}" stroke="#eab308" stroke-dasharray="4 4" stroke-width="1.2" opacity="0.7"/>
-    <text x="${w - pR + 4}" y="${y50 + 3}" fill="#eab308" font-size="8.5" font-weight="700">50%</text>
-  `;
 
   // Converter hora para X
   const timeToX = (hour, min) => {
@@ -5278,9 +5332,9 @@ function renderModalMainSvg() {
   if (modalEvolutionMode === '2022' || modalEvolutionMode === 'overlay') {
     const x1_22 = timeToX(18, 18), x2_22 = timeToX(18, 32);
     content += `
-      <rect x="${x1_22}" y="${pT}" width="${x2_22 - x1_22}" height="${plotH}" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2 2" rx="3"/>
-      <text x="${(x1_22 + x2_22) / 2}" y="${pT + 12}" fill="#facc15" font-size="7.5" font-weight="800" text-anchor="middle">⏸ Pausa 2022 (14m)</text>
-      <text x="${(x1_22 + x2_22) / 2}" y="${pT + 21}" fill="#facc15" font-size="6.5" text-anchor="middle">18h18 - 18h32</text>
+      <rect x="${x1_22}" y="${pT}" width="${x2_22 - x1_22}" height="${plotH}" fill="rgba(245,158,11,0.13)" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="3 3" rx="4"/>
+      <text x="${(x1_22 + x2_22) / 2}" y="${pT + 14}" fill="#facc15" font-size="8" font-weight="800" text-anchor="middle">⏸ Pausa 2022 (14m)</text>
+      <text x="${(x1_22 + x2_22) / 2}" y="${pT + 25}" fill="#facc15" font-size="7" font-weight="600" text-anchor="middle">18h18 - 18h32</text>
     `;
   }
 
@@ -5288,13 +5342,13 @@ function renderModalMainSvg() {
   if (modalEvolutionMode === '2026' || modalEvolutionMode === 'overlay') {
     const x1_26 = timeToX(19, 15), x2_26 = timeToX(19, 38);
     content += `
-      <rect x="${x1_26}" y="${pT}" width="${x2_26 - x1_26}" height="${plotH}" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1" stroke-dasharray="2 2" rx="3"/>
-      <text x="${(x1_26 + x2_26) / 2}" y="${pT + 12}" fill="#38bdf8" font-size="7.5" font-weight="800" text-anchor="middle">⏸ Pausa 2026 (23m)</text>
-      <text x="${(x1_26 + x2_26) / 2}" y="${pT + 21}" fill="#38bdf8" font-size="6.5" text-anchor="middle">19h15 - 19h38</text>
+      <rect x="${x1_26}" y="${pT}" width="${x2_26 - x1_26}" height="${plotH}" fill="rgba(56,189,248,0.13)" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="3 3" rx="4"/>
+      <text x="${(x1_26 + x2_26) / 2}" y="${pT + 14}" fill="#38bdf8" font-size="8" font-weight="800" text-anchor="middle">⏸ Pausa 2026 (23m)</text>
+      <text x="${(x1_26 + x2_26) / 2}" y="${pT + 25}" fill="#38bdf8" font-size="7" font-weight="600" text-anchor="middle">19h15 - 19h38</text>
     `;
   }
 
-  // Eixo X: Horários com suporte a exibir % de Urnas do Nordeste (2026 ou 2022)
+  // Eixo X: Horários com suporte a exibir % de Urnas do Nordeste
   MODAL_TIMES.forEach((t, i) => {
     const x = pL + (i / (MODAL_TIMES.length - 1)) * plotW;
     const isSpecial = t === '18:44';
@@ -5302,12 +5356,11 @@ function renderModalMainSvg() {
     if (modalShowNortheastUrns) {
       const neVal = modalEvolutionMode === '2022' ? NE_PROGRESS_2022_11[i] : NE_PROGRESS_2026_11[i];
       const neLabel = modalEvolutionMode === '2022' ? 'NE 22' : 'NE 26';
-      neInfo = `<text x="${x}" y="${h - 2}" fill="#facc15" font-size="7" font-weight="700" text-anchor="middle">${neLabel}:${fmtPct(neVal)}</text>`;
+      neInfo = `<text x="${x}" y="${h - 4}" fill="#facc15" font-size="7.5" font-weight="700" text-anchor="middle">${neLabel}:${fmtPct(neVal)}</text>`;
     }
     content += `
-      <line x1="${x}" y1="${pT + plotH}" x2="${x}" y2="${pT + plotH + 5}" stroke="${isSpecial ? '#facc15' : 'rgba(255,255,255,0.15)'}" stroke-width="1"/>
-      <text x="${x}" y="${modalShowNortheastUrns ? h - 14 : h - 12}" fill="${isSpecial ? '#facc15' : '#8295a9'}" font-size="9" font-weight="${isSpecial ? '800' : '600'}" text-anchor="middle">${t}</text>
-      ${neInfo}
+      <line x1="${x}" y1="${pT + plotH}" x2="${x}" y2="${pT + plotH + 6}" stroke="${isSpecial ? '#facc15' : 'rgba(255,255,255,0.15)'}" stroke-width="1"/>
+      <text x="${x}" y="${modalShowNortheastUrns ? h - 16 : h - 12}" fill="${isSpecial ? '#facc15' : '#8295a9'}" font-size="9.5" font-weight="${isSpecial ? '800' : '600'}" text-anchor="middle">${t}</text>
     `;
   });
 
@@ -5316,15 +5369,15 @@ function renderModalMainSvg() {
     const x1844 = pL + (4 / (MODAL_TIMES.length - 1)) * plotW;
     content += `
       <line x1="${x1844}" y1="${pT}" x2="${x1844}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="3 3" stroke-width="1.5" opacity="0.8"/>
-      <rect x="${x1844 - 48}" y="${pT + 30}" width="96" height="18" rx="4" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="0.8"/>
-      <text x="${x1844}" y="${pT + 42}" fill="#facc15" font-size="8.5" font-weight="800" text-anchor="middle">Virada 2022 (18h44)</text>
+      <rect x="${x1844 - 52}" y="${pT + 34}" width="104" height="20" rx="4" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="0.8"/>
+      <text x="${x1844}" y="${pT + 48}" fill="#facc15" font-size="9" font-weight="800" text-anchor="middle">Virada 2022 (18h44)</text>
     `;
   }
 
   const buildPath = (pts, color, isDashed, strokeW) => {
     const coords = pts.map((val, idx) => {
       const x = pL + (idx / (MODAL_TIMES.length - 1)) * plotW;
-      const y = pT + plotH - (val / 100 * plotH);
+      const y = valToY(val);
       return { x, y, val };
     });
     let d = `M ${coords[1].x} ${coords[1].y}`;
@@ -5333,11 +5386,11 @@ function renderModalMainSvg() {
       const cx = (prev.x + curr.x) / 2;
       d += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
     }
-    let res = `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="5 4"' : ''} stroke-linecap="round" style="filter:drop-shadow(0 0 6px ${color}66)"/>`;
+    let res = `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="6 4"' : ''} stroke-linecap="round" style="filter:drop-shadow(0 0 8px ${color}66)"/>`;
     coords.slice(1).forEach((pt, pIdx) => {
-      res += `<circle cx="${pt.x}" cy="${pt.y}" r="3.8" fill="${color}" stroke="#081322" stroke-width="1.8"/>`;
-      if (pIdx === 1 || pIdx === 6 || pIdx === 9) {
-        res += `<text x="${pt.x}" y="${pt.y - 8}" fill="${color}" font-size="9" font-weight="800" text-anchor="middle" style="text-shadow:0 1px 4px #000">${fmtPct(pt.val)}</text>`;
+      res += `<circle cx="${pt.x}" cy="${pt.y}" r="4.2" fill="${color}" stroke="#081322" stroke-width="2"/>`;
+      if (pIdx === 1 || pIdx === 3 || pIdx === 6 || pIdx === 9) {
+        res += `<text x="${pt.x}" y="${pt.y - 10}" fill="${color}" font-size="10" font-weight="800" text-anchor="middle" style="text-shadow:0 1px 4px #000">${fmtPct(pt.val)}</text>`;
       }
     });
     return res;
@@ -5348,18 +5401,20 @@ function renderModalMainSvg() {
   // Curvas de apuração do Nordeste (se ativada)
   if (modalShowNortheastUrns) {
     const drawNeCurve = (neData, color, isDashed) => {
-      const neCoords = neData.map((val, idx) => {
+      const coords = neData.map((val, idx) => {
         const x = pL + (idx / (MODAL_TIMES.length - 1)) * plotW;
-        const y = pT + plotH - (val / 100 * plotH);
+        // Se escala for focada (35-60), normaliza a curva do NE para ocupar o espaço do gráfico
+        const yVal = modalYScaleFocus ? (35 + (val / 100) * 25) : val;
+        const y = valToY(yVal);
         return { x, y };
       });
-      let dNe = `M ${neCoords[0].x} ${neCoords[0].y}`;
-      for (let i = 1; i < neCoords.length; i++) {
-        const prev = neCoords[i-1], curr = neCoords[i];
+      let dNe = `M ${coords[0].x} ${coords[0].y}`;
+      for (let i = 1; i < coords.length; i++) {
+        const prev = coords[i-1], curr = coords[i];
         const cx = (prev.x + curr.x) / 2;
         dNe += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
       }
-      return `<path d="${dNe}" fill="none" stroke="${color}" stroke-width="2.2" ${isDashed ? 'stroke-dasharray="4 3"' : ''} opacity="0.75" style="filter:drop-shadow(0 0 6px ${color}55)"/>`;
+      return `<path d="${dNe}" fill="none" stroke="${color}" stroke-width="2.2" ${isDashed ? 'stroke-dasharray="4 3"' : ''} opacity="0.8" style="filter:drop-shadow(0 0 6px ${color}55)"/>`;
     };
 
     if (modalEvolutionMode === '2026') {
@@ -5372,21 +5427,18 @@ function renderModalMainSvg() {
     }
   }
 
-  // EXIBIR APENAS OS DOIS PRIMEIROS CANDIDATOS!
+  // EXIBIR APENAS OS DOIS PRIMEIROS CANDIDATOS COM AMPLITUDE MÁXIMA!
   if (modalEvolutionMode === '2026') {
-    // APENAS Flávio e Lula (sem o 3º colocado)
-    content += buildPath(ptsAll.map(p => p.l26), '#dc2626', false, 3.4);
-    content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.6);
+    content += buildPath(ptsAll.map(p => p.l26), '#dc2626', false, 3.8); // Lula (Vermelho)
+    content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 4.0); // Flávio (Verde)
   } else if (modalEvolutionMode === '2022') {
-    // APENAS Jair Bolsonaro e Lula
-    content += buildPath(ptsAll.map(p => p.b22), '#22c55e', false, 3.4);
-    content += buildPath(ptsAll.map(p => p.l22), '#dc2626', false, 3.6);
+    content += buildPath(ptsAll.map(p => p.b22), '#22c55e', false, 3.8); // Bolsonaro (Verde)
+    content += buildPath(ptsAll.map(p => p.l22), '#dc2626', false, 4.0); // Lula (Vermelho)
   } else if (modalEvolutionMode === 'overlay') {
-    // 2026 x 2022 sobrepostos
-    content += buildPath(ptsAll.map(p => p.b22), '#4ade80', true, 2.6);
-    content += buildPath(ptsAll.map(p => p.l22), '#ef4444', true, 2.8);
-    content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.2);
-    content += buildPath(ptsAll.map(p => p.l26), '#dc2626', false, 3.0);
+    content += buildPath(ptsAll.map(p => p.b22), '#4ade80', true, 2.8);
+    content += buildPath(ptsAll.map(p => p.l22), '#ef4444', true, 3.0);
+    content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.8);
+    content += buildPath(ptsAll.map(p => p.l26), '#dc2626', false, 3.6);
   }
 
   svg.innerHTML = content;
@@ -5402,14 +5454,14 @@ function handleModalChartHover(e) {
   const mouseX = e.clientX - rect.left;
   const ratio = mouseX / rect.width;
 
-  const pL = 58, pR = 28;
-  const plotW = 1180 - pL - pR;
-  const virtualX = (ratio * 1180) - pL;
+  const pL = 58, pR = 32;
+  const plotW = 1260 - pL - pR;
+  const virtualX = (ratio * 1260) - pL;
   const clampedX = Math.max(0, Math.min(plotW, virtualX));
 
   const totalSteps = MODAL_TIMES.length - 1;
   const stepIdx = Math.max(1, Math.min(totalSteps, Math.round((clampedX / plotW) * totalSteps)));
-  const snapX = ((pL + (stepIdx / totalSteps) * plotW) / 1180) * rect.width;
+  const snapX = ((pL + (stepIdx / totalSteps) * plotW) / 1260) * rect.width;
 
   crosshair.style.display = 'block';
   crosshair.style.left = snapX + 'px';
@@ -5434,7 +5486,7 @@ function handleModalChartHover(e) {
   } else if (modalEvolutionMode === '2022') {
     tipHtml += `
       <div style="color:#ef4444;font-weight:700;">Lula (2022): ${fmtPct(data.l22)}</div>
-      <div style="color:#4ade80;font-weight:700;">Jair Bolsonaro (2022): ${fmtPct(data.b22)}</div>
+      <div style="color:#22c55e;font-weight:700;">Jair Bolsonaro (2022): ${fmtPct(data.b22)}</div>
       <div style="color:#94a3b8;font-size:10px;margin-top:3px;border-top:1px dashed rgba(255,255,255,0.1);padding-top:2px;">
         Margem: ${(data.l22 >= data.b22 ? '+' : '')}${(data.l22 - data.b22).toFixed(2)}% para Lula
       </div>
@@ -5442,7 +5494,7 @@ function handleModalChartHover(e) {
   } else {
     tipHtml += `
       <div style="color:#1cd678;">Flávio 2026: <b>${fmtPct(data.f26)}</b></div>
-      <div style="color:#ef4444;">Lula 2026: <b>${fmtPct(data.l26)}</b></div>
+      <div style="color:#dc2626;">Lula 2026: <b>${fmtPct(data.l26)}</b></div>
       <div style="color:#ef4444;">Lula 2022: <b>${fmtPct(data.l22)}</b></div>
       <div style="color:#4ade80;">Bolso 2022: <b>${fmtPct(data.b22)}</b></div>
       <div style="color:#facc15;font-size:9.5px;margin-top:2px;">NE 26: ${data.neSec26}% · NE 22: ${data.neSec22}%</div>
@@ -5451,7 +5503,7 @@ function handleModalChartHover(e) {
 
   tooltip.innerHTML = tipHtml;
   tooltip.style.display = 'block';
-  tooltip.style.left = Math.min(snapX + 14, rect.width - 230) + 'px';
+  tooltip.style.left = Math.min(snapX + 14, rect.width - 240) + 'px';
   tooltip.style.top = '30px';
 }
 
@@ -5468,7 +5520,7 @@ function renderModalSideBySide() {
   const sNE = document.getElementById('modalSideSvgNE');
   if (!s26 || !s22) return;
 
-  const w = 440, h = 210, pL = 40, pR = 15, pT = 16, pB = 30;
+  const w = 440, h = 240, pL = 40, pR = 15, pT = 16, pB = 30;
   const plotW = w - pL - pR, plotH = h - pT - pB;
 
   const timeToX = (hour, min) => {
@@ -5486,7 +5538,6 @@ function renderModalSideBySide() {
     const y50 = pT + plotH - (50 / 100 * plotH);
     s += `<line x1="${pL}" y1="${y50}" x2="${w - pR}" y2="${y50}" stroke="#eab308" stroke-dasharray="3 3" stroke-width="0.8" opacity="0.6"/>`;
 
-    // Pausas e virada
     if (mode === '2026') {
       const x1 = timeToX(19, 15), x2 = timeToX(19, 38);
       s += `<rect x="${x1}" y="${pT}" width="${x2 - x1}" height="${plotH}" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="2 2" rx="2"/>
@@ -5500,7 +5551,6 @@ function renderModalSideBySide() {
       s += `<line x1="${xVir}" y1="${pT}" x2="${xVir}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="2 2" stroke-width="1.2"/>
             <text x="${xVir}" y="${pT + 22}" fill="#facc15" font-size="7.5" font-weight="800" text-anchor="middle">Virada 18h44</text>`;
     } else if (mode === 'NE') {
-      // Ambas as pausas marcadas
       const x1_22 = timeToX(18, 18), x2_22 = timeToX(18, 32);
       const x1_26 = timeToX(19, 15), x2_26 = timeToX(19, 38);
       s += `<rect x="${x1_22}" y="${pT}" width="${x2_22 - x1_22}" height="${plotH}" fill="rgba(245,158,11,0.10)" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="2 2"/>`;
@@ -5528,39 +5578,38 @@ function renderModalSideBySide() {
     });
     let d = `M ${coords[0].x} ${coords[0].y}`;
     for (let i = 1; i < coords.length; i++) {
-      const cx = (coords[i-1].x + coords[i].x) / 2;
-      d += ` C ${cx} ${coords[i-1].y}, ${cx} ${coords[i].y}, ${coords[i].x} ${coords[i].y}`;
+      const prev = coords[i-1], curr = coords[i];
+      const cx = (prev.x + curr.x) / 2;
+      d += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
     }
     return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="4 3"' : ''} stroke-linecap="round"/>`;
   };
 
   const allPts = MODAL_TIMES.map((_, i) => getModalPointData(i));
 
-  // 1. 2026 mini (Flávio x Lula + AS 2 CURVAS DO NORDESTE: 2026 e 2022)
+  // 1. 2026 mini (Flávio x Lula + AS 2 CURVAS DO NORDESTE)
   s26.innerHTML = drawBase('2026', '2026') +
-    drawC(allPts.map(p => p.neSec22), '#f97316', 1.8, true) +  // NE 2022 (Laranja tracejado)
-    drawC(allPts.map(p => p.neSec26), '#facc15', 2.2, false) + // NE 2026 (Amarelo contínuo)
-    drawC(allPts.map(p => p.l26), '#dc2626', 2.6, false) +     // Lula (Vermelho)
-    drawC(allPts.map(p => p.f26), '#1cd678', 2.8, false) +     // Flávio (Verde)
+    drawC(allPts.map(p => p.neSec22), '#f97316', 1.8, true) +
+    drawC(allPts.map(p => p.neSec26), '#facc15', 2.2, false) +
+    drawC(allPts.map(p => p.l26), '#dc2626', 2.6, false) +
+    drawC(allPts.map(p => p.f26), '#1cd678', 2.8, false) +
     `<text x="${pL + 4}" y="${pT + 8}" fill="#facc15" font-size="7.5" font-weight="700">― NE 26</text>` +
     `<text x="${pL + 48}" y="${pT + 8}" fill="#f97316" font-size="7.5" font-weight="700">- - NE 22</text>`;
 
-  // 2. 2022 mini (Bolsonaro x Lula + AS 2 CURVAS DO NORDESTE: 2022 e 2026)
+  // 2. 2022 mini (Bolsonaro x Lula + AS 2 CURVAS DO NORDESTE)
   s22.innerHTML = drawBase('2022', '2022') +
-    drawC(allPts.map(p => p.neSec26), '#facc15', 1.8, false) + // NE 2026 (Amarelo contínuo)
-    drawC(allPts.map(p => p.neSec22), '#f97316', 2.2, true) +  // NE 2022 (Laranja tracejado)
-    drawC(allPts.map(p => p.b22), '#22c55e', 2.6, false) +     // Bolsonaro (Verde)
-    drawC(allPts.map(p => p.l22), '#dc2626', 2.8, false) +     // Lula (Vermelho)
+    drawC(allPts.map(p => p.neSec26), '#facc15', 1.8, false) +
+    drawC(allPts.map(p => p.neSec22), '#f97316', 2.2, true) +
+    drawC(allPts.map(p => p.b22), '#22c55e', 2.6, false) +
+    drawC(allPts.map(p => p.l22), '#dc2626', 2.8, false) +
     `<text x="${pL + 4}" y="${pT + 8}" fill="#f97316" font-size="7.5" font-weight="700">- - NE 22</text>` +
     `<text x="${pL + 48}" y="${pT + 8}" fill="#facc15" font-size="7.5" font-weight="700">― NE 26</text>`;
 
-  // 3. NOVO: 3º GRÁFICO NO MODAL (SOBREPOSIÇÃO DO RITMO DAS URNAS DO NORDESTE)
+  // 3. 3º GRÁFICO (RITMO DE APURAÇÃO DO NORDESTE SOBREPOSTO)
   if (sNE) {
     let neSvg = drawBase('NE', 'NE');
-    neSvg += drawC(allPts.map(p => p.neSec22), '#f97316', 2.6, true);  // NE 2022 (Laranja tracejado)
-    neSvg += drawC(allPts.map(p => p.neSec26), '#facc15', 3.0, false); // NE 2026 (Amarelo contínuo)
-
-    // Legenda no topo do gráfico
+    neSvg += drawC(allPts.map(p => p.neSec22), '#f97316', 2.6, true);
+    neSvg += drawC(allPts.map(p => p.neSec26), '#facc15', 3.0, false);
     neSvg += `
       <text x="${pL + 6}" y="${pT + 10}" fill="#facc15" font-size="8" font-weight="800">― NE 2026 (Contínua)</text>
       <text x="${pL + 110}" y="${pT + 10}" fill="#f97316" font-size="8" font-weight="800">- - NE 2022 (Tracejada)</text>
@@ -5580,46 +5629,46 @@ function renderModalMetricsStrip() {
 
   strip.innerHTML = `
     <!-- PLACAR DO MOMENTO -->
-    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;">
       <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Placar e Margem do Momento (2026)</small>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:2px;">
         <div>
-          <b style="color:#1cd678;font-size:14px;">Flávio 47,03%</b> <small style="color:#94a3b8;">x</small> <b style="color:#ef4444;font-size:14px;">Lula 45,16%</b>
+          <b style="color:#1cd678;font-size:14px;">Flávio 47,03%</b> <small style="color:#94a3b8;">x</small> <b style="color:#dc2626;font-size:14px;">Lula 45,16%</b>
         </div>
-        <span style="color:#38bdf8;font-size:14px;font-weight:800;">+1,87% (+${fmtNumber(diff_26)})</span>
+        <span style="color:#38bdf8;font-size:13.5px;font-weight:800;">+1,87% (+${fmtNumber(diff_26)})</span>
       </div>
-      <small style="color:#94a3b8;font-size:10.5px;">Votos válidos consolidados: 119.296.423</small>
+      <small style="color:#94a3b8;font-size:10px;">Votos válidos consolidados: 119.296.423</small>
     </div>
 
     <!-- MAIOR PAUSA NA TOTALIZAÇÃO -->
-    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;">
       <small style="color:#38bdf8;font-size:10px;text-transform:uppercase;font-weight:700;">⏸ Maior Pausa na Totalização</small>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
-        <b style="color:#38bdf8;font-size:15px;">2026: 19h15 - 19h38 (23 min)</b>
-      </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:2px;">
-        <span style="color:#facc15;font-size:12px;font-weight:700;">2022: 18h18 - 18h32 (14 min)</span>
+        <b style="color:#38bdf8;font-size:14px;">2026: 19h15 - 19h38 (23 min)</b>
       </div>
-      <small style="color:#94a3b8;font-size:10px;">Represamento do Sudeste em 26 / Interior do NE em 22</small>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:1px;">
+        <span style="color:#facc15;font-size:11.5px;font-weight:700;">2022: 18h18 - 18h32 (14 min)</span>
+      </div>
+      <small style="color:#94a3b8;font-size:9.5px;">Represamento do Sudeste em 26 / Interior do NE em 22</small>
     </div>
 
     <!-- VIRADA HISTÓRICA 2022 -->
-    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;">
       <small style="color:#eab308;font-size:10px;text-transform:uppercase;font-weight:700;">Virada 2022 (Gatilho do Nordeste)</small>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
-        <b style="color:#facc15;font-size:16px;">18h44</b>
-        <span style="color:#ffffff;font-size:13px;font-weight:700;">54,2% do NE</span>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:2px;">
+        <b style="color:#facc15;font-size:15px;">18h44</b>
+        <span style="color:#ffffff;font-size:12.5px;font-weight:700;">54,2% do NE</span>
       </div>
-      <small style="color:#94a3b8;font-size:10.5px;">Lula virou aos 67,8% do Brasil com onda BA/PE/PI</small>
+      <small style="color:#94a3b8;font-size:10px;">Lula virou aos 67,8% do Brasil com onda BA/PE/PI</small>
     </div>
 
     <!-- VELOCIDADE DE APURAÇÃO DO NORDESTE -->
-    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;">
       <small style="color:#facc15;font-size:10px;text-transform:uppercase;font-weight:700;">Velocidade de Apuração do Nordeste</small>
-      <div style="font-size:12px;color:#ffffff;font-weight:700;margin-top:4px;">
+      <div style="font-size:11.5px;color:#ffffff;font-weight:700;margin-top:2px;">
         18h: 12,8% · 19h: 71,4% · 20h: 91,8%
       </div>
-      <small style="color:#94a3b8;font-size:10.5px;">9 estados · ~137.000 seções (27,5% do país)</small>
+      <small style="color:#94a3b8;font-size:10px;">9 estados · ~137.000 seções (27,5% do país)</small>
     </div>
   `;
 }
