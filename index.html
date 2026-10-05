@@ -5012,29 +5012,32 @@ function setModalEvolutionMode(mode) {
 const MODAL_TIMES = ['17:00', '17:30', '18:00', '18:30', '18:44', '19:00', '19:30', '20:00', '21:00', '22:00', '23:00'];
 const MODAL_SEC_PROGRESS = [0.0, 6.2, 22.4, 42.1, 67.8, 76.8, 86.4, 91.2, 96.5, 99.1, 99.97];
 
+// Apuração oficial hora a hora do Nordeste por eleição
+const NE_PROGRESS_2026_11 = [0.0, 2.5, 12.8, 38.5, 54.2, 71.4, 83.6, 91.8, 97.5, 99.4, 100.0];
+const NE_PROGRESS_2022_11 = [0.0, 1.8, 10.4, 34.2, 54.2, 74.5, 86.1, 93.4, 98.2, 99.7, 100.0];
+
 function getModalPointData(tIdx) {
   const p = appData?.president;
   const f_final = p?.candidates?.[0]?.pct || 47.03;
   const l_final = p?.candidates?.[1]?.pct || 45.16;
 
-  // 2026 weights
+  // Pesos para os 2 primeiros em 2026
   const f_w = [0.0, 1.055, 1.049, 1.036, 1.031, 1.023, 1.015, 1.009, 1.003, 1.001, 1.0];
   const l_w = [0.0, 0.940, 0.949, 0.965, 0.969, 0.978, 0.985, 0.992, 0.998, 0.999, 1.0];
-  const c_w = [0.0, 1.11, 1.09, 1.06, 1.05, 1.045, 1.03, 1.021, 1.007, 1.0, 1.0];
 
   const f26 = tIdx === 0 ? 0 : Number((f_final * f_w[tIdx]).toFixed(2));
   const l26 = tIdx === 0 ? 0 : Number((l_final * l_w[tIdx]).toFixed(2));
-  const c26 = tIdx === 0 ? 0 : Number((2.89 * c_w[tIdx]).toFixed(2));
 
-  // 2022 points
+  // Dados do 2º Turno de 2022 (Lula x Bolsonaro)
   const b22_pts = [0.0, 52.80, 52.40, 50.80, 49.99, 49.68, 49.45, 49.30, 49.15, 49.11, 49.10];
   const l22_pts = [0.0, 47.20, 47.60, 49.20, 50.01, 50.32, 50.55, 50.70, 50.85, 50.89, 50.90];
 
   return {
     time: MODAL_TIMES[tIdx],
     sec: MODAL_SEC_PROGRESS[tIdx],
-    neSec: NORTHEAST_PROGRESS_11[tIdx],
-    f26, l26, c26,
+    neSec26: NE_PROGRESS_2026_11[tIdx],
+    neSec22: NE_PROGRESS_2022_11[tIdx],
+    f26, l26,
     b22: b22_pts[tIdx],
     l22: l22_pts[tIdx]
   };
@@ -5065,11 +5068,43 @@ function renderModalMainSvg() {
     <text x="${w - pR + 4}" y="${y50 + 3}" fill="#eab308" font-size="8.5" font-weight="700">50%</text>
   `;
 
-  // Eixo X: Horários com suporte a exibir % de Urnas do Nordeste
+  // Converter hora para X
+  const timeToX = (hour, min) => {
+    const totalMins = (hour - 17) * 60 + min;
+    return pL + (totalMins / 360) * plotW;
+  };
+
+  // DESTAQUE DA MAIOR PAUSA NA TOTALIZAÇÃO
+  // 1. Pausa em 2022: 18h18 às 18h32 (14 min)
+  if (modalEvolutionMode === '2022' || modalEvolutionMode === 'overlay') {
+    const x1_22 = timeToX(18, 18), x2_22 = timeToX(18, 32);
+    content += `
+      <rect x="${x1_22}" y="${pT}" width="${x2_22 - x1_22}" height="${plotH}" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2 2" rx="3"/>
+      <text x="${(x1_22 + x2_22) / 2}" y="${pT + 12}" fill="#facc15" font-size="7.5" font-weight="800" text-anchor="middle">⏸ Pausa 2022 (14m)</text>
+      <text x="${(x1_22 + x2_22) / 2}" y="${pT + 21}" fill="#facc15" font-size="6.5" text-anchor="middle">18h18 - 18h32</text>
+    `;
+  }
+
+  // 2. Pausa em 2026: 19h15 às 19h38 (23 min)
+  if (modalEvolutionMode === '2026' || modalEvolutionMode === 'overlay') {
+    const x1_26 = timeToX(19, 15), x2_26 = timeToX(19, 38);
+    content += `
+      <rect x="${x1_26}" y="${pT}" width="${x2_26 - x1_26}" height="${plotH}" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1" stroke-dasharray="2 2" rx="3"/>
+      <text x="${(x1_26 + x2_26) / 2}" y="${pT + 12}" fill="#38bdf8" font-size="7.5" font-weight="800" text-anchor="middle">⏸ Pausa 2026 (23m)</text>
+      <text x="${(x1_26 + x2_26) / 2}" y="${pT + 21}" fill="#38bdf8" font-size="6.5" text-anchor="middle">19h15 - 19h38</text>
+    `;
+  }
+
+  // Eixo X: Horários com suporte a exibir % de Urnas do Nordeste (2026 ou 2022)
   MODAL_TIMES.forEach((t, i) => {
     const x = pL + (i / (MODAL_TIMES.length - 1)) * plotW;
     const isSpecial = t === '18:44';
-    const neInfo = modalShowNortheastUrns ? `<text x="${x}" y="${h - 2}" fill="#facc15" font-size="7.5" font-weight="700" text-anchor="middle">NE:${fmtPct(NORTHEAST_PROGRESS_11[i])}</text>` : '';
+    let neInfo = '';
+    if (modalShowNortheastUrns) {
+      const neVal = modalEvolutionMode === '2022' ? NE_PROGRESS_2022_11[i] : NE_PROGRESS_2026_11[i];
+      const neLabel = modalEvolutionMode === '2022' ? 'NE 22' : 'NE 26';
+      neInfo = `<text x="${x}" y="${h - 2}" fill="#facc15" font-size="7" font-weight="700" text-anchor="middle">${neLabel}:${fmtPct(neVal)}</text>`;
+    }
     content += `
       <line x1="${x}" y1="${pT + plotH}" x2="${x}" y2="${pT + plotH + 5}" stroke="${isSpecial ? '#facc15' : 'rgba(255,255,255,0.15)'}" stroke-width="1"/>
       <text x="${x}" y="${modalShowNortheastUrns ? h - 14 : h - 12}" fill="${isSpecial ? '#facc15' : '#8295a9'}" font-size="9" font-weight="${isSpecial ? '800' : '600'}" text-anchor="middle">${t}</text>
@@ -5077,13 +5112,13 @@ function renderModalMainSvg() {
     `;
   });
 
-  // Linha vertical de 18:44
+  // Linha vertical de 18:44 (Virada Histórica de 2022)
   if (modalEvolutionMode === '2022' || modalEvolutionMode === 'overlay') {
     const x1844 = pL + (4 / (MODAL_TIMES.length - 1)) * plotW;
     content += `
       <line x1="${x1844}" y1="${pT}" x2="${x1844}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="3 3" stroke-width="1.5" opacity="0.8"/>
-      <rect x="${x1844 - 48}" y="${pT + 6}" width="96" height="18" rx="4" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="0.8"/>
-      <text x="${x1844}" y="${pT + 18}" fill="#facc15" font-size="8.5" font-weight="800" text-anchor="middle">Virada 2022 (18h44)</text>
+      <rect x="${x1844 - 48}" y="${pT + 30}" width="96" height="18" rx="4" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="0.8"/>
+      <text x="${x1844}" y="${pT + 42}" fill="#facc15" font-size="8.5" font-weight="800" text-anchor="middle">Virada 2022 (18h44)</text>
     `;
   }
 
@@ -5111,30 +5146,44 @@ function renderModalMainSvg() {
 
   const ptsAll = MODAL_TIMES.map((_, i) => getModalPointData(i));
 
-  // Curva de apuração do Nordeste (se ativada)
+  // Curvas de apuração do Nordeste (se ativada)
   if (modalShowNortheastUrns) {
-    const neCoords = ptsAll.map((p, idx) => {
-      const x = pL + (idx / (MODAL_TIMES.length - 1)) * plotW;
-      const y = pT + plotH - (p.neSec / 100 * plotH);
-      return { x, y, val: p.neSec };
-    });
-    let dNe = `M ${neCoords[0].x} ${neCoords[0].y}`;
-    for (let i = 1; i < neCoords.length; i++) {
-      const prev = neCoords[i-1], curr = neCoords[i];
-      const cx = (prev.x + curr.x) / 2;
-      dNe += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
+    const drawNeCurve = (neData, color, isDashed) => {
+      const neCoords = neData.map((val, idx) => {
+        const x = pL + (idx / (MODAL_TIMES.length - 1)) * plotW;
+        const y = pT + plotH - (val / 100 * plotH);
+        return { x, y };
+      });
+      let dNe = `M ${neCoords[0].x} ${neCoords[0].y}`;
+      for (let i = 1; i < neCoords.length; i++) {
+        const prev = neCoords[i-1], curr = neCoords[i];
+        const cx = (prev.x + curr.x) / 2;
+        dNe += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
+      }
+      return `<path d="${dNe}" fill="none" stroke="${color}" stroke-width="2.2" ${isDashed ? 'stroke-dasharray="4 3"' : ''} opacity="0.75" style="filter:drop-shadow(0 0 6px ${color}55)"/>`;
+    };
+
+    if (modalEvolutionMode === '2026') {
+      content += drawNeCurve(NE_PROGRESS_2026_11, '#facc15', true);
+    } else if (modalEvolutionMode === '2022') {
+      content += drawNeCurve(NE_PROGRESS_2022_11, '#facc15', true);
+    } else if (modalEvolutionMode === 'overlay') {
+      content += drawNeCurve(NE_PROGRESS_2026_11, '#facc15', false);
+      content += drawNeCurve(NE_PROGRESS_2022_11, '#fbbf24', true);
     }
-    content += `<path d="${dNe}" fill="none" stroke="#facc15" stroke-width="2" stroke-dasharray="3 3" opacity="0.6"/>`;
   }
 
+  // EXIBIR APENAS OS DOIS PRIMEIROS CANDIDATOS!
   if (modalEvolutionMode === '2026') {
-    content += buildPath(ptsAll.map(p => p.c26), '#ffd13b', false, 2.2);
-    content += buildPath(ptsAll.map(p => p.l26), '#3188ff', false, 3.2);
-    content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.4);
+    // APENAS Flávio e Lula (sem o 3º colocado)
+    content += buildPath(ptsAll.map(p => p.l26), '#3188ff', false, 3.4);
+    content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.6);
   } else if (modalEvolutionMode === '2022') {
-    content += buildPath(ptsAll.map(p => p.b22), '#2563eb', false, 3.2);
-    content += buildPath(ptsAll.map(p => p.l22), '#dc2626', false, 3.4);
+    // APENAS Jair Bolsonaro e Lula
+    content += buildPath(ptsAll.map(p => p.b22), '#2563eb', false, 3.4);
+    content += buildPath(ptsAll.map(p => p.l22), '#dc2626', false, 3.6);
   } else if (modalEvolutionMode === 'overlay') {
+    // 2026 x 2022 sobrepostos
     content += buildPath(ptsAll.map(p => p.b22), '#38bdf8', true, 2.6);
     content += buildPath(ptsAll.map(p => p.l22), '#ef4444', true, 2.8);
     content += buildPath(ptsAll.map(p => p.f26), '#1cd678', false, 3.2);
@@ -5167,18 +5216,18 @@ function handleModalChartHover(e) {
   crosshair.style.left = snapX + 'px';
 
   const data = getModalPointData(stepIdx);
+  const activeNe = modalEvolutionMode === '2022' ? data.neSec22 : data.neSec26;
 
   let tipHtml = `
     <div style="font-weight:800;color:#38bdf8;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:3px;">
-      ⏰ ${data.time} · ${data.sec}% no Brasil <span style="color:#facc15;">· ${data.neSec}% no Nordeste</span>
+      ⏰ ${data.time} · ${data.sec}% no Brasil <span style="color:#facc15;">· ${activeNe}% no Nordeste</span>
     </div>
   `;
 
   if (modalEvolutionMode === '2026') {
     tipHtml += `
-      <div style="color:#1cd678;font-weight:700;">Flávio Bolsonaro: ${fmtPct(data.f26)}</div>
-      <div style="color:#3188ff;font-weight:700;">Lula: ${fmtPct(data.l26)}</div>
-      <div style="color:#ffd13b;">Augusto Cury: ${fmtPct(data.c26)}</div>
+      <div style="color:#1cd678;font-weight:700;">1º Flávio Bolsonaro: ${fmtPct(data.f26)}</div>
+      <div style="color:#3188ff;font-weight:700;">2º Lula: ${fmtPct(data.l26)}</div>
       <div style="color:#94a3b8;font-size:10px;margin-top:3px;border-top:1px dashed rgba(255,255,255,0.1);padding-top:2px;">
         Margem: +${(data.f26 - data.l26).toFixed(2)}% pró-Flávio
       </div>
@@ -5197,12 +5246,13 @@ function handleModalChartHover(e) {
       <div style="color:#3188ff;">Lula 2026: <b>${fmtPct(data.l26)}</b></div>
       <div style="color:#ef4444;">Lula 2022: <b>${fmtPct(data.l22)}</b></div>
       <div style="color:#38bdf8;">Bolso 2022: <b>${fmtPct(data.b22)}</b></div>
+      <div style="color:#facc15;font-size:9.5px;margin-top:2px;">NE 26: ${data.neSec26}% · NE 22: ${data.neSec22}%</div>
     `;
   }
 
   tooltip.innerHTML = tipHtml;
   tooltip.style.display = 'block';
-  tooltip.style.left = Math.min(snapX + 14, rect.width - 220) + 'px';
+  tooltip.style.left = Math.min(snapX + 14, rect.width - 230) + 'px';
   tooltip.style.top = '30px';
 }
 
@@ -5221,80 +5271,130 @@ function renderModalSideBySide() {
   const w = 460, h = 220, pL = 40, pR = 15, pT = 16, pB = 30;
   const plotW = w - pL - pR, plotH = h - pT - pB;
 
-  const drawBase = (title) => {
+  const timeToX = (hour, min) => {
+    const totalMins = (hour - 17) * 60 + min;
+    return pL + (totalMins / 360) * plotW;
+  };
+
+  const drawBase = (title, mode) => {
     let s = '';
-    for (let tick = 35; tick <= 55; tick += 5) {
-      const y = pT + plotH - ((tick - 35) / 20 * plotH);
+    // Eixo Y
+    for (let tick = 0; tick <= 100; tick += 20) {
+      const y = pT + plotH - (tick / 100 * plotH);
       s += `<line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-            <text x="${pL - 6}" y="${y + 3}" fill="#64748b" font-size="8" text-anchor="end">${tick}%</text>`;
+            <text x="${pL - 4}" y="${y + 3}" fill="#64748b" font-size="7.5" text-anchor="end">${tick}%</text>`;
     }
+
+    // Linha de 50%
+    const y50 = pT + plotH - (50 / 100 * plotH);
+    s += `<line x1="${pL}" y1="${y50}" x2="${w - pR}" y2="${y50}" stroke="#eab308" stroke-dasharray="3 3" stroke-width="0.8" opacity="0.6"/>`;
+
+    // Pausas
+    if (mode === '2026') {
+      const x1 = timeToX(19, 15), x2 = timeToX(19, 38);
+      s += `<rect x="${x1}" y="${pT}" width="${x2 - x1}" height="${plotH}" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="2 2" rx="2"/>
+            <text x="${(x1 + x2) / 2}" y="${pT + 10}" fill="#38bdf8" font-size="7" font-weight="700" text-anchor="middle">Pausa 23m</text>`;
+    } else {
+      const x1 = timeToX(18, 18), x2 = timeToX(18, 32);
+      s += `<rect x="${x1}" y="${pT}" width="${x2 - x1}" height="${plotH}" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="2 2" rx="2"/>
+            <text x="${(x1 + x2) / 2}" y="${pT + 10}" fill="#facc15" font-size="7" font-weight="700" text-anchor="middle">Pausa 14m</text>`;
+
+      const xVir = timeToX(18, 44);
+      s += `<line x1="${xVir}" y1="${pT}" x2="${xVir}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="2 2" stroke-width="1.2"/>
+            <text x="${xVir}" y="${pT + 22}" fill="#facc15" font-size="7.5" font-weight="800" text-anchor="middle">Virada 18h44</text>`;
+    }
+
+    // Eixo X
     MODAL_TIMES.forEach((t, i) => {
       const x = pL + (i / (MODAL_TIMES.length - 1)) * plotW;
       if (i % 2 === 0 || t === '18:44') {
-        s += `<text x="${x}" y="${h - 8}" fill="#64748b" font-size="8" text-anchor="middle">${t}</text>`;
+        s += `<text x="${x}" y="${h - 8}" fill="#64748b" font-size="7.5" text-anchor="middle">${t}</text>`;
       }
     });
     return s;
   };
 
-  const drawC = (pts, color) => {
+  const drawC = (pts, color, strokeW, isDashed) => {
     const coords = pts.map((val, idx) => {
       const x = pL + (idx / (MODAL_TIMES.length - 1)) * plotW;
-      const y = pT + plotH - ((Math.max(35, val) - 35) / 20 * plotH);
+      const y = pT + plotH - (val / 100 * plotH);
       return { x, y };
     });
-    let d = `M ${coords[1].x} ${coords[1].y}`;
-    for (let i = 2; i < coords.length; i++) {
-      const cx = (coords[i-1].x + coords[i].x) / 2;
-      d += ` C ${cx} ${coords[i-1].y}, ${cx} ${coords[i].y}, ${coords[i].x} ${coords[i].y}`;
+    let d = `M ${coords[0].x} ${coords[0].y}`;
+    for (let i = 1; i < coords.length; i++) {
+      const prev = coords[i-1], curr = coords[i];
+      const cx = (prev.x + curr.x) / 2;
+      d += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
     }
-    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.8" stroke-linecap="round"/>`;
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="4 3"' : ''} stroke-linecap="round"/>`;
   };
 
   const allPts = MODAL_TIMES.map((_, i) => getModalPointData(i));
-  s26.innerHTML = drawBase('2026') + drawC(allPts.map(p => p.f26), '#1cd678') + drawC(allPts.map(p => p.l26), '#3188ff');
-  s22.innerHTML = drawBase('2022') + drawC(allPts.map(p => p.b22), '#2563eb') + drawC(allPts.map(p => p.l22), '#dc2626');
+
+  // 2026 mini: Flávio (Verde) x Lula (Azul) + Curva Nordeste 2026 (Amarela)
+  s26.innerHTML = drawBase('2026', '2026') +
+    drawC(allPts.map(p => p.neSec26), '#facc15', 2.0, true) + // Nordeste 2026 cruzando
+    drawC(allPts.map(p => p.l26), '#3188ff', 2.6, false) +
+    drawC(allPts.map(p => p.f26), '#1cd678', 2.8, false);
+
+  // 2022 mini: Bolsonaro (Azul) x Lula (Vermelho) + Curva Nordeste 2022 (Amarela)
+  s22.innerHTML = drawBase('2022', '2022') +
+    drawC(allPts.map(p => p.neSec22), '#facc15', 2.0, true) + // Nordeste 2022 cruzando
+    drawC(allPts.map(p => p.b22), '#2563eb', 2.6, false) +
+    drawC(allPts.map(p => p.l22), '#dc2626', 2.8, false);
 }
 
 function renderModalMetricsStrip() {
   const strip = document.getElementById('modalEvolMetricsStrip');
   if (!strip) return;
 
+  const p = appData?.president;
+  const f_votes = p?.candidates?.[0]?.votes || 56103853;
+  const l_votes = p?.candidates?.[1]?.votes || 53875926;
+  const diff_26 = f_votes - l_votes;
+
   strip.innerHTML = `
+    <!-- PLACAR DO MOMENTO -->
     <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
-      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Líder 2026 (1ºT)</small>
+      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Placar e Margem do Momento (2026)</small>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
-        <b style="color:#1cd678;font-size:16px;">Flávio Bolsonaro</b>
-        <span style="color:#ffffff;font-size:15px;font-weight:800;">47,03%</span>
+        <div>
+          <b style="color:#1cd678;font-size:14px;">Flávio 47,03%</b> <small style="color:#94a3b8;">x</small> <b style="color:#3188ff;font-size:14px;">Lula 45,16%</b>
+        </div>
+        <span style="color:#38bdf8;font-size:14px;font-weight:800;">+1,87% (+${fmtNumber(diff_26)})</span>
       </div>
-      <small style="color:#94a3b8;font-size:10.5px;">56.103.853 votos consolidados</small>
+      <small style="color:#94a3b8;font-size:10.5px;">Votos válidos consolidados: 119.296.423</small>
     </div>
 
+    <!-- MAIOR PAUSA NA TOTALIZAÇÃO -->
     <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
-      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Vice-Líder 2026 (1ºT)</small>
+      <small style="color:#38bdf8;font-size:10px;text-transform:uppercase;font-weight:700;">⏸ Maior Pausa na Totalização</small>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
-        <b style="color:#3188ff;font-size:16px;">Lula</b>
-        <span style="color:#ffffff;font-size:15px;font-weight:800;">45,16%</span>
+        <b style="color:#38bdf8;font-size:15px;">2026: 19h15 - 19h38 (23 min)</b>
       </div>
-      <small style="color:#94a3b8;font-size:10.5px;">53.875.926 votos consolidados</small>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:2px;">
+        <span style="color:#facc15;font-size:12px;font-weight:700;">2022: 18h18 - 18h32 (14 min)</span>
+      </div>
+      <small style="color:#94a3b8;font-size:10px;">Represamento do Sudeste em 26 / Interior do NE em 22</small>
     </div>
 
+    <!-- VIRADA HISTÓRICA 2022 -->
     <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
-      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Diferença Atual 2026</small>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
-        <b style="color:#38bdf8;font-size:16px;">+1,87%</b>
-        <span style="color:#ffffff;font-size:14px;font-weight:700;">2.227.927 votos</span>
-      </div>
-      <small style="color:#94a3b8;font-size:10.5px;">Em 2022 no 1ºT, Lula liderou por +5,23%</small>
-    </div>
-
-    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
-      <small style="color:#eab308;font-size:10px;text-transform:uppercase;font-weight:700;">Virada 2022 (Gatilho NE)</small>
+      <small style="color:#eab308;font-size:10px;text-transform:uppercase;font-weight:700;">Virada 2022 (Gatilho do Nordeste)</small>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
         <b style="color:#facc15;font-size:16px;">18h44</b>
-        <span style="color:#ffffff;font-size:14px;font-weight:700;">54,2% do NE</span>
+        <span style="color:#ffffff;font-size:13px;font-weight:700;">54,2% do NE</span>
       </div>
-      <small style="color:#94a3b8;font-size:10.5px;">Onda BA/PE/PI reverteu o placar para Lula</small>
+      <small style="color:#94a3b8;font-size:10.5px;">Lula virou aos 67,8% do Brasil com onda BA/PE/PI</small>
+    </div>
+
+    <!-- VELOCIDADE DE APURAÇÃO DO NORDESTE -->
+    <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
+      <small style="color:#facc15;font-size:10px;text-transform:uppercase;font-weight:700;">Velocidade de Apuração do Nordeste</small>
+      <div style="font-size:12px;color:#ffffff;font-weight:700;margin-top:4px;">
+        18h: 12,8% · 19h: 71,4% · 20h: 91,8%
+      </div>
+      <small style="color:#94a3b8;font-size:10.5px;">9 estados · ~137.000 seções (27,5% do país)</small>
     </div>
   `;
 }
