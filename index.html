@@ -2142,11 +2142,13 @@ button, select, input { font: inherit; }
               <div class="card-sub" id="evolutionSubline">Trajetória dos votos válidos na apuração (17h às 23h)</div>
             </div>
             <!-- Mode buttons -->
-            <div class="scope-pills" style="margin-left:auto;display:flex;align-items:center;gap:5px;">
+            <div class="scope-pills" style="margin-left:auto;display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
               <button class="scope-pill-btn active" id="btnEvol2026" onclick="setEvolutionMode('2026')">2026</button>
               <button class="scope-pill-btn" id="btnEvol2022" onclick="setEvolutionMode('2022')">2022 (2º Turno)</button>
-              <button class="scope-pill-btn" id="btnEvolOverlay" onclick="setEvolutionMode('overlay')">Sobrepor (2026 x 2022)</button>
+              <button class="scope-pill-btn" id="btnEvolOverlay" onclick="setEvolutionMode('overlay')">Sobrepor</button>
               <button class="scope-pill-btn" id="btnEvolSide" onclick="setEvolutionMode('side')">Lado a Lado</button>
+              <button class="scope-pill-btn" id="btnEvolNE" onclick="toggleNortheastUrns()" style="border-color:#f59e0b;color:#facc15;font-weight:700;" title="Mostrar percentual de urnas apuradas no Nordeste hora a hora">⚡ % Urnas Nordeste</button>
+              <button class="scope-pill-btn" id="btnEvolTri" onclick="setEvolutionMode('tri_compare')" style="border-color:#a855f7;color:#c084fc;font-weight:700;" title="Comparar 1º Turno 2026 vs 1º e 2º Turnos de 2022">📊 Comparar 1ºT x 2ºT (2026 x 2022)</button>
               <button class="scope-pill-btn" onclick="openEvolutionModal()" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.4);color:#38bdf8;font-weight:700;display:flex;align-items:center;gap:4px;" title="Ver gráfico expandido em alta resolução com mais detalhes">⛶ Expandir</button>
             </div>
           </div>
@@ -2156,6 +2158,95 @@ button, select, input { font: inherit; }
             <div class="chart-container">
               <svg class="line-chart-svg" id="evolutionChart" viewBox="0 0 380 180"></svg>
               <div class="chart-legend-side" id="chartLegendSide"></div>
+            </div>
+          </div>
+
+          <!-- TRI-COMPARE VIEW DIRECTLY IN CARD 4 -->
+          <div id="evolutionTriCompareView" style="display:none;flex-direction:column;gap:10px;">
+            <!-- HIGHLIGHT BANNER: VIRADA 2022 -->
+            <div style="background:linear-gradient(135deg, rgba(234,179,8,0.15), rgba(220,38,38,0.1));border:1px solid #facc15;border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:20px;">⚡</span>
+                <div>
+                  <b style="color:#facc15;font-size:13px;display:block;">Ponto de Virada Histórica: 18h44 no 2º Turno de 2022</b>
+                  <span style="font-size:11px;color:#cbd5e1;">Às 18h44 (com <b>67,76% das urnas do Brasil</b> e <b>54,2% do Nordeste</b>), Lula virou de 49,99% para 50,01%.</span>
+                </div>
+              </div>
+              <div style="background:rgba(0,0,0,0.3);padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+                <b style="color:#ffffff;font-size:12px;">+2.139.645 votos (+1,80% Lula)</b>
+              </div>
+            </div>
+
+            <!-- 3 CARDS LADO A LADO NA DASHBOARD -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:10px;">
+              <!-- 2026 1ºT -->
+              <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(37,99,235,0.3);border-top:3px solid #1cd678;border-radius:10px;padding:12px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                  <b style="color:#ffffff;font-size:13px;">Eleições 2026 (1ºT Atual)</b>
+                  <span class="badge badge-runoff" style="font-size:8px;">2ºT</span>
+                </div>
+                <div style="font-size:10px;color:#94a3b8;margin-bottom:6px;">119.296.423 votos válidos</div>
+                <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px;">
+                  <div style="display:flex;justify-content:space-between;">
+                    <div><b style="color:#1cd678;font-size:12.5px;">1º Flávio Bolsonaro (PL)</b><small style="color:#64748b;display:block;">56.103.853 votos</small></div>
+                    <b style="color:#1cd678;font-size:15px;">47,03%</b>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <div><b style="color:#3188ff;font-size:12.5px;">2º Lula (PT)</b><small style="color:#64748b;display:block;">53.875.926 votos</small></div>
+                    <b style="color:#3188ff;font-size:15px;">45,16%</b>
+                  </div>
+                </div>
+                <div style="background:rgba(0,0,0,0.25);padding:6px 8px;border-radius:6px;margin-top:8px;font-size:10.5px;">
+                  <div style="display:flex;justify-content:space-between;"><span style="color:#cbd5e1;">Vantagem Flávio:</span><b style="color:#1cd678;">+2.227.927 (+1,87%)</b></div>
+                  <div style="display:flex;justify-content:space-between;margin-top:2px;"><span style="color:#94a3b8;">3ª via em disputa:</span><b style="color:#facc15;">9.316.644 (7,81%)</b></div>
+                </div>
+              </div>
+
+              <!-- 2022 1ºT -->
+              <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(220,38,38,0.3);border-top:3px solid #dc2626;border-radius:10px;padding:12px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                  <b style="color:#ffffff;font-size:13px;">Eleições 2022 (1ºT Oficial)</b>
+                  <span class="badge" style="background:rgba(220,38,38,0.2);color:#f87171;font-size:8px;">Lula 1º</span>
+                </div>
+                <div style="font-size:10px;color:#94a3b8;margin-bottom:6px;">118.580.093 votos válidos</div>
+                <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px;">
+                  <div style="display:flex;justify-content:space-between;">
+                    <div><b style="color:#f87171;font-size:12.5px;">1º Lula (PT)</b><small style="color:#64748b;display:block;">57.259.504 votos</small></div>
+                    <b style="color:#f87171;font-size:15px;">48,43%</b>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <div><b style="color:#60a5fa;font-size:12.5px;">2º Jair Bolsonaro (PL)</b><small style="color:#64748b;display:block;">51.072.345 votos</small></div>
+                    <b style="color:#60a5fa;font-size:15px;">43,20%</b>
+                  </div>
+                </div>
+                <div style="background:rgba(0,0,0,0.25);padding:6px 8px;border-radius:6px;margin-top:8px;font-size:10.5px;">
+                  <div style="display:flex;justify-content:space-between;"><span style="color:#cbd5e1;">Vantagem Lula:</span><b style="color:#f87171;">+6.187.159 (+5,23%)</b></div>
+                  <div style="display:flex;justify-content:space-between;margin-top:2px;"><span style="color:#94a3b8;">Tebet + Ciro:</span><b style="color:#facc15;">9.648.244 (8,14%)</b></div>
+                </div>
+              </div>
+
+              <!-- 2022 2ºT -->
+              <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(234,179,8,0.3);border-top:3px solid #eab308;border-radius:10px;padding:12px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                  <b style="color:#ffffff;font-size:13px;">Eleições 2022 (2ºT Oficial)</b>
+                  <span class="badge badge-elected" style="font-size:8px;">Lula Eleito</span>
+                </div>
+                <div style="font-size:10px;color:#94a3b8;margin-bottom:6px;">118.552.353 votos válidos</div>
+                <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px;">
+                  <div style="display:flex;justify-content:space-between;">
+                    <div><b style="color:#f87171;font-size:12.5px;">Lula (PT) — Vencedor</b><small style="color:#64748b;display:block;">60.345.999 (+3,08M)</small></div>
+                    <b style="color:#f87171;font-size:15px;">50,90%</b>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <div><b style="color:#60a5fa;font-size:12.5px;">Jair Bolsonaro (PL)</b><small style="color:#64748b;display:block;">58.206.354 (+7,13M)</small></div>
+                    <b style="color:#60a5fa;font-size:15px;">49,10%</b>
+                  </div>
+                </div>
+                <div style="background:rgba(0,0,0,0.25);padding:6px 8px;border-radius:6px;margin-top:8px;font-size:10.5px;">
+                  <div style="display:flex;justify-content:space-between;"><span style="color:#cbd5e1;">Margem Final:</span><b style="color:#facc15;">+2.139.645 (+1,80% L)</b></div>
+                  <div style="display:flex;justify-content:space-between;margin-top:2px;"><span style="color:#94a3b8;">Virada no Placar:</span><b style="color:#facc15;">18h44 (54,2% do NE)</b></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -2601,11 +2692,13 @@ button, select, input { font: inherit; }
       </div>
 
       <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
-        <div class="scope-pills" id="modalEvolScopePills">
+        <div class="scope-pills" id="modalEvolScopePills" style="flex-wrap:wrap;gap:4px;">
           <button class="scope-pill-btn active" id="modalBtn2026" onclick="setModalEvolutionMode('2026')">2026</button>
           <button class="scope-pill-btn" id="modalBtn2022" onclick="setModalEvolutionMode('2022')">2022 (2º Turno)</button>
-          <button class="scope-pill-btn" id="modalBtnOverlay" onclick="setModalEvolutionMode('overlay')">Sobrepor (2026 x 2022)</button>
+          <button class="scope-pill-btn" id="modalBtnOverlay" onclick="setModalEvolutionMode('overlay')">Sobrepor</button>
           <button class="scope-pill-btn" id="modalBtnSide" onclick="setModalEvolutionMode('side')">Lado a Lado</button>
+          <button class="scope-pill-btn" id="modalBtnToggleNE" onclick="toggleModalNortheastUrns()" style="border-color:#f59e0b;color:#facc15;font-weight:700;" title="Exibir percentual de urnas apuradas no Nordeste">⚡ % Urnas NE</button>
+          <button class="scope-pill-btn" id="modalBtnTriCompare" onclick="setModalEvolutionMode('tri_compare')" style="border-color:#a855f7;color:#c084fc;font-weight:700;">📊 Comparativo 1ºT x 2ºT</button>
         </div>
         <button class="modal-close-btn" onclick="closeEvolutionModal()">✕</button>
       </div>
@@ -3203,16 +3296,24 @@ function openEvolutionTriModal() {
 function setEvolutionMode(mode) {
   currentEvolutionMode = mode;
   document.querySelectorAll('#cardEvolution .scope-pill-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.id === 'btnEvol' + (mode === '2026' ? '2026' : (mode === '2022' ? '2022' : (mode === 'overlay' ? 'Overlay' : 'Side'))));
+    btn.classList.toggle('active', btn.id === 'btnEvol' + (mode === '2026' ? '2026' : (mode === '2022' ? '2022' : (mode === 'overlay' ? 'Overlay' : (mode === 'side' ? 'Side' : (mode === 'tri_compare' ? 'Tri' : 'NE'))))));
   });
 
   const normalView = document.getElementById('evolutionNormalView');
   const sideView = document.getElementById('evolutionSideView');
+  const triView = document.getElementById('evolutionTriCompareView');
   const title = document.getElementById('evolutionTitle');
   const sub = document.getElementById('evolutionSubline');
 
-  if (mode === 'side') {
+  if (mode === 'tri_compare') {
     normalView.style.display = 'none';
+    sideView.style.display = 'none';
+    if (triView) triView.style.display = 'flex';
+    title.textContent = 'Comparativo Histórico: 2026 vs 2022 (1ºT e 2ºT)';
+    sub.textContent = 'Votação lado a lado de Flávio, Lula e Bolsonaro, com percentuais, virada histórica e dinâmica da 3ª via';
+  } else if (mode === 'side') {
+    normalView.style.display = 'none';
+    if (triView) triView.style.display = 'none';
     sideView.style.display = 'flex';
     title.textContent = 'Comparativo Lado a Lado: 2026 vs 2022 (Hora a Hora)';
     sub.textContent = 'Análise paralela da noite de apuração dos dois pleitos presidenciais (17h às 23h)';
@@ -3220,6 +3321,7 @@ function setEvolutionMode(mode) {
   } else {
     normalView.style.display = 'block';
     sideView.style.display = 'none';
+    if (triView) triView.style.display = 'none';
 
     if (mode === '2026') {
       title.textContent = 'Evolução da apuração — Eleições 2026';
