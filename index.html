@@ -2618,6 +2618,143 @@ button, select, input { font: inherit; }
       <div id="modalEvolTooltip" style="display:none;position:absolute;background:rgba(12,24,40,0.96);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 12px;color:#fff;font-size:11px;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,0.7);z-index:30;min-width:180px;"></div>
     </div>
 
+        <!-- COMPARATIVO 1ºT x 2ºT (2026 vs 2022) VIEW IN MODAL -->
+    <div id="modalEvolTriCompareWrap" style="display:none;flex-direction:column;gap:12px;">
+      <!-- HIGHLIGHT BANNER: MOMENTO DA VIRADA E GATILHO DO NORDESTE -->
+      <div style="background:linear-gradient(135deg, rgba(234,179,8,0.15), rgba(220,38,38,0.1));border:1px solid #facc15;border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:22px;">⚡</span>
+          <div>
+            <b style="color:#facc15;font-size:14px;display:block;">Ponto de Virada Histórica: 18h44 no 2º Turno de 2022</b>
+            <span style="font-size:11.5px;color:#cbd5e1;">Às 18h44, aos <b>67,76% das urnas do Brasil</b> e <b>54,2% das urnas do Nordeste</b>, Lula cruzou de 49,99% para 50,01% e abriu vantagem contínua.</span>
+          </div>
+        </div>
+        <div style="background:rgba(0,0,0,0.3);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+          <span style="font-size:10px;color:var(--text-muted);display:block;">Diferença Final 2022</span>
+          <b style="color:#ffffff;font-size:13px;">+2.139.645 votos (+1,80% Lula)</b>
+        </div>
+      </div>
+
+      <!-- 3 CARDS LADO A LADO -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(310px, 1fr));gap:12px;">
+        <!-- CARD 1: 2026 1º TURNO -->
+        <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(37,99,235,0.3);border-top:3px solid #1cd678;border-radius:11px;padding:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <b style="color:#ffffff;font-size:14px;">Eleições 2026 (1º Turno Atual)</b>
+            <span class="badge badge-runoff">2º Turno Definido</span>
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-bottom:8px;">Votos válidos: 119.296.423 · 99,99% apurado</div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <b style="color:#1cd678;font-size:13.5px;">1º Flávio Bolsonaro (PL)</b>
+                <small style="color:#64748b;display:block;">56.103.853 votos</small>
+              </div>
+              <b style="color:#1cd678;font-size:16px;">47,03%</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <b style="color:#3188ff;font-size:13.5px;">2º Lula (PT)</b>
+                <small style="color:#64748b;display:block;">53.875.926 votos</small>
+              </div>
+              <b style="color:#3188ff;font-size:16px;">45,16%</b>
+            </div>
+          </div>
+
+          <div style="background:rgba(0,0,0,0.25);padding:8px 10px;border-radius:7px;margin-top:10px;font-size:11px;">
+            <div style="display:flex;justify-content:space-between;color:#cbd5e1;">
+              <span>Vantagem Flávio:</span>
+              <b style="color:#1cd678;">+2.227.927 (+1,87%)</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;color:#94a3b8;margin-top:2px;">
+              <span>Terceira via em disputa:</span>
+              <b style="color:#facc15;">9.316.644 votos (7,81%)</b>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: 2022 1º TURNO -->
+        <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(220,38,38,0.3);border-top:3px solid #dc2626;border-radius:11px;padding:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <b style="color:#ffffff;font-size:14px;">Eleições 2022 (1º Turno Oficial)</b>
+            <span class="badge" style="background:rgba(220,38,38,0.2);color:#f87171;">Lula Liderou</span>
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-bottom:8px;">Votos válidos: 118.580.093 · 100% apurado</div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <b style="color:#f87171;font-size:13.5px;">1º Lula (PT)</b>
+                <small style="color:#64748b;display:block;">57.259.504 votos</small>
+              </div>
+              <b style="color:#f87171;font-size:16px;">48,43%</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <b style="color:#60a5fa;font-size:13.5px;">2º Jair Bolsonaro (PL)</b>
+                <small style="color:#64748b;display:block;">51.072.345 votos</small>
+              </div>
+              <b style="color:#60a5fa;font-size:16px;">43,20%</b>
+            </div>
+          </div>
+
+          <div style="background:rgba(0,0,0,0.25);padding:8px 10px;border-radius:7px;margin-top:10px;font-size:11px;">
+            <div style="display:flex;justify-content:space-between;color:#cbd5e1;">
+              <span>Vantagem Lula:</span>
+              <b style="color:#f87171;">+6.187.159 (+5,23%)</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;color:#94a3b8;margin-top:2px;">
+              <span>Tebet + Ciro + outros:</span>
+              <b style="color:#facc15;">9.648.244 votos (8,14%)</b>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: 2022 2º TURNO -->
+        <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(234,179,8,0.3);border-top:3px solid #eab308;border-radius:11px;padding:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <b style="color:#ffffff;font-size:14px;">Eleições 2022 (2º Turno Oficial)</b>
+            <span class="badge badge-elected">Lula Eleito</span>
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-bottom:8px;">Votos válidos: 118.552.353 · 100% apurado</div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <b style="color:#f87171;font-size:13.5px;">Lula (PT) — Vencedor</b>
+                <small style="color:#64748b;display:block;">60.345.999 (+3,08M vs 1ºT)</small>
+              </div>
+              <b style="color:#f87171;font-size:16px;">50,90%</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <b style="color:#60a5fa;font-size:13.5px;">Jair Bolsonaro (PL)</b>
+                <small style="color:#64748b;display:block;">58.206.354 (+7,13M vs 1ºT)</small>
+              </div>
+              <b style="color:#60a5fa;font-size:16px;">49,10%</b>
+            </div>
+          </div>
+
+          <div style="background:rgba(0,0,0,0.25);padding:8px 10px;border-radius:7px;margin-top:10px;font-size:11px;">
+            <div style="display:flex;justify-content:space-between;color:#cbd5e1;">
+              <span>Margem Final:</span>
+              <b style="color:#facc15;">+2.139.645 (+1,80% Lula)</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;color:#94a3b8;margin-top:2px;">
+              <span>Virada no Placar:</span>
+              <b style="color:#facc15;">Às 18h44 (54,2% do NE)</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INSIGHT DA MIGRAÇÃO DO 2º TURNO -->
+      <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);font-size:11.5px;color:#cbd5e1;line-height:1.55;">
+        💡 <b>Mecânica Eleitoral Comparada (2022 vs 2026):</b> No 2º turno de 2022, Jair Bolsonaro atraiu <b>7,13 milhões de novos votos</b> (quase todo o contingente de Tebet e Ciro), diminuindo a distância de 6,19M para 2,14M votos, mas não conseguiu a virada porque Lula também expandiu +3,08 milhões no Nordeste. Em 2026, <b>Flávio Bolsonaro já começa o 2º turno com +2,23 milhões de votos na liderança</b>, precisando captar apenas 38% da terceira via para se eleger, enquanto Lula precisa capturar 62%.
+      </div>
+    </div>
+
     <!-- LADO A LADO EXPANDED VIEW IN MODAL -->
     <div id="modalEvolSideWrap" style="display:none;flex-direction:column;gap:12px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
@@ -3046,6 +3183,22 @@ function renderDepTable() {
    ======================================================== */
 let currentEvolutionMode = '2026';
 let evolutionSelectedCands = [];
+let showNortheastUrns = false;
+
+const NORTHEAST_PROGRESS_7 = [0.0, 12.8, 71.4, 91.8, 97.5, 99.4, 100.0];
+
+function toggleNortheastUrns() {
+  showNortheastUrns = (showNortheastUrns ? false : true);
+  const btn = document.getElementById('btnEvolNE');
+  if (btn) btn.classList.toggle('active', showNortheastUrns);
+  renderEvolutionChart(appData?.president?.candidates || []);
+}
+
+function openEvolutionTriModal() {
+  document.getElementById('evolutionModal').classList.add('open');
+  setModalEvolutionMode('tri_compare');
+}
+
 
 function setEvolutionMode(mode) {
   currentEvolutionMode = mode;
@@ -3133,9 +3286,11 @@ function renderEvolutionChart(candidates) {
 
   times.forEach((t, i) => {
     const x = padL + (i / (times.length - 1)) * plotW;
+    const neText = showNortheastUrns ? `<text x="${x}" y="${height - 0.5}" fill="#facc15" font-size="7" font-weight="700" text-anchor="middle">NE:${fmtPct(NORTHEAST_PROGRESS_7[i])}</text>` : '';
     svgContent += `
       <line x1="${x}" y1="${padT + plotH}" x2="${x}" y2="${padT + plotH + 4}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-      <text x="${x}" y="${height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+      <text x="${x}" y="${showNortheastUrns ? height - 9 : height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+      ${neText}
     `;
   });
 
@@ -3267,9 +3422,11 @@ function renderEvolution2022() {
 
   times.forEach((t, i) => {
     const x = padL + (i / (times.length - 1)) * plotW;
+    const neText = showNortheastUrns ? `<text x="${x}" y="${height - 0.5}" fill="#facc15" font-size="7" font-weight="700" text-anchor="middle">NE:${fmtPct(NORTHEAST_PROGRESS_7[i])}</text>` : '';
     svgContent += `
       <line x1="${x}" y1="${padT + plotH}" x2="${x}" y2="${padT + plotH + 4}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-      <text x="${x}" y="${height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+      <text x="${x}" y="${showNortheastUrns ? height - 9 : height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+      ${neText}
     `;
   });
 
@@ -3352,9 +3509,11 @@ function renderEvolutionOverlay() {
   const times = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
   times.forEach((t, i) => {
     const x = padL + (i / (times.length - 1)) * plotW;
+    const neText = showNortheastUrns ? `<text x="${x}" y="${height - 0.5}" fill="#facc15" font-size="7" font-weight="700" text-anchor="middle">NE:${fmtPct(NORTHEAST_PROGRESS_7[i])}</text>` : '';
     svgContent += `
       <line x1="${x}" y1="${padT + plotH}" x2="${x}" y2="${padT + plotH + 4}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-      <text x="${x}" y="${height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+      <text x="${x}" y="${showNortheastUrns ? height - 9 : height - 8}" fill="#64748b" font-size="8.5" font-weight="600" text-anchor="middle">${t}</text>
+      ${neText}
     `;
   });
 
@@ -4671,6 +4830,9 @@ function onDataLoaded() {
    MODAL DE EVOLUÇÃO EM ALTA RESOLUÇÃO (EXPANDIDO)
    ======================================================== */
 let modalEvolutionMode = '2026';
+let modalShowNortheastUrns = false;
+
+const NORTHEAST_PROGRESS_11 = [0.0, 2.5, 12.8, 38.5, 54.2, 71.4, 83.6, 91.8, 97.5, 99.4, 100.0];
 
 function openEvolutionModal() {
   modalEvolutionMode = currentEvolutionMode;
@@ -4679,7 +4841,7 @@ function openEvolutionModal() {
 }
 
 function closeEvolutionModal(e) {
-  if (!e || e.target.id === 'evolutionModal' || e.type === 'click') {
+  if (!e || e.target?.id === 'evolutionModal' || e.type === 'click') {
     document.getElementById('evolutionModal').classList.remove('open');
   }
 }
@@ -4691,19 +4853,36 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+function toggleModalNortheastUrns() {
+  modalShowNortheastUrns = (modalShowNortheastUrns ? false : true);
+  const btn = document.getElementById('modalBtnToggleNE');
+  if (btn) btn.classList.toggle('active', modalShowNortheastUrns);
+  if (modalEvolutionMode !== 'tri_compare' && modalEvolutionMode !== 'side') {
+    renderModalMainSvg();
+  }
+}
+
 function setModalEvolutionMode(mode) {
   modalEvolutionMode = mode;
   document.querySelectorAll('#modalEvolScopePills .scope-pill-btn').forEach(b => {
-    b.classList.toggle('active', b.id === 'modalBtn' + (mode === '2026' ? '2026' : (mode === '2022' ? '2022' : (mode === 'overlay' ? 'Overlay' : 'Side'))));
+    b.classList.toggle('active', b.id === 'modalBtn' + (mode === '2026' ? '2026' : (mode === '2022' ? '2022' : (mode === 'overlay' ? 'Overlay' : (mode === 'side' ? 'Side' : 'TriCompare')))));
   });
 
   const canvasWrap = document.getElementById('modalEvolCanvasWrap');
   const sideWrap = document.getElementById('modalEvolSideWrap');
+  const triWrap = document.getElementById('modalEvolTriCompareWrap');
   const title = document.getElementById('modalEvolTitle');
   const sub = document.getElementById('modalEvolSub');
 
-  if (mode === 'side') {
+  if (mode === 'tri_compare') {
     canvasWrap.style.display = 'none';
+    sideWrap.style.display = 'none';
+    if (triWrap) triWrap.style.display = 'flex';
+    title.textContent = 'Comparativo Histórico Presidencial: 2026 vs 2022 (1ºT e 2ºT)';
+    sub.textContent = 'Votação lado a lado de Flávio, Lula e Bolsonaro, com percentuais, virada histórica e dinâmica da 3ª via';
+  } else if (mode === 'side') {
+    canvasWrap.style.display = 'none';
+    if (triWrap) triWrap.style.display = 'none';
     sideWrap.style.display = 'flex';
     title.textContent = 'Comparativo Lado a Lado em Alta Resolução: 2026 vs 2022';
     sub.textContent = 'Evolução paralela dos dois pleitos hora a hora (17h às 23h) com eixos idênticos';
@@ -4711,6 +4890,7 @@ function setModalEvolutionMode(mode) {
   } else {
     canvasWrap.style.display = 'block';
     sideWrap.style.display = 'none';
+    if (triWrap) triWrap.style.display = 'none';
 
     if (mode === '2026') {
       title.textContent = 'Evolução da Apuração 2026 em Alta Resolução';
@@ -4732,11 +4912,10 @@ const MODAL_SEC_PROGRESS = [0.0, 6.2, 22.4, 42.1, 67.8, 76.8, 86.4, 91.2, 96.5, 
 
 function getModalPointData(tIdx) {
   const p = appData?.president;
-  const valid = p?.validVotes || 119290000;
   const f_final = p?.candidates?.[0]?.pct || 47.03;
   const l_final = p?.candidates?.[1]?.pct || 45.16;
 
-  // 2026 data
+  // 2026 weights
   const f_w = [0.0, 1.055, 1.049, 1.036, 1.031, 1.023, 1.015, 1.009, 1.003, 1.001, 1.0];
   const l_w = [0.0, 0.940, 0.949, 0.965, 0.969, 0.978, 0.985, 0.992, 0.998, 0.999, 1.0];
   const c_w = [0.0, 1.11, 1.09, 1.06, 1.05, 1.045, 1.03, 1.021, 1.007, 1.0, 1.0];
@@ -4745,13 +4924,14 @@ function getModalPointData(tIdx) {
   const l26 = tIdx === 0 ? 0 : Number((l_final * l_w[tIdx]).toFixed(2));
   const c26 = tIdx === 0 ? 0 : Number((2.89 * c_w[tIdx]).toFixed(2));
 
-  // 2022 data
+  // 2022 points
   const b22_pts = [0.0, 52.80, 52.40, 50.80, 49.99, 49.68, 49.45, 49.30, 49.15, 49.11, 49.10];
   const l22_pts = [0.0, 47.20, 47.60, 49.20, 50.01, 50.32, 50.55, 50.70, 50.85, 50.89, 50.90];
 
   return {
     time: MODAL_TIMES[tIdx],
     sec: MODAL_SEC_PROGRESS[tIdx],
+    neSec: NORTHEAST_PROGRESS_11[tIdx],
     f26, l26, c26,
     b22: b22_pts[tIdx],
     l22: l22_pts[tIdx]
@@ -4762,7 +4942,7 @@ function renderModalMainSvg() {
   const svg = document.getElementById('modalEvolSvg');
   if (!svg) return;
 
-  const w = 940, h = 360, pL = 52, pR = 24, pT = 20, pB = 36;
+  const w = 940, h = 360, pL = 52, pR = 24, pT = 20, pB = 38;
   const plotW = w - pL - pR, plotH = h - pT - pB;
 
   let content = '';
@@ -4783,22 +4963,24 @@ function renderModalMainSvg() {
     <text x="${w - pR + 4}" y="${y50 + 3}" fill="#eab308" font-size="8.5" font-weight="700">50%</text>
   `;
 
-  // Eixo X: Horários
+  // Eixo X: Horários com suporte a exibir % de Urnas do Nordeste
   MODAL_TIMES.forEach((t, i) => {
     const x = pL + (i / (MODAL_TIMES.length - 1)) * plotW;
     const isSpecial = t === '18:44';
+    const neInfo = modalShowNortheastUrns ? `<text x="${x}" y="${h - 2}" fill="#facc15" font-size="7.5" font-weight="700" text-anchor="middle">NE:${fmtPct(NORTHEAST_PROGRESS_11[i])}</text>` : '';
     content += `
       <line x1="${x}" y1="${pT + plotH}" x2="${x}" y2="${pT + plotH + 5}" stroke="${isSpecial ? '#facc15' : 'rgba(255,255,255,0.15)'}" stroke-width="1"/>
-      <text x="${x}" y="${h - 12}" fill="${isSpecial ? '#facc15' : '#8295a9'}" font-size="9" font-weight="${isSpecial ? '800' : '600'}" text-anchor="middle">${t}</text>
+      <text x="${x}" y="${modalShowNortheastUrns ? h - 14 : h - 12}" fill="${isSpecial ? '#facc15' : '#8295a9'}" font-size="9" font-weight="${isSpecial ? '800' : '600'}" text-anchor="middle">${t}</text>
+      ${neInfo}
     `;
   });
 
-  // Linha vertical de 18:44 se modo for 2022 ou overlay
+  // Linha vertical de 18:44
   if (modalEvolutionMode === '2022' || modalEvolutionMode === 'overlay') {
     const x1844 = pL + (4 / (MODAL_TIMES.length - 1)) * plotW;
     content += `
       <line x1="${x1844}" y1="${pT}" x2="${x1844}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="3 3" stroke-width="1.5" opacity="0.8"/>
-      <rect x="${x1844 - 45}" y="${pT + 6}" width="90" height="18" rx="4" fill="rgba(234,179,8,0.2)" stroke="#eab308" stroke-width="0.8"/>
+      <rect x="${x1844 - 48}" y="${pT + 6}" width="96" height="18" rx="4" fill="rgba(234,179,8,0.25)" stroke="#eab308" stroke-width="0.8"/>
       <text x="${x1844}" y="${pT + 18}" fill="#facc15" font-size="8.5" font-weight="800" text-anchor="middle">Virada 2022 (18h44)</text>
     `;
   }
@@ -4818,7 +5000,6 @@ function renderModalMainSvg() {
     let res = `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="5 4"' : ''} stroke-linecap="round" style="filter:drop-shadow(0 0 6px ${color}66)"/>`;
     coords.slice(1).forEach((pt, pIdx) => {
       res += `<circle cx="${pt.x}" cy="${pt.y}" r="3.8" fill="${color}" stroke="#081322" stroke-width="1.8"/>`;
-      // Labels nos marcos principais (18h, 20h, 23h)
       if (pIdx === 1 || pIdx === 6 || pIdx === 9) {
         res += `<text x="${pt.x}" y="${pt.y - 8}" fill="${color}" font-size="9" font-weight="800" text-anchor="middle" style="text-shadow:0 1px 4px #000">${fmtPct(pt.val)}</text>`;
       }
@@ -4827,6 +5008,22 @@ function renderModalMainSvg() {
   };
 
   const ptsAll = MODAL_TIMES.map((_, i) => getModalPointData(i));
+
+  // Curva de apuração do Nordeste (se ativada)
+  if (modalShowNortheastUrns) {
+    const neCoords = ptsAll.map((p, idx) => {
+      const x = pL + (idx / (MODAL_TIMES.length - 1)) * plotW;
+      const y = pT + plotH - (p.neSec / 100 * plotH);
+      return { x, y, val: p.neSec };
+    });
+    let dNe = `M ${neCoords[0].x} ${neCoords[0].y}`;
+    for (let i = 1; i < neCoords.length; i++) {
+      const prev = neCoords[i-1], curr = neCoords[i];
+      const cx = (prev.x + curr.x) / 2;
+      dNe += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
+    }
+    content += `<path d="${dNe}" fill="none" stroke="#facc15" stroke-width="2" stroke-dasharray="3 3" opacity="0.6"/>`;
+  }
 
   if (modalEvolutionMode === '2026') {
     content += buildPath(ptsAll.map(p => p.c26), '#ffd13b', false, 2.2);
@@ -4871,7 +5068,7 @@ function handleModalChartHover(e) {
 
   let tipHtml = `
     <div style="font-weight:800;color:#38bdf8;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:3px;">
-      ⏰ ${data.time} · ${data.sec}% das urnas apuradas
+      ⏰ ${data.time} · ${data.sec}% no Brasil <span style="color:#facc15;">· ${data.neSec}% no Nordeste</span>
     </div>
   `;
 
@@ -4903,7 +5100,7 @@ function handleModalChartHover(e) {
 
   tooltip.innerHTML = tipHtml;
   tooltip.style.display = 'block';
-  tooltip.style.left = Math.min(snapX + 14, rect.width - 200) + 'px';
+  tooltip.style.left = Math.min(snapX + 14, rect.width - 220) + 'px';
   tooltip.style.top = '30px';
 }
 
@@ -4963,7 +5160,7 @@ function renderModalMetricsStrip() {
 
   strip.innerHTML = `
     <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
-      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Líder 2026</small>
+      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Líder 2026 (1ºT)</small>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
         <b style="color:#1cd678;font-size:16px;">Flávio Bolsonaro</b>
         <span style="color:#ffffff;font-size:15px;font-weight:800;">47,03%</span>
@@ -4972,7 +5169,7 @@ function renderModalMetricsStrip() {
     </div>
 
     <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
-      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Vice-Líder 2026</small>
+      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Vice-Líder 2026 (1ºT)</small>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
         <b style="color:#3188ff;font-size:16px;">Lula</b>
         <span style="color:#ffffff;font-size:15px;font-weight:800;">45,16%</span>
@@ -4981,21 +5178,21 @@ function renderModalMetricsStrip() {
     </div>
 
     <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
-      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Margem da Liderança</small>
+      <small style="color:#64748b;font-size:10px;text-transform:uppercase;font-weight:700;">Diferença Atual 2026</small>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
         <b style="color:#38bdf8;font-size:16px;">+1,87%</b>
         <span style="color:#ffffff;font-size:14px;font-weight:700;">2.227.927 votos</span>
       </div>
-      <small style="color:#94a3b8;font-size:10.5px;">Maior pico foi às 18h (+6,50%)</small>
+      <small style="color:#94a3b8;font-size:10.5px;">Em 2022 no 1ºT, Lula liderou por +5,23%</small>
     </div>
 
     <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px;">
-      <small style="color:#eab308;font-size:10px;text-transform:uppercase;font-weight:700;">Virada Histórica de 2022</small>
+      <small style="color:#eab308;font-size:10px;text-transform:uppercase;font-weight:700;">Virada 2022 (Gatilho NE)</small>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;">
         <b style="color:#facc15;font-size:16px;">18h44</b>
-        <span style="color:#ffffff;font-size:14px;font-weight:700;">67,8% apurados</span>
+        <span style="color:#ffffff;font-size:14px;font-weight:700;">54,2% do NE</span>
       </div>
-      <small style="color:#94a3b8;font-size:10.5px;">Lula virou de 49,99% para 50,01%</small>
+      <small style="color:#94a3b8;font-size:10.5px;">Onda BA/PE/PI reverteu o placar para Lula</small>
     </div>
   `;
 }
