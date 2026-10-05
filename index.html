@@ -2247,7 +2247,65 @@ button, select, input { font: inherit; }
                   <div style="display:flex;justify-content:space-between;margin-top:2px;"><span style="color:#94a3b8;">Virada no Placar:</span><b style="color:#facc15;">18h44 (54,2% do NE)</b></div>
                 </div>
               </div>
+                  <!-- SIMULAÇÃO PREDITIVA 2026 COM DADOS DE 2022 -->
+      <div style="background:linear-gradient(135deg, rgba(37,99,235,0.12), rgba(16,185,129,0.08));border:1px solid rgba(56,189,248,0.3);border-radius:10px;padding:14px;margin-top:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:18px;">🎯</span>
+            <b style="color:#ffffff;font-size:13.5px;">Simulação: E se Flávio e Lula repetirem o desempenho de 2022 no 2º Turno?</b>
+          </div>
+          <span style="font-size:11px;color:#38bdf8;font-weight:700;">Projeções Matemáticas Baseadas no TSE</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(290px, 1fr));gap:10px;">
+          <!-- CENÁRIO 1: MESMO GANHO DE VOTOS (DELTA 1ºT -> 2ºT) -->
+          <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-left:3px solid #1cd678;border-radius:8px;padding:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <b style="color:#1cd678;font-size:12px;">Cenário 1: Mesmo Ganho de Votos (+7,13M vs +3,08M)</b>
+              <span class="badge badge-elected" style="font-size:8.5px;">Flávio Vence</span>
             </div>
+            <p style="font-size:10.5px;color:#94a3b8;line-height:1.45;margin-bottom:8px;">
+              Em 2022, Bolsonaro ganhou <b>+7.134.009 votos</b> no 2ºT e Lula ganhou <b>+3.086.495 votos</b>. Aplicando esse mesmo crescimento sobre o 1º turno de 2026:
+            </p>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px;">
+              <span style="color:#1cd678;font-weight:700;">Flávio Bolsonaro:</span>
+              <b>63.237.862 votos (52,61%)</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;">
+              <span style="color:#3188ff;font-weight:700;">Lula:</span>
+              <b>56.962.421 votos (47,39%)</b>
+            </div>
+            <div style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:5px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;">
+              <span>Vantagem Projetada:</span>
+              <b style="color:#1cd678;">+6.275.441 votos (+5,22% Flávio)</b>
+            </div>
+          </div>
+
+          <!-- CENÁRIO 2: MESMA VOTAÇÃO NOMINAL ABSOLUTA DE 2022 -->
+          <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-left:3px solid #dc2626;border-radius:8px;padding:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <b style="color:#f87171;font-size:12px;">Cenário 2: Mesma Votação Nominal de 2022 (60,35M vs 58,21M)</b>
+              <span class="badge" style="background:rgba(220,38,38,0.2);color:#f87171;font-size:8.5px;">Lula Vence</span>
+            </div>
+            <p style="font-size:10.5px;color:#94a3b8;line-height:1.45;margin-bottom:8px;">
+              Se ambos repetirem exatamente a quantidade total de votos de 2022 (Lula com 60,34M e Flávio com 58,20M):
+            </p>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px;">
+              <span style="color:#f87171;font-weight:700;">Lula:</span>
+              <b>60.345.999 votos (50,90%)</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;">
+              <span style="color:#60a5fa;font-weight:700;">Flávio Bolsonaro:</span>
+              <b>58.206.354 votos (49,10%)</b>
+            </div>
+            <div style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:5px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;">
+              <span>Exigência para Lula:</span>
+              <b style="color:#facc15;">Necessita de +6,47M votos (69,4% da 3ª via)</b>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
           </div>
 
           <!-- LADO A LADO VIEW (when mode === 'side') -->
@@ -2854,6 +2912,66 @@ button, select, input { font: inherit; }
       <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);font-size:11.5px;color:#cbd5e1;line-height:1.55;">
         💡 <b>Mecânica Eleitoral Comparada (2022 vs 2026):</b> No 2º turno de 2022, Jair Bolsonaro atraiu <b>7,13 milhões de novos votos</b> (quase todo o contingente de Tebet e Ciro), diminuindo a distância de 6,19M para 2,14M votos, mas não conseguiu a virada porque Lula também expandiu +3,08 milhões no Nordeste. Em 2026, <b>Flávio Bolsonaro já começa o 2º turno com +2,23 milhões de votos na liderança</b>, precisando captar apenas 38% da terceira via para se eleger, enquanto Lula precisa capturar 62%.
       </div>
+
+      <!-- SIMULAÇÃO PREDITIVA 2026 COM DADOS DE 2022 -->
+      <div style="background:linear-gradient(135deg, rgba(37,99,235,0.12), rgba(16,185,129,0.08));border:1px solid rgba(56,189,248,0.3);border-radius:10px;padding:14px;margin-top:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:18px;">🎯</span>
+            <b style="color:#ffffff;font-size:13.5px;">Simulação: E se Flávio e Lula repetirem o desempenho de 2022 no 2º Turno?</b>
+          </div>
+          <span style="font-size:11px;color:#38bdf8;font-weight:700;">Projeções Matemáticas Baseadas no TSE</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(290px, 1fr));gap:10px;">
+          <!-- CENÁRIO 1: MESMO GANHO DE VOTOS (DELTA 1ºT -> 2ºT) -->
+          <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-left:3px solid #1cd678;border-radius:8px;padding:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <b style="color:#1cd678;font-size:12px;">Cenário 1: Mesmo Ganho de Votos (+7,13M vs +3,08M)</b>
+              <span class="badge badge-elected" style="font-size:8.5px;">Flávio Vence</span>
+            </div>
+            <p style="font-size:10.5px;color:#94a3b8;line-height:1.45;margin-bottom:8px;">
+              Em 2022, Bolsonaro ganhou <b>+7.134.009 votos</b> no 2ºT e Lula ganhou <b>+3.086.495 votos</b>. Aplicando esse mesmo crescimento sobre o 1º turno de 2026:
+            </p>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px;">
+              <span style="color:#1cd678;font-weight:700;">Flávio Bolsonaro:</span>
+              <b>63.237.862 votos (52,61%)</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;">
+              <span style="color:#3188ff;font-weight:700;">Lula:</span>
+              <b>56.962.421 votos (47,39%)</b>
+            </div>
+            <div style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:5px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;">
+              <span>Vantagem Projetada:</span>
+              <b style="color:#1cd678;">+6.275.441 votos (+5,22% Flávio)</b>
+            </div>
+          </div>
+
+          <!-- CENÁRIO 2: MESMA VOTAÇÃO NOMINAL ABSOLUTA DE 2022 -->
+          <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-left:3px solid #dc2626;border-radius:8px;padding:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <b style="color:#f87171;font-size:12px;">Cenário 2: Mesma Votação Nominal de 2022 (60,35M vs 58,21M)</b>
+              <span class="badge" style="background:rgba(220,38,38,0.2);color:#f87171;font-size:8.5px;">Lula Vence</span>
+            </div>
+            <p style="font-size:10.5px;color:#94a3b8;line-height:1.45;margin-bottom:8px;">
+              Se ambos repetirem exatamente a quantidade total de votos de 2022 (Lula com 60,34M e Flávio com 58,20M):
+            </p>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px;">
+              <span style="color:#f87171;font-weight:700;">Lula:</span>
+              <b>60.345.999 votos (50,90%)</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;">
+              <span style="color:#60a5fa;font-weight:700;">Flávio Bolsonaro:</span>
+              <b>58.206.354 votos (49,10%)</b>
+            </div>
+            <div style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:5px;font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between;">
+              <span>Exigência para Lula:</span>
+              <b style="color:#facc15;">Necessita de +6,47M votos (69,4% da 3ª via)</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- LADO A LADO EXPANDED VIEW IN MODAL -->
@@ -4942,6 +5060,15 @@ function renderQAAndScenarios() {
       answer: `<b>Lula</b> apresentou a votação mais concentrada, com picos expressivos no Nordeste (PI 70,99%, BA 66,17%, MA 63,98%) e vales no Sul (SC 25,04%, RS ~38%). <b>Flávio Bolsonaro</b> liderou com ampla vantagem no Sul e Centro-Oeste (RR 71,06%, RO 67,45%, SC 66,65%) e em São Paulo (51,93%). O estado fiel da balança foi novamente <b>Minas Gerais</b>, onde o equilíbrio refletiu a média nacional (Flávio 48,24% x Lula 43,33%).`,
       metricLabel: 'Estado fiel da balança nacional:',
       metricVal: 'Minas Gerais (MG)'
+    },
+    {
+      badge: 'Cenário 6 · Simulação com Votação de 2022',
+      badgeBg: 'rgba(29,114,254,0.18)',
+      badgeColor: '#60a5fa',
+      question: 'Se Flávio e Lula repetirem o que Bolsonaro e Lula ganharam no 2º turno de 2022, qual seria o resultado hoje?',
+      answer: `<b>Flávio Bolsonaro venceria com 52,61% dos votos (63.237.862 votos) contra 47,39% de Lula (56.962.421 votos)</b>, abrindo uma frente de <b>+6,28 milhões de votos (+5,22%)</b>!<br><br><b>Por que isso ocorre?</b> Em 2022, Jair Bolsonaro teve um crescimento expressivo no 2º turno (+7,13 milhões de votos), mas perdeu porque partiu de uma desvantagem de 6,18 milhões no 1º turno. Em 2026, a situação é invertida: <b>Flávio já entra liderando com +2,23 milhões de votos de vantagem</b>. Se Flávio repetir o mesmo ganho de votos de Bolsonaro (+7,13M) e Lula repetir seu crescimento modesto de 2022 (+3,08M), Flávio consolida vitória ampla no 2º turno.<br><br>Por outro lado, se Lula conseguisse repetir sua votação nominal de 2022 (60,35 milhões), <b>ele venceria por 50,90% x 49,10%</b>, mas para isso precisaria capturar quase <b>70% de toda a terceira via de 2026 (+6,47 milhões de votos)</b>.`,
+      metricLabel: 'Resultado com ganho de 2022:',
+      metricVal: 'Flávio 52,61% x Lula 47,39% (+6,28M)'
     }
   ];
 
