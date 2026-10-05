@@ -2252,7 +2252,7 @@ button, select, input { font: inherit; }
 
           <!-- LADO A LADO VIEW (when mode === 'side') -->
           <div id="evolutionSideView" style="display:none;flex-direction:column;gap:12px;">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:10px;">
               <!-- 2026 Mini -->
               <div style="background:rgba(255,255,255,0.02);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center;">
@@ -2268,6 +2268,14 @@ button, select, input { font: inherit; }
                   <span style="font-size:10px;color:#f87171">Lula 50,90% x Bolsonaro 49,10%</span>
                 </div>
                 <svg id="evolutionSideSvg2022" viewBox="0 0 340 135" style="width:100%;height:125px;"></svg>
+              </div>
+              <!-- 3rd CHART: NE Comparison Mini -->
+              <div style="background:rgba(255,255,255,0.02);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center;">
+                  <b style="color:#ffffff;font-size:12px;">Ritmo Urnas NE (2026 x 2022)</b>
+                  <span style="font-size:10px;color:#facc15">Sobreposição de Ritmo</span>
+                </div>
+                <svg id="evolutionSideSvgNE" viewBox="0 0 340 135" style="width:100%;height:125px;"></svg>
               </div>
             </div>
             <!-- Analytical comparison table -->
@@ -2850,20 +2858,30 @@ button, select, input { font: inherit; }
 
     <!-- LADO A LADO EXPANDED VIEW IN MODAL -->
     <div id="modalEvolSideWrap" style="display:none;flex-direction:column;gap:12px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(310px, 1fr));gap:12px;">
+        <!-- 2026 Large -->
         <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;align-items:center;">
-            <b style="color:#ffffff;font-size:14px;">Eleições 2026 (Flávio x Lula)</b>
+            <b style="color:#ffffff;font-size:13.5px;">Eleições 2026 (Flávio x Lula)</b>
             <span style="font-size:11px;color:var(--green)">Flávio 47,03% x Lula 45,16%</span>
           </div>
-          <svg id="modalSideSvg2026" viewBox="0 0 460 220" style="width:100%;height:220px;display:block;"></svg>
+          <svg id="modalSideSvg2026" viewBox="0 0 440 210" style="width:100%;height:210px;display:block;"></svg>
         </div>
+        <!-- 2022 Large -->
         <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;align-items:center;">
-            <b style="color:#ffffff;font-size:14px;">2º Turno 2022 (Lula x Bolsonaro)</b>
+            <b style="color:#ffffff;font-size:13.5px;">2º Turno 2022 (Lula x Bolsonaro)</b>
             <span style="font-size:11px;color:#f87171">Lula 50,90% x Bolsonaro 49,10%</span>
           </div>
-          <svg id="modalSideSvg2022" viewBox="0 0 460 220" style="width:100%;height:220px;display:block;"></svg>
+          <svg id="modalSideSvg2022" viewBox="0 0 440 210" style="width:100%;height:210px;display:block;"></svg>
+        </div>
+        <!-- 3rd CHART: NE Comparison Large -->
+        <div style="background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;align-items:center;">
+            <b style="color:#ffffff;font-size:13.5px;">Ritmo Urnas Nordeste (2026 x 2022)</b>
+            <span style="font-size:11px;color:#facc15">Sobreposição de Velocidade</span>
+          </div>
+          <svg id="modalSideSvgNE" viewBox="0 0 440 210" style="width:100%;height:210px;display:block;"></svg>
         </div>
       </div>
     </div>
@@ -3678,20 +3696,26 @@ function renderEvolutionOverlay() {
 function renderEvolutionSideBySide() {
   const svg26 = document.getElementById('evolutionSideSvg2026');
   const svg22 = document.getElementById('evolutionSideSvg2022');
+  const svgNE = document.getElementById('evolutionSideSvgNE');
   const tbody = document.getElementById('evolutionCompareTableBody');
   if (!svg26 || !svg22 || !tbody) return;
 
-  const w = 340, h = 135, pL = 30, pR = 10, pT = 12, pB = 22;
+  const w = 340, h = 135, pL = 30, pR = 10, pT = 14, pB = 22;
   const plotW = w - pL - pR, plotH = h - pT - pB;
   const times = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
 
-  const drawMiniGrid = () => {
+  const drawMiniGrid = (yMin, yMax, yStep) => {
     let s = '';
-    [40, 45, 50, 55].forEach(tick => {
-      const y = pT + plotH - ((tick - 40) / 20 * plotH);
+    for (let tick = yMin; tick <= yMax; tick += yStep) {
+      const y = pT + plotH - ((tick - yMin) / (yMax - yMin) * plotH);
       s += `<line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
             <text x="${pL - 4}" y="${y + 3}" fill="#64748b" font-size="7.5" text-anchor="end">${tick}%</text>`;
-    });
+    }
+    // Linha 50%
+    if (50 >= yMin && 50 <= yMax) {
+      const y50 = pT + plotH - ((50 - yMin) / (yMax - yMin) * plotH);
+      s += `<line x1="${pL}" y1="${y50}" x2="${w - pR}" y2="${y50}" stroke="#eab308" stroke-dasharray="2 2" stroke-width="0.8" opacity="0.6"/>`;
+    }
     times.forEach((t, i) => {
       const x = pL + (i / (times.length - 1)) * plotW;
       s += `<text x="${x}" y="${h - 6}" fill="#64748b" font-size="7.5" text-anchor="middle">${t}</text>`;
@@ -3699,39 +3723,66 @@ function renderEvolutionSideBySide() {
     return s;
   };
 
-  const drawCurve = (pts, color) => {
+  const drawCurve = (pts, color, yMin, yMax, strokeW, isDashed) => {
     const coords = pts.map((val, idx) => {
       const x = pL + (idx / (times.length - 1)) * plotW;
-      const y = pT + plotH - ((Math.max(40, val) - 40) / 20 * plotH);
+      const y = pT + plotH - ((Math.max(yMin, val) - yMin) / (yMax - yMin) * plotH);
       return { x, y };
     });
-    let d = `M ${coords[1].x} ${coords[1].y}`;
-    for (let i = 2; i < coords.length; i++) {
+    let d = `M ${coords[0].x} ${coords[0].y}`;
+    for (let i = 1; i < coords.length; i++) {
       const cx = (coords[i-1].x + coords[i].x) / 2;
       d += ` C ${cx} ${coords[i-1].y}, ${cx} ${coords[i].y}, ${coords[i].x} ${coords[i].y}`;
     }
-    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round"/>`;
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="3 2"' : ''} stroke-linecap="round"/>`;
   };
 
-  // 2026 mini
-  const f26 = [40.0, 49.35, 48.12, 47.45, 47.15, 47.05, 47.03];
-  const l26 = [40.0, 42.85, 44.15, 44.82, 45.08, 45.14, 45.16];
-  svg26.innerHTML = drawMiniGrid() + drawCurve(f26, '#1cd678') + drawCurve(l26, '#3188ff');
+  // 1. 2026 mini (Flávio x Lula + Curva NE 2026)
+  const f26 = [0.0, 49.35, 48.12, 47.45, 47.15, 47.05, 47.03];
+  const l26 = [0.0, 42.85, 44.15, 44.82, 45.08, 45.14, 45.16];
+  const ne26_7 = [0.0, 12.8, 71.4, 91.8, 97.5, 99.4, 100.0];
+  svg26.innerHTML = drawMiniGrid(0, 100, 25) +
+    drawCurve(ne26_7, '#facc15', 0, 100, 1.8, true) +
+    drawCurve(l26, '#3188ff', 0, 100, 2.4, false) +
+    drawCurve(f26, '#1cd678', 0, 100, 2.6, false);
 
-  // 2022 mini
-  const b22 = [40.0, 52.40, 49.68, 49.30, 49.15, 49.11, 49.10];
-  const l22 = [40.0, 47.60, 50.32, 50.70, 50.85, 50.89, 50.90];
-  svg22.innerHTML = drawMiniGrid() + drawCurve(b22, '#2563eb') + drawCurve(l22, '#dc2626');
+  // 2. 2022 mini (Bolsonaro x Lula + Curva NE 2022)
+  const b22 = [0.0, 52.40, 49.68, 49.30, 49.15, 49.11, 49.10];
+  const l22 = [0.0, 47.60, 50.32, 50.70, 50.85, 50.89, 50.90];
+  const ne22_7 = [0.0, 10.4, 74.5, 93.4, 98.2, 99.7, 100.0];
+  svg22.innerHTML = drawMiniGrid(0, 100, 25) +
+    drawCurve(ne22_7, '#facc15', 0, 100, 1.8, true) +
+    drawCurve(b22, '#2563eb', 0, 100, 2.4, false) +
+    drawCurve(l22, '#dc2626', 0, 100, 2.6, false);
 
-  // Comparison table hora a hora
+  // 3. NOVO: 3º GRÁFICO (RITMO DE APURAÇÃO DO NORDESTE: 2026 x 2022 SOBREPOSTOS)
+  if (svgNE) {
+    let neContent = drawMiniGrid(0, 100, 25);
+    // Linha do tempo da virada (18h44)
+    const xVir = pL + (1.733 / (times.length - 1)) * plotW;
+    neContent += `
+      <line x1="${xVir}" y1="${pT}" x2="${xVir}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="2 2" stroke-width="1"/>
+      <text x="${xVir}" y="${pT + 8}" fill="#facc15" font-size="7" font-weight="700" text-anchor="middle">Virada 18h44</text>
+    `;
+    neContent += drawCurve(ne22_7, '#f97316', 0, 100, 2.4, true); // NE 2022 (Laranja tracejado)
+    neContent += drawCurve(ne26_7, '#facc15', 0, 100, 2.6, false); // NE 2026 (Amarelo contínuo)
+
+    // Legenda interna
+    neContent += `
+      <text x="${pL + 4}" y="${pT + 8}" fill="#facc15" font-size="7.5" font-weight="800">― NE 2026</text>
+      <text x="${pL + 52}" y="${pT + 8}" fill="#f97316" font-size="7.5" font-weight="800">- - NE 2022</text>
+    `;
+    svgNE.innerHTML = neContent;
+  }
+
+  // Tabela hora a hora com ritmo do Nordeste
   const compRows = [
-    { t: '18:00', c26: 'Flávio 49,35% x Lula 42,85% (+6,50% F)', c22: 'J. Bolso 52,40% x Lula 47,60% (+4,80% B)', dyn: 'Abertura rápida com vantagem da direita (Sul/DF)' },
-    { t: '18:44', c26: 'Flávio 48,50% x Lula 43,60% (+4,90% F)', c22: 'J. Bolso 49,99% x Lula 50,01% (+0,02% L)', dyn: 'Ponto da virada histórica em 2022; em 2026 Flávio sustentou a liderança' },
-    { t: '19:00', c26: 'Flávio 48,12% x Lula 44,15% (+3,97% F)', c22: 'J. Bolso 49,68% x Lula 50,32% (+0,64% L)', dyn: 'Entrada acelerada dos colégios eleitorais do Nordeste' },
-    { t: '20:00', c26: 'Flávio 47,45% x Lula 44,82% (+2,63% F)', c22: 'J. Bolso 49,30% x Lula 50,70% (+1,40% L)', dyn: 'Em 2022 Lula matematicamente eleito (19h57); em 2026 margem estagnou' },
-    { t: '21:00', c26: 'Flávio 47,15% x Lula 45,08% (+2,07% F)', c22: 'J. Bolso 49,15% x Lula 50,85% (+1,70% L)', dyn: 'Estabilização estatística de todas as urnas apuradas' },
-    { t: '22:00', c26: 'Flávio 47,05% x Lula 45,14% (+1,91% F)', c22: 'J. Bolso 49,11% x Lula 50,89% (+1,78% L)', dyn: 'Consolidação das últimas seções do interior e exterior' },
-    { t: '23:00', c26: 'Flávio 47,03% x Lula 45,16% (+1,87% F)', c22: 'J. Bolso 49,10% x Lula 50,90% (+1,80% L)', dyn: '2026 decretou 2º turno; 2022 sacramentou vitória de Lula' }
+    { t: '18:00', c26: 'Flávio 49,35% x Lula 42,85% (NE: 12,8%)', c22: 'Bolso 52,40% x Lula 47,60% (NE: 10,4%)', dyn: '2026 abriu +2,4% mais rápido no Nordeste que em 2022' },
+    { t: '18:44', c26: 'Flávio 48,50% x Lula 43,60% (NE: 54,2%)', c22: 'Bolso 49,99% x Lula 50,01% (NE: 54,2%)', dyn: 'Ritmo idêntico de cruzar 50% das urnas do NE (Gatilho da Virada 2022)' },
+    { t: '19:00', c26: 'Flávio 48,12% x Lula 44,15% (NE: 71,4%)', c22: 'Bolso 49,68% x Lula 50,32% (NE: 74,5%)', dyn: 'Em 2022 o NE acelerou ligeiramente após as 19h (+3,1%)' },
+    { t: '20:00', c26: 'Flávio 47,45% x Lula 44,82% (NE: 91,8%)', c22: 'Bolso 49,30% x Lula 50,70% (NE: 93,4%)', dyn: 'Ambos atingiram mais de 90% das urnas do Nordeste às 20h' },
+    { t: '21:00', c26: 'Flávio 47,15% x Lula 45,08% (NE: 97,5%)', c22: 'Bolso 49,15% x Lula 50,85% (NE: 98,2%)', dyn: 'Estabilização final das trajetórias' },
+    { t: '23:00', c26: 'Flávio 47,03% x Lula 45,16% (NE: 100%)', c22: 'Bolso 49,10% x Lula 50,90% (NE: 100%)', dyn: 'Totalização consolidada em todo o território nacional' }
   ];
 
   tbody.innerHTML = compRows.map(r => `
@@ -5266,9 +5317,10 @@ function handleModalChartLeave() {
 function renderModalSideBySide() {
   const s26 = document.getElementById('modalSideSvg2026');
   const s22 = document.getElementById('modalSideSvg2022');
+  const sNE = document.getElementById('modalSideSvgNE');
   if (!s26 || !s22) return;
 
-  const w = 460, h = 220, pL = 40, pR = 15, pT = 16, pB = 30;
+  const w = 440, h = 210, pL = 40, pR = 15, pT = 16, pB = 30;
   const plotW = w - pL - pR, plotH = h - pT - pB;
 
   const timeToX = (hour, min) => {
@@ -5278,23 +5330,20 @@ function renderModalSideBySide() {
 
   const drawBase = (title, mode) => {
     let s = '';
-    // Eixo Y
     for (let tick = 0; tick <= 100; tick += 20) {
       const y = pT + plotH - (tick / 100 * plotH);
       s += `<line x1="${pL}" y1="${y}" x2="${w - pR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
             <text x="${pL - 4}" y="${y + 3}" fill="#64748b" font-size="7.5" text-anchor="end">${tick}%</text>`;
     }
-
-    // Linha de 50%
     const y50 = pT + plotH - (50 / 100 * plotH);
     s += `<line x1="${pL}" y1="${y50}" x2="${w - pR}" y2="${y50}" stroke="#eab308" stroke-dasharray="3 3" stroke-width="0.8" opacity="0.6"/>`;
 
-    // Pausas
+    // Pausas e virada
     if (mode === '2026') {
       const x1 = timeToX(19, 15), x2 = timeToX(19, 38);
       s += `<rect x="${x1}" y="${pT}" width="${x2 - x1}" height="${plotH}" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="2 2" rx="2"/>
             <text x="${(x1 + x2) / 2}" y="${pT + 10}" fill="#38bdf8" font-size="7" font-weight="700" text-anchor="middle">Pausa 23m</text>`;
-    } else {
+    } else if (mode === '2022') {
       const x1 = timeToX(18, 18), x2 = timeToX(18, 32);
       s += `<rect x="${x1}" y="${pT}" width="${x2 - x1}" height="${plotH}" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="2 2" rx="2"/>
             <text x="${(x1 + x2) / 2}" y="${pT + 10}" fill="#facc15" font-size="7" font-weight="700" text-anchor="middle">Pausa 14m</text>`;
@@ -5302,9 +5351,18 @@ function renderModalSideBySide() {
       const xVir = timeToX(18, 44);
       s += `<line x1="${xVir}" y1="${pT}" x2="${xVir}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="2 2" stroke-width="1.2"/>
             <text x="${xVir}" y="${pT + 22}" fill="#facc15" font-size="7.5" font-weight="800" text-anchor="middle">Virada 18h44</text>`;
+    } else if (mode === 'NE') {
+      // Ambas as pausas marcadas
+      const x1_22 = timeToX(18, 18), x2_22 = timeToX(18, 32);
+      const x1_26 = timeToX(19, 15), x2_26 = timeToX(19, 38);
+      s += `<rect x="${x1_22}" y="${pT}" width="${x2_22 - x1_22}" height="${plotH}" fill="rgba(245,158,11,0.10)" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="2 2"/>`;
+      s += `<rect x="${x1_26}" y="${pT}" width="${x2_26 - x1_26}" height="${plotH}" fill="rgba(56,189,248,0.10)" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="2 2"/>`;
+
+      const xVir = timeToX(18, 44);
+      s += `<line x1="${xVir}" y1="${pT}" x2="${xVir}" y2="${pT + plotH}" stroke="#facc15" stroke-dasharray="2 2" stroke-width="1.2"/>
+            <text x="${xVir}" y="${pT + 22}" fill="#facc15" font-size="7.5" font-weight="800" text-anchor="middle">54,2% às 18h44</text>`;
     }
 
-    // Eixo X
     MODAL_TIMES.forEach((t, i) => {
       const x = pL + (i / (MODAL_TIMES.length - 1)) * plotW;
       if (i % 2 === 0 || t === '18:44') {
@@ -5322,26 +5380,39 @@ function renderModalSideBySide() {
     });
     let d = `M ${coords[0].x} ${coords[0].y}`;
     for (let i = 1; i < coords.length; i++) {
-      const prev = coords[i-1], curr = coords[i];
-      const cx = (prev.x + curr.x) / 2;
-      d += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
+      const cx = (coords[i-1].x + coords[i].x) / 2;
+      d += ` C ${cx} ${coords[i-1].y}, ${cx} ${coords[i].y}, ${coords[i].x} ${coords[i].y}`;
     }
     return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${isDashed ? 'stroke-dasharray="4 3"' : ''} stroke-linecap="round"/>`;
   };
 
   const allPts = MODAL_TIMES.map((_, i) => getModalPointData(i));
 
-  // 2026 mini: Flávio (Verde) x Lula (Azul) + Curva Nordeste 2026 (Amarela)
+  // 1. 2026 mini
   s26.innerHTML = drawBase('2026', '2026') +
-    drawC(allPts.map(p => p.neSec26), '#facc15', 2.0, true) + // Nordeste 2026 cruzando
+    drawC(allPts.map(p => p.neSec26), '#facc15', 2.0, true) +
     drawC(allPts.map(p => p.l26), '#3188ff', 2.6, false) +
     drawC(allPts.map(p => p.f26), '#1cd678', 2.8, false);
 
-  // 2022 mini: Bolsonaro (Azul) x Lula (Vermelho) + Curva Nordeste 2022 (Amarela)
+  // 2. 2022 mini
   s22.innerHTML = drawBase('2022', '2022') +
-    drawC(allPts.map(p => p.neSec22), '#facc15', 2.0, true) + // Nordeste 2022 cruzando
+    drawC(allPts.map(p => p.neSec22), '#facc15', 2.0, true) +
     drawC(allPts.map(p => p.b22), '#2563eb', 2.6, false) +
     drawC(allPts.map(p => p.l22), '#dc2626', 2.8, false);
+
+  // 3. NOVO: 3º GRÁFICO NO MODAL (SOBREPOSIÇÃO DO RITMO DAS URNAS DO NORDESTE)
+  if (sNE) {
+    let neSvg = drawBase('NE', 'NE');
+    neSvg += drawC(allPts.map(p => p.neSec22), '#f97316', 2.6, true);  // NE 2022 (Laranja tracejado)
+    neSvg += drawC(allPts.map(p => p.neSec26), '#facc15', 3.0, false); // NE 2026 (Amarelo contínuo)
+
+    // Legenda no topo do gráfico
+    neSvg += `
+      <text x="${pL + 6}" y="${pT + 10}" fill="#facc15" font-size="8" font-weight="800">― NE 2026 (Contínua)</text>
+      <text x="${pL + 110}" y="${pT + 10}" fill="#f97316" font-size="8" font-weight="800">- - NE 2022 (Tracejada)</text>
+    `;
+    sNE.innerHTML = neSvg;
+  }
 }
 
 function renderModalMetricsStrip() {
