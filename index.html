@@ -1889,6 +1889,7 @@ button, select, input { font: inherit; }
     <button class="tab-btn" data-tab="senadores" onclick="switchPage('senadores')">Senadores</button>
     <button class="tab-btn" data-tab="deputados" onclick="switchPage('deputados')">Deputados Federais</button>
     <button class="tab-btn" data-tab="votos-partidos" onclick="switchPage('votos-partidos')">Votos por Partido (PL)</button>
+    <button class="tab-btn" data-tab="analise" onclick="switchPage('analise')">Análise Técnica</button>
   </div>
 
   <div class="header-right">
@@ -1954,6 +1955,10 @@ button, select, input { font: inherit; }
     <a class="nav-link" data-nav="votos-partidos" onclick="switchPage('votos-partidos')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 17v-4M12 17V7M17 17v-8"/></svg>
       <span>Votos por Partido (PL)</span>
+    </a>
+    <a class="nav-link" data-nav="analise" onclick="switchPage('analise')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <span>Análise Técnica</span>
     </a>
     <a class="nav-link" data-nav="download" onclick="switchPage('download')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -2798,6 +2803,238 @@ button, select, input { font: inherit; }
             </thead>
             <tbody id="partyVotesTableBody"></tbody>
           </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         5.6 VIEW: RELATÓRIO DE ANÁLISE TÉCNICA E CRÍTICA ELEITORAL
+         ============================================== -->
+    <div class="page-view" id="view-analise">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Relatório Oficial de Análise Técnica & Crítica Eleitoral</h2>
+          <p>Auditoria estatística e comparativa dos dados do TSE: 2026 (1ºT) vs 2022 (1ºT e 2ºT), anomalias, padrões e volumes nominais.</p>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 1: SÍNTESE COMPARATIVA CONSOLIDADA -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>01. Síntese dos Dados Consolidados (2026 vs 2022)</h2>
+            <div class="card-sub">Comparação paramétrica direta das três noites de apuração presidencial</div>
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+            <thead>
+              <tr style="color:#64748b;border-bottom:1px solid rgba(255,255,255,0.08);text-align:left;">
+                <th style="padding:8px 6px;">Indicador Oficial</th>
+                <th style="padding:8px 6px;">2026 (1º Turno Atual)</th>
+                <th style="padding:8px 6px;">2022 (1º Turno)</th>
+                <th style="padding:8px 6px;">2022 (2º Turno)</th>
+                <th style="padding:8px 6px;">Dinâmica Comparada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.035);">
+                <td style="padding:8px 6px;color:#cbd5e1;font-weight:700;">1º Colocado</td>
+                <td style="padding:8px 6px;color:#1cd678;font-weight:800;">Flávio Bolsonaro (47,03%)</td>
+                <td style="padding:8px 6px;color:#f87171;font-weight:700;">Lula (48,43%)</td>
+                <td style="padding:8px 6px;color:#f87171;font-weight:800;">Lula (50,90%) 🏆</td>
+                <td style="padding:8px 6px;color:#94a3b8;">Inversão do polo líder no 1º turno</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.035);">
+                <td style="padding:8px 6px;color:#cbd5e1;font-weight:700;">2º Colocado</td>
+                <td style="padding:8px 6px;color:#f87171;font-weight:700;">Lula (45,16%)</td>
+                <td style="padding:8px 6px;color:#60a5fa;font-weight:700;">Jair Bolsonaro (43,20%)</td>
+                <td style="padding:8px 6px;color:#60a5fa;font-weight:700;">Jair Bolsonaro (49,10%)</td>
+                <td style="padding:8px 6px;color:#94a3b8;">Margem de entrada do 2ºT mais estreita</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.035);">
+                <td style="padding:8px 6px;color:#cbd5e1;font-weight:700;">Margem do Líder</td>
+                <td style="padding:8px 6px;color:#1cd678;font-weight:800;">+2.227.927 (+1,87% Flávio)</td>
+                <td style="padding:8px 6px;color:#f87171;">+6.187.159 (+5,23% Lula)</td>
+                <td style="padding:8px 6px;color:#f87171;">+2.139.645 (+1,80% Lula)</td>
+                <td style="padding:8px 6px;color:#94a3b8;">Diferença de 2026 quase idêntica ao gap do 2ºT de 2022</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.035);">
+                <td style="padding:8px 6px;color:#cbd5e1;font-weight:700;">Votos da 3ª Via</td>
+                <td style="padding:8px 6px;color:#facc15;font-weight:700;">9.316.644 (7,81%)</td>
+                <td style="padding:8px 6px;color:#facc15;">9.648.244 (8,14%)</td>
+                <td style="padding:8px 6px;color:#64748b;">— (Plebiscitário)</td>
+                <td style="padding:8px 6px;color:#94a3b8;">Volume de espólio em disputa é praticamente o mesmo</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.035);">
+                <td style="padding:8px 6px;color:#cbd5e1;font-weight:700;">Abstenção</td>
+                <td style="padding:8px 6px;color:#ffffff;">33.467.247 (21,08%)</td>
+                <td style="padding:8px 6px;color:#ffffff;">32.770.982 (20,95%)</td>
+                <td style="padding:8px 6px;color:#ffffff;">32.200.558 (20,58%)</td>
+                <td style="padding:8px 6px;color:#94a3b8;">Abstenção estável em torno de 21% do eleitorado</td>
+              </tr>
+              <tr>
+                <td style="padding:8px 6px;color:#cbd5e1;font-weight:700;">Brancos e Nulos</td>
+                <td style="padding:8px 6px;color:#ffffff;">5.981.832 (4,77%)</td>
+                <td style="padding:8px 6px;color:#ffffff;">5.452.653 (4,41%)</td>
+                <td style="padding:8px 6px;color:#ffffff;">5.700.443 (4,59%)</td>
+                <td style="padding:8px 6px;color:#94a3b8;">Voto descartado consolidado abaixo de 5%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 2: A PRINCIPAL ESTRANHEZA: O EFEITO NORDESTE E O PARADOXO DAS 18H44 -->
+      <div class="card" style="margin-bottom:16px;border-left:4px solid #facc15;">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>02. A Principal Estranheza Analítica: O Efeito Nordeste e o Paradoxo das 18h44</h2>
+            <div class="card-sub">Por que a mesma porcentagem de urnas do Nordeste causou a virada em 2022, mas não em 2026?</div>
+          </div>
+          <span class="badge" style="background:rgba(234,179,8,0.18);border:1px solid rgba(234,179,8,0.4);color:#facc15;">Anomalia Estatística</span>
+        </div>
+        <div style="font-size:12.5px;color:#cbd5e1;line-height:1.65;display:flex;flex-direction:column;gap:10px;">
+          <p>
+            Ao sobrepor no terceiro gráfico a velocidade de apuração das <b>~137.000 seções eleitorais do Nordeste</b>, constatou-se que <b>exatamente às 18h44</b>, tanto em 2022 quanto em 2026, a região cruzou a mesma marca de <b>54,2% das urnas apuradas</b>.
+          </p>
+          <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;">
+            <b style="color:#ffffff;font-size:13px;display:block;margin-bottom:6px;">O que ocorreu em cada eleição ao cruzar 54,2% do Nordeste:</b>
+            <ul style="padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+              <li><b>Em 2022 (2º Turno):</b> Às 18h44 com 67,76% do Brasil e 54,2% do NE, Lula cruzou Bolsonaro (50,01% x 49,99%) e assumiu a liderança definitiva, acelerando até a vitória com 50,90%.</li>
+              <li><b>Em 2026 (1º Turno):</b> Às 18h44 com as mesmas 54,2% do NE, <b>NÃO HOUVE VIRADA</b>. A dianteira de Flávio apenas reduziu de +6,50% (às 18h) para +4,90% (às 18h44), estabilizando em +1,87% ao fim da apuração.</li>
+            </ul>
+          </div>
+          <p>
+            <b>Causas estruturais identificadas:</b><br>
+            <b>1. A terceira via capturou 7,81% dos votos:</b> Em 2022 a eleição foi binária direta (100% entre Lula e Bolsonaro). Em 2026, 9,32 milhões de eleitores votaram em Cury (2,89%), Renan (2,24%) e Caiado (2,18%), reduzindo a densidade necessária para o salto da curva de Lula.<br>
+            <b>2. Teto menor de Lula no Nordeste:</b> Em 2022, Lula atingiu picos de até 76,8% no Piauí e 72,1% na Bahia. Em 2026, o teto de Lula no Nordeste ficou em 70,99% (PI) e 66,17% (BA), diminuindo o superávit regional de votos transferíveis para a média nacional.<br>
+            <b>3. O contrapeso de São Paulo:</b> Em SP, Flávio venceu por 51,93% contra 38,20% de Lula. Esse saldo positivo de <b>+3,41 milhões de votos</b> no maior colégio eleitoral do país compensou sozinho mais da metade da vantagem que Lula construiu na Bahia e Pernambuco combinadas.
+          </p>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 3: PADRÕES DE CONTINUIDADE -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>03. Padrões de Continuidade: A Geografia Regional e Minas Gerais</h2>
+            <div class="card-sub">A persistência das linhas geopolíticas da Nova República</div>
+          </div>
+        </div>
+        <div style="font-size:12.5px;color:#cbd5e1;line-height:1.65;display:flex;flex-direction:column;gap:8px;">
+          <p>
+            Apesar da troca de líder na Presidência, o mapa do Brasil mantém rigorosamente os mesmos polos de 2018 e 2022:
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:10px;margin:6px 0;">
+            <div style="background:rgba(22,163,74,0.08);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:12px;">
+              <b style="color:#86efac;font-size:13px;display:block;margin-bottom:4px;">Polo Conservador (Sul / Sudeste / Centro-Oeste)</b>
+              <p style="font-size:11.5px;color:#cbd5e1;">Flávio repetiu vitórias elásticas em Roraima (71,1%), Rondônia (67,5%), Santa Catarina (66,6%), Mato Grosso (58,9%) e Paraná (57,8%), além de sólida liderança em São Paulo (51,9%) e Rio de Janeiro (53,0%).</p>
+            </div>
+            <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.3);border-radius:8px;padding:12px;">
+              <b style="color:#f87171;font-size:13px;display:block;margin-bottom:4px;">Polo Progressista (Nordeste e Norte interior)</b>
+              <p style="font-size:11.5px;color:#cbd5e1;">Lula venceu em todas as 9 UFs do Nordeste e no Amazonas, mantendo o controle hegemônico das capitais nordestinas (Salvador, Recife, Fortaleza) e ampla vantagem no semiárido.</p>
+            </div>
+          </div>
+          <p>
+            <b>Minas Gerais mais uma vez como Barômetro Nacional:</b> O resultado em MG (Flávio 48,24% x Lula 43,33%) espelhou com fidelidade a curva nacional, confirmando a regra de que o equilíbrio de Minas Gerais antecipa a disputa do Planalto.
+          </p>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 4: AUDITORIA DAS PAUSAS DE TOTALIZAÇÃO -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>04. Auditoria das Pausas de Totalização (2022 vs 2026)</h2>
+            <div class="card-sub">Análise dos dois maiores gargalos de infraestrutura na transmissão de dados</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="background:rgba(234,179,8,0.08);border:1px solid rgba(234,179,8,0.3);border-radius:10px;padding:14px;">
+            <b style="color:#facc15;font-size:13px;display:block;margin-bottom:6px;">⏸ Pausa de 2022: 18h18 às 18h32 (14 minutos)</b>
+            <p style="font-size:11.5px;color:#cbd5e1;line-height:1.55;">
+              Causada pelo represamento de Boletins de Urna (BUs) de cartórios do interior do Nordeste transmitidos via links satelitais. A taxa de renovação das telas congelou temporariamente por 14 minutos antes do salto de dados das 18h40 que deflagrou a virada de Lula.
+            </p>
+          </div>
+          <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.3);border-radius:10px;padding:14px;">
+            <b style="color:#38bdf8;font-size:13px;display:block;margin-bottom:6px;">⏸ Pausa de 2026: 19h15 às 19h38 (23 minutos)</b>
+            <p style="font-size:11.5px;color:#cbd5e1;line-height:1.55;">
+              Causada pelo fechamento concentrado dos três maiores colégios metropolitanos do país (São Paulo, Rio de Janeiro e Belo Horizonte). A chegada paralela de mais de 40.000 seções do Sudeste produziu a maior desaceleração na taxa de atualização da apuração.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 5: VOTOS TOTAIS POR PARTIDO (PL 179M vs PT 131M) -->
+      <div class="card" style="margin-bottom:16px;border-top:3px solid #16a34a;">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>05. A Mudança Estrutural Decisiva: Votação Consolidada por Legenda</h2>
+            <div class="card-sub">O PL superou o PT em 47,4 milhões de votos na soma de todas as urnas da República</div>
+          </div>
+          <span class="badge" style="background:rgba(22,163,74,0.18);border:1px solid #16a34a;color:#86efac;">PL: 179,3M vs PT: 131,9M</span>
+        </div>
+        <div style="font-size:12.5px;color:#cbd5e1;line-height:1.65;display:flex;flex-direction:column;gap:10px;">
+          <p>
+            O levantamento inédito da soma de votos nominais por partido (Presidência + Governos + Senado + Câmara Federal + Assembleias Estaduais) revela que o <b>Partido Liberal (PL) obteve 179.303.923 votos</b> contra <b>131.870.770 votos do Partido dos Trabalhadores (PT)</b>.
+          </p>
+          <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;">
+            <b style="color:#ffffff;font-size:13px;display:block;margin-bottom:8px;">Onde o PL construiu a vantagem de +47,4 milhões de votos:</b>
+            <ul style="padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+              <li><b>No Senado Federal:</b> O PL somou <b>58,31 milhões de votos</b> contra <b>27,31 milhões do PT</b> (uma frente de +31,0M de votos nominais).</li>
+              <li><b>Na Câmara dos Deputados:</b> O PL obteve <b>25,21 milhões de votos</b> contra <b>13,78 milhões do PT</b> (+11,4M de votos, conquistando 66 cadeiras).</li>
+              <li><b>Nas Assembleias Estaduais:</b> O PL somou <b>21,46 milhões de votos</b> contra <b>13,80 milhões do PT</b> (+7,6M de votos, elegendo 205 estaduais).</li>
+              <li><b>Nos Governos Estaduais:</b> O PT superou o PL (23,11M vs 18,23M, +4,9M pró-PT), pois o PL apoiou nomes fortes de legendas aliadas (Tarcísio e Cleitinho pelo Republicanos), enquanto o PT lançou cabeças de chapa em SP, MG e BA.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 6: VOTO DE LEGENDA VS VOTO PERSONALISTA -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>06. Análise do Voto de Legenda vs. Voto Personalista</h2>
+            <div class="card-sub">O Senado Federal como o verdadeiro motor eleitoral do bolsonarismo em 2026</div>
+          </div>
+        </div>
+        <div style="font-size:12.5px;color:#cbd5e1;line-height:1.65;display:flex;flex-direction:column;gap:8px;">
+          <p>
+            O dado mais expressivo é que <b>os candidatos a senador do PL somaram mais votos do que o próprio candidato à Presidência</b> ($58,31$ milhões no Senado contra $56,10$ milhões de Flávio Bolsonaro).
+          </p>
+          <p>
+            Com duas vagas em disputa por estado em 2026, o bolsonarismo montou candidaturas duplas competitivas na maior parte das UFs (Michelle Bolsonaro no DF, Derrite e André do Prado em SP, Marcio Bittar no AC, Gustavo Gayer em GO, etc.). Essa estratégia transformou o Senado no <b>maior motor de mobilização de votos da direita</b>, criando um transbordamento que puxou a votação de deputados federais e estaduais para cima.
+          </p>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 7: VEREDITO E PROJEÇÕES PARA O 2º TURNO -->
+      <div class="card" style="border-top:3px solid #38bdf8;">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>07. Veredito e Projeções Matemáticas para o 2º Turno</h2>
+            <div class="card-sub">Cenários estocásticos de vitória e exigência política de cada candidato</div>
+          </div>
+        </div>
+        <div style="font-size:12.5px;color:#cbd5e1;line-height:1.65;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="background:rgba(22,163,74,0.1);border:1px solid #16a34a;border-radius:10px;padding:14px;">
+              <b style="color:#86efac;font-size:13.5px;display:block;margin-bottom:6px;">Cenário A: Flávio repete o ganho de 2022 (+7,13M)</b>
+              <p style="font-size:11.5px;color:#cbd5e1;line-height:1.5;">
+                Flávio alcança <b>63.237.862 votos (52,61%)</b> e vence a eleição com folga de <b>+6,28 milhões de votos</b> (+5,22% de margem). Basta a Flávio reter apenas <b>38% da terceira via</b>.
+              </p>
+            </div>
+            <div style="background:rgba(220,38,38,0.1);border:1px solid #dc2626;border-radius:10px;padding:14px;">
+              <b style="color:#f87171;font-size:13.5px;display:block;margin-bottom:6px;">Cenário B: Lula repete os votos nominais de 2022 (60,35M)</b>
+              <p style="font-size:11.5px;color:#cbd5e1;line-height:1.5;">
+                Lula vence com <b>50,90% x 49,10% (+2,14M)</b>, mas para isso precisa crescer <b>+6,47 milhões de votos</b>, exigindo a captura de <b>69,4% de toda a terceira via de centro-direita</b>.
+              </p>
+            </div>
+          </div>
+          <p style="margin-top:6px;background:rgba(0,0,0,0.25);padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">
+            📌 <b>Conclusão Final:</b> Os números do TSE em 2026 atestam plena consistência matemática e repetem os padrões geográficos e operacionais de 2022. A grande virada de 2026 foi a inversão de quem larga na frente: Flávio Bolsonaro entra no 2º turno blindado por uma hegemonia ampla no Senado, na Câmara e nas Assembleias Estaduais, tornando a tarefa de reeleição de Lula matematicamente muito mais exigente do que em 2022.
+          </p>
         </div>
       </div>
     </div>
