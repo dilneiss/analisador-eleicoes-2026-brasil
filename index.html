@@ -1888,6 +1888,7 @@ button, select, input { font: inherit; }
     <button class="tab-btn" data-tab="governadores" onclick="switchPage('governadores')">Governadores</button>
     <button class="tab-btn" data-tab="senadores" onclick="switchPage('senadores')">Senadores</button>
     <button class="tab-btn" data-tab="deputados" onclick="switchPage('deputados')">Deputados Federais</button>
+    <button class="tab-btn" data-tab="votos-partidos" onclick="switchPage('votos-partidos')">Votos por Partido (PL)</button>
   </div>
 
   <div class="header-right">
@@ -1949,6 +1950,10 @@ button, select, input { font: inherit; }
     <a class="nav-link" data-nav="historico" onclick="switchPage('historico')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span>Histórico</span>
+    </a>
+    <a class="nav-link" data-nav="votos-partidos" onclick="switchPage('votos-partidos')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 17v-4M12 17V7M17 17v-8"/></svg>
+      <span>Votos por Partido (PL)</span>
     </a>
     <a class="nav-link" data-nav="download" onclick="switchPage('download')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -2669,7 +2674,135 @@ button, select, input { font: inherit; }
       </div>
     </div>
 
-    <!-- ==============================================
+        <!-- ==============================================
+         5.5 VIEW: VOTOS POR PARTIDO (FORÇA DO PL)
+         ============================================== -->
+    <div class="page-view" id="view-votos-partidos">
+      <div class="page-header-row">
+        <div class="page-header-title">
+          <h2>Votação Consolidada por Legenda — Força do PL nas Urnas</h2>
+          <p>Soma de todos os votos nominais realizados para Flávio, Senadores, Deputados e Governadores do partido.</p>
+        </div>
+      </div>
+
+      <!-- HERO: RAIO-X DOS VOTOS DO PL -->
+      <div class="card" style="margin-bottom:16px;border-top:3px solid #16a34a;background:radial-gradient(circle at 10% 20%, rgba(22,163,74,0.12), rgba(12,22,38,0.95) 70%);">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:44px;height:44px;border-radius:10px;background:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#ffffff;box-shadow:0 4px 14px rgba(22,163,74,0.4);">PL</div>
+            <div>
+              <h3 style="font-size:18px;font-weight:800;color:#ffffff;">Partido Liberal — Total Geral de Votos Realizados</h3>
+              <span style="font-size:12px;color:#94a3b8;">Volume de votos computados em todas as urnas do Brasil nas Eleições 2026</span>
+            </div>
+          </div>
+          <div style="background:rgba(22,163,74,0.18);border:1px solid #16a34a;padding:8px 18px;border-radius:10px;text-align:right;">
+            <small style="color:#86efac;font-size:10px;text-transform:uppercase;font-weight:800;letter-spacing:0.5px;display:block;">Total Somado do PL</small>
+            <b style="color:#ffffff;font-size:24px;letter-spacing:-0.5px;" id="plTotalHero">179.303.923 votos</b>
+          </div>
+        </div>
+
+        <!-- KPI CARDS POR CARGO DO PL -->
+        <div class="kpi-row" style="margin-bottom:14px;">
+          <div class="kpi-card" style="border-left:3px solid #1cd678;">
+            <small>Flávio Bolsonaro (Presidência)</small>
+            <strong style="color:#1cd678;" id="plVotesPres">56.104.422</strong>
+            <span class="kpi-sub" id="plVotesPresSub">31,3% do total do partido</span>
+          </div>
+
+          <div class="kpi-card" style="border-left:3px solid #38bdf8;">
+            <small>Senadores do PL (27 UFs)</small>
+            <strong style="color:#38bdf8;" id="plVotesSen">58.307.659</strong>
+            <span class="kpi-sub" id="plVotesSenSub">32,5% · Maior motor de votos</span>
+          </div>
+
+          <div class="kpi-card" style="border-left:3px solid #a855f7;">
+            <small>Deputados Federais do PL</small>
+            <strong style="color:#c084fc;" id="plVotesDepFed">25.206.638</strong>
+            <span class="kpi-sub" id="plVotesDepFedSub">14,1% · Maior bancada (66 vagas)</span>
+          </div>
+
+          <div class="kpi-card" style="border-left:3px solid #facc15;">
+            <small>Deputados Estaduais do PL</small>
+            <strong style="color:#fde047;" id="plVotesDepEst">21.455.955</strong>
+            <span class="kpi-sub" id="plVotesDepEstSub">12,0% · 205 cadeiras nas Assembleias</span>
+          </div>
+
+          <div class="kpi-card" style="border-left:3px solid #f97316;">
+            <small>Governadores do PL</small>
+            <strong style="color:#fb923c;" id="plVotesGov">18.229.249</strong>
+            <span class="kpi-sub" id="plVotesGovSub">10,2% · 5 eleitos / 2 no 2º turno</span>
+          </div>
+        </div>
+
+        <!-- BARRA PROPORCIONAL DE COMPOSIÇÃO DOS VOTOS DO PL -->
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-bottom:6px;">
+            <span>Composição dos Votos do PL por Cargo:</span>
+            <span>Senado (32,5%) &gt; Presidente (31,3%) &gt; Dep. Federais (14,1%) &gt; Dep. Estaduais (12,0%) &gt; Governos (10,2%)</span>
+          </div>
+          <div style="height:10px;background:rgba(255,255,255,0.06);border-radius:99px;display:flex;overflow:hidden;gap:2px;">
+            <div style="width:32.5%;background:#38bdf8;" title="Senado: 32,5%"></div>
+            <div style="width:31.3%;background:#1cd678;" title="Presidente: 31,3%"></div>
+            <div style="width:14.1%;background:#a855f7;" title="Dep. Federais: 14,1%"></div>
+            <div style="width:12.0%;background:#facc15;" title="Dep. Estaduais: 12,0%"></div>
+            <div style="width:10.2%;background:#f97316;" title="Governadores: 10,2%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUELO DE GIGANTES: PL vs PT (COMPARAÇÃO LADO A LADO) -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>Duelo de Gigantes: Votos Somados PL vs PT</h2>
+            <div class="card-sub">Comparação direta da força eleitoral mobilizada por cargo entre os dois polos partidários</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:14px;" id="plPtDuelWrap"></div>
+      </div>
+
+      <!-- RANKING COMPLETO DE PARTIDOS POR TOTAL DE VOTOS -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title-wrap">
+            <h2>Ranking Nacional de Partidos por Volume Total de Votos</h2>
+            <div class="card-sub">Soma de votos computados em todas as urnas do país em 2026</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <select class="filter-select" id="selPartyVoteSort" onchange="renderPartyVotesTable()">
+              <option value="total">Ordenar por: Total de Votos</option>
+              <option value="president">Ordenar por: Votos para Presidente</option>
+              <option value="senator">Ordenar por: Votos para Senador</option>
+              <option value="deputy_fed">Ordenar por: Votos para Dep. Federal</option>
+              <option value="governor">Ordenar por: Votos para Governador</option>
+              <option value="deputy_est">Ordenar por: Votos para Dep. Estadual</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+            <thead>
+              <tr style="color:#64748b;border-bottom:1px solid rgba(255,255,255,0.08);text-align:left;">
+                <th style="padding:8px 6px;">#</th>
+                <th style="padding:8px 6px;">Partido</th>
+                <th style="padding:8px 6px;text-align:right;">Presidente</th>
+                <th style="padding:8px 6px;text-align:right;">Governadores</th>
+                <th style="padding:8px 6px;text-align:right;">Senadores</th>
+                <th style="padding:8px 6px;text-align:right;">Dep. Federais</th>
+                <th style="padding:8px 6px;text-align:right;">Dep. Estaduais</th>
+                <th style="padding:8px 6px;text-align:right;">Total de Votos</th>
+                <th style="padding:8px 6px;width:160px;">Distribuição</th>
+              </tr>
+            </thead>
+            <tbody id="partyVotesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+<!-- ==============================================
          6. VIEW: COMPARATIVO
          ============================================== -->
     <div class="page-view" id="view-comparativo">
@@ -3148,6 +3281,7 @@ function switchPage(pageKey) {
   else if (pageKey === 'senadores') renderSenatorsView();
   else if (pageKey === 'deputados') renderDeputiesView();
   else if (pageKey === 'comparativo') renderComparativeView();
+  else if (pageKey === 'votos-partidos') renderPartyVotesView();
   else if (pageKey === 'historico') renderHistoryView();
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -4550,6 +4684,182 @@ function closeStateModal(e) {
 }
 
 /* ========================================================
+   VOTAÇÃO CONSOLIDADA POR PARTIDO (FORÇA DO PL E RANKING)
+   ======================================================== */
+let computedPartyVotes = null;
+
+function computeAllPartyVotes() {
+  if (!appData) return null;
+  const pv = {};
+
+  const initParty = (party) => {
+    const p = (party || 'OUTROS').trim().toUpperCase() || 'OUTROS';
+    if (!pv[p]) {
+      pv[p] = { party: p, president: 0, governor: 0, senator: 0, deputy_fed: 0, deputy_est: 0, total: 0 };
+    }
+    return p;
+  };
+
+  // 1. Presidente
+  (appData.president?.candidates || []).forEach(c => {
+    const p = initParty(c.party);
+    const v = Number(c.votes || 0);
+    pv[p].president += v;
+    pv[p].total += v;
+  });
+
+  // 2. Governadores
+  for (const uf of UFS) {
+    (appData.governors?.[uf]?.candidates || []).forEach(c => {
+      const p = initParty(c.party);
+      const v = Number(c.votes || 0);
+      pv[p].governor += v;
+      pv[p].total += v;
+    });
+  }
+
+  // 3. Senadores
+  for (const uf of UFS) {
+    (appData.senators?.[uf]?.candidates || []).forEach(c => {
+      const p = initParty(c.party);
+      const v = Number(c.votes || 0);
+      pv[p].senator += v;
+      pv[p].total += v;
+    });
+  }
+
+  // 4. Deputados Federais
+  for (const uf of UFS) {
+    (appData.deputies?.[uf]?.candidates || []).forEach(c => {
+      const p = initParty(c.party);
+      const v = Number(c.votes || 0);
+      pv[p].deputy_fed += v;
+      pv[p].total += v;
+    });
+  }
+
+  // 5. Deputados Estaduais
+  for (const uf of UFS) {
+    (appData.stateDeputies?.[uf]?.candidates || []).forEach(c => {
+      const p = initParty(c.party);
+      const v = Number(c.votes || 0);
+      pv[p].deputy_est += v;
+      pv[p].total += v;
+    });
+  }
+
+  return pv;
+}
+
+function renderPartyVotesView() {
+  computedPartyVotes = computeAllPartyVotes();
+  if (!computedPartyVotes) return;
+
+  const pl = computedPartyVotes['PL'] || { total: 1, president: 0, senator: 0, deputy_fed: 0, deputy_est: 0, governor: 0 };
+  const pt = computedPartyVotes['PT'] || { total: 1, president: 0, senator: 0, deputy_fed: 0, deputy_est: 0, governor: 0 };
+
+  const plTotal = pl.total || 1;
+
+  // 1. Populate PL Hero Cards
+  document.getElementById('plTotalHero').textContent = fmtNumber(pl.total) + ' votos';
+  document.getElementById('plVotesPres').textContent = fmtNumber(pl.president);
+  document.getElementById('plVotesPresSub').textContent = fmtPct((pl.president / plTotal) * 100) + ' do total do PL';
+
+  document.getElementById('plVotesSen').textContent = fmtNumber(pl.senator);
+  document.getElementById('plVotesSenSub').textContent = fmtPct((pl.senator / plTotal) * 100) + ' · Maior motor eleitoral';
+
+  document.getElementById('plVotesDepFed').textContent = fmtNumber(pl.deputy_fed);
+  document.getElementById('plVotesDepFedSub').textContent = fmtPct((pl.deputy_fed / plTotal) * 100) + ' · 25,2 milhões de votos';
+
+  document.getElementById('plVotesDepEst').textContent = fmtNumber(pl.deputy_est);
+  document.getElementById('plVotesDepEstSub').textContent = fmtPct((pl.deputy_est / plTotal) * 100) + ' · 205 estaduais eleitos';
+
+  document.getElementById('plVotesGov').textContent = fmtNumber(pl.governor);
+  document.getElementById('plVotesGovSub').textContent = fmtPct((pl.governor / plTotal) * 100) + ' · 18,2 milhões de votos';
+
+  // 2. Populate PL vs PT Duel
+  const duelCategories = [
+    { label: 'Votação Total Consolidada', plVal: pl.total, ptVal: pt.total },
+    { label: 'Presidência da República (Flávio x Lula)', plVal: pl.president, ptVal: pt.president },
+    { label: 'Senado Federal (2 Vagas por Estado)', plVal: pl.senator, ptVal: pt.senator },
+    { label: 'Câmara dos Deputados (Dep. Federais)', plVal: pl.deputy_fed, ptVal: pt.deputy_fed },
+    { label: 'Assembleias Legislativas (Dep. Estaduais)', plVal: pl.deputy_est, ptVal: pt.deputy_est },
+    { label: 'Governos Estaduais (27 UFs)', plVal: pl.governor, ptVal: pt.governor }
+  ];
+
+  document.getElementById('plPtDuelWrap').innerHTML = duelCategories.map(cat => {
+    const sum = (cat.plVal + cat.ptVal) || 1;
+    const plPct = (cat.plVal / sum) * 100;
+    const ptPct = (cat.ptVal / sum) * 100;
+    const diff = cat.plVal - cat.ptVal;
+    const leader = diff >= 0 ? 'PL' : 'PT';
+    const leaderColor = diff >= 0 ? '#16a34a' : '#dc2626';
+
+    return `
+      <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <b style="color:#ffffff;font-size:12.5px;">${cat.label}</b>
+          <span style="font-size:10px;font-weight:800;color:${leaderColor};background:${diff >= 0 ? 'rgba(22,163,74,0.18)' : 'rgba(220,38,38,0.18)'};padding:2px 6px;border-radius:4px;">
+            ${leader} +${fmtNumber(Math.abs(diff))}
+          </span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
+          <span style="color:#86efac;font-weight:700;">PL: ${fmtNumber(cat.plVal)} (${fmtPct(plPct)})</span>
+          <span style="color:#f87171;font-weight:700;">PT: ${fmtNumber(cat.ptVal)} (${fmtPct(ptPct)})</span>
+        </div>
+        <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:99px;display:flex;overflow:hidden;">
+          <div style="width:${plPct}%;background:#16a34a;" title="PL: ${fmtPct(plPct)}"></div>
+          <div style="width:${ptPct}%;background:#dc2626;" title="PT: ${fmtPct(ptPct)}"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 3. Populate Ranking Table
+  renderPartyVotesTable();
+}
+
+function renderPartyVotesTable() {
+  if (!computedPartyVotes) return;
+  const sortKey = document.getElementById('selPartyVoteSort')?.value || 'total';
+  const list = Object.values(computedPartyVotes).sort((a, b) => b[sortKey] - a[sortKey]);
+  const maxTotal = list[0]?.total || 1;
+
+  document.getElementById('partyVotesTableBody').innerHTML = list.map((item, idx) => {
+    const isPL = item.party === 'PL';
+    const isPT = item.party === 'PT';
+    const color = getPartyColor(item.party);
+    const pctOfMax = (item.total / maxTotal) * 100;
+    const bgRow = isPL ? 'background:rgba(22,163,74,0.08);' : (isPT ? 'background:rgba(220,38,38,0.08);' : '');
+
+    return `
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.04);${bgRow}">
+        <td style="padding:8px 6px;font-weight:800;color:${idx < 3 ? '#facc15' : '#64748b'};">${idx + 1}º</td>
+        <td style="padding:8px 6px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="width:8px;height:8px;border-radius:2px;background:${color};flex-shrink:0;"></span>
+            <b style="color:${isPL ? '#86efac' : (isPT ? '#f87171' : '#ffffff')};font-size:12px;">${item.party}</b>
+          </div>
+        </td>
+        <td style="padding:8px 6px;text-align:right;color:#cbd5e1;">${item.president ? fmtNumber(item.president) : '—'}</td>
+        <td style="padding:8px 6px;text-align:right;color:#cbd5e1;">${item.governor ? fmtNumber(item.governor) : '—'}</td>
+        <td style="padding:8px 6px;text-align:right;color:#cbd5e1;">${item.senator ? fmtNumber(item.senator) : '—'}</td>
+        <td style="padding:8px 6px;text-align:right;color:#cbd5e1;">${item.deputy_fed ? fmtNumber(item.deputy_fed) : '—'}</td>
+        <td style="padding:8px 6px;text-align:right;color:#cbd5e1;">${item.deputy_est ? fmtNumber(item.deputy_est) : '—'}</td>
+        <td style="padding:8px 6px;text-align:right;">
+          <b style="color:${isPL ? '#86efac' : (isPT ? '#f87171' : '#ffffff')};font-size:13px;">${fmtNumber(item.total)}</b>
+        </td>
+        <td style="padding:8px 6px;">
+          <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;">
+            <div style="width:${Math.min(pctOfMax, 100)}%;height:100%;background:${color};border-radius:99px;"></div>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+/* ========================================================
    EXPORTAÇÃO DE DADOS (CSV / JSON)
    ======================================================== */
 function exportData(type) {
@@ -5152,6 +5462,7 @@ function onDataLoaded() {
   else if (activePage === 'governadores') renderGovernorsView();
   else if (activePage === 'senadores') renderSenatorsView();
   else if (activePage === 'deputados') renderDeputiesView();
+  else if (activePage === 'votos-partidos') renderPartyVotesView();
   else if (activePage === 'comparativo') renderComparativeView();
 }
 
